@@ -1,0 +1,31 @@
+@import "./src/app/components/colors/colors.vars";
+@import "./src/app/components/gaps/gaps.vars";
+
+.sorting-control-form__label {
+  width: 100%;
+  padding: 14px 0;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 20px;
+  border: 1px solid $color_border;
+  background-color: $background-color_body;
+
+  &:hover,
+  &:focus {
+    border: 1px solid $color_brand;
+    color: $color_brand;
+  }
+
+  &:first-of-type {
+    border-top-left-radius: $border_radius;
+    border-bottom-left-radius: $border_radius;
+  }
+
+  &:last-of-type {
+    border-top-right-radius: $border_radius;
+    border-bottom-right-radius: $border_radius;
+  }
+}

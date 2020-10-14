@@ -1,0 +1,5 @@
+.ticket-card__route-segment {
+  &:not(:last-child) {
+    margin-bottom: 10px;
+  }
+}

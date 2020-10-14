@@ -1,0 +1,18 @@
+@import "./src/app/components/visually-hidden/visually-hidden";
+@import "./src/app/components/colors/colors.vars";
+
+.checkbox-field__input {
+  @include visually-hidden;
+
+  &:checked {
+    + .checkbox-field__label {
+      &::before {
+        border-color: $color_brand;
+      }
+
+      &::after {
+        display: block;
+      }
+    }
+  }
+}

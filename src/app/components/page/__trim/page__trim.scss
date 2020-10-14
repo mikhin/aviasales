@@ -1,0 +1,12 @@
+@import "./src/app/components/breakpoints/breakpoints.vars";
+
+.page__trim {
+  box-sizing: border-box;
+  max-width: 754px;
+  margin: 0 auto;
+  padding: 10px;
+
+  @media (min-width: $tablet-portrait) {
+    padding: 0;
+  }
+}

@@ -1,0 +1,12 @@
+@import "./src/app/components/breakpoints/breakpoints.vars";
+
+.segment-route__detail-definition {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 21px;
+
+  @media (min-width: $tablet-portrait) {
+    font-size: 14px;
+  }
+}

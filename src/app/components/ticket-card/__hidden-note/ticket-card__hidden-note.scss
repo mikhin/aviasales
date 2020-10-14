@@ -1,0 +1,5 @@
+@import "./src/app/components/visually-hidden/visually-hidden";
+
+.ticket-card__hidden-note {
+  @include visually-hidden;
+}

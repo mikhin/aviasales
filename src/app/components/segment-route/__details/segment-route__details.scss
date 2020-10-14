@@ -1,0 +1,13 @@
+@import "./src/app/components/breakpoints/breakpoints.vars";
+@import "./src/app/components/gaps/gaps.vars";
+
+.segment-route__details {
+  display: grid;
+  margin: 0;
+  grid-template-columns: repeat(3, 1fr);
+  grid-column-gap: 5px;
+
+  @media (min-width: $tablet-portrait) {
+    grid-column-gap: $gap_default;
+  }
+}

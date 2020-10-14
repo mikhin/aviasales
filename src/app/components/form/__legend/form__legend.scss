@@ -1,0 +1,10 @@
+@import "./src/app/components/gaps/gaps.vars";
+
+.form__legend {
+  padding: 10px $gap_default;
+  text-transform: uppercase;
+  letter-spacing: .3px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 12px;
+}

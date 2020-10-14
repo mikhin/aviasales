@@ -1,0 +1,7 @@
+@import "./src/app/components/gaps/gaps.vars";
+
+.ticket-list__item {
+  &:not(:last-child) {
+    margin-bottom: $gap_default;
+  }
+}

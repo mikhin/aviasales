@@ -1,0 +1,9 @@
+@import "./src/app/components/gaps/gaps.vars";
+
+.ticket-card__header {
+  display: grid;
+  align-items: center;
+  margin-bottom: $gap_default;
+  grid-template-columns: repeat(3, 1fr);
+  grid-column-gap: $gap_default;
+}

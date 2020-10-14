@@ -1,0 +1,10 @@
+@import "./src/app/components/colors/colors.vars";
+
+.segment-route__detail-term {
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 18px;
+  color: $color_secondary-text;
+}

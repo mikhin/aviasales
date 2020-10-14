@@ -1,0 +1,12 @@
+@import "./src/app/components/visually-hidden/visually-hidden";
+@import "./src/app/components/colors/colors.vars";
+
+.sorting-control-form__input {
+  @include visually-hidden;
+
+  &:checked + .sorting-control-form__label {
+    border: 1px solid $color_brand;
+    background-color: $color_brand;
+    color: $background-color_body;
+  }
+}

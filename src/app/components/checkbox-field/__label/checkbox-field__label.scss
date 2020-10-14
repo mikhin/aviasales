@@ -1,0 +1,40 @@
+@import "./src/app/components/colors/colors.vars";
+@import "./src/app/components/gaps/gaps.vars";
+
+.checkbox-field__label {
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding: 10px $gap_default;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 20px;
+
+  &:hover,
+  &:focus {
+    background-color: $gray-sky;
+  }
+
+  &::before {
+    content: "";
+    display: block;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    border: 1px solid #9abbce;
+    border-radius: 2px;
+  }
+
+  &::after {
+    content: "";
+    display: none;
+    position: absolute;
+    transform: translateX(4px);
+    width: 12px;
+    height: 8px;
+    background-image: url("checkbox-field__label_checked.svg");
+    background-size: 12px 8px;
+    background-repeat: no-repeat;
+  }
+}

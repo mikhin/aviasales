@@ -1,0 +1,10 @@
+@import "./src/app/components/typography/typography.vars";
+@import "./src/app/components/colors/colors.vars";
+
+.document__body {
+  margin: 0;
+  font-family: $font-family_body;
+  font-size: $font-size_body;
+  background: $background-color_body;
+  color: $color_body;
+}

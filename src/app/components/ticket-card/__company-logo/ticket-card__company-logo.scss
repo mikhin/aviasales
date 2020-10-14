@@ -1,0 +1,9 @@
+@import "./src/app/components/breakpoints/breakpoints.vars";
+
+.ticket-card__company-logo {
+  max-width: 85px;
+
+  @media (min-width: $tablet-portrait) {
+    max-width: 110px;
+  }
+}
