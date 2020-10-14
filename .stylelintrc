@@ -1,0 +1,39 @@
+{
+  "extends": [
+    "stylelint-config-standard",
+    "stylelint-config-airbnb"
+  ],
+  "rules": {
+    "at-rule-empty-line-before": [
+      "always",
+      {
+        "except": [
+          "first-nested"
+        ],
+        "ignoreAtRules": [
+          "if",
+          "else",
+          "import"
+        ]
+      }
+    ],
+    "rule-empty-line-before": [
+      "always",
+      {
+        "except": [
+          "first-nested"
+        ],
+        "ignore": [
+          "after-comment"
+        ]
+      }
+    ],
+    "at-rule-name-newline-after": "always-multi-line",
+    "max-nesting-depth": null,
+    "at-rule-no-unknown": null,
+    "scss/at-rule-no-unknown": true,
+    "declaration-colon-space-after": "always",
+    "declaration-colon-space-before": "never",
+    "declaration-colon-newline-after": null
+  }
+}
