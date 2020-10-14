@@ -38,6 +38,7 @@
     ]
   },
   "devDependencies": {
-    "@typescript-eslint/parser": "4.4.1"
+    "@typescript-eslint/parser": "4.4.1",
+    "stylelint": "13.7.2"
   }
 }
