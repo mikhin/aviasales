@@ -12,10 +12,10 @@ export type stopOptionsType = Array<stopOptionType>;
 
 type propType = {
   stopOptions: stopOptionsType;
-  onStopChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onStopOptionChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const FilterForm: React.FC<propType> = ({stopOptions, onStopChange}) => {
+const FilterForm: React.FC<propType> = ({stopOptions, onStopOptionChange}) => {
   return (
     <Form>
       <Form__FieldSet>
@@ -29,7 +29,7 @@ const FilterForm: React.FC<propType> = ({stopOptions, onStopChange}) => {
               id={option.id}
               label={option.label}
               isChecked={option.isChecked}
-              onChange={onStopChange}
+              onChange={onStopOptionChange}
             />
           </Form__Field>
         ))}
