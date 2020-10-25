@@ -10,10 +10,12 @@ import Filter from '../../components/filter';
 import TicketList, {TicketList__Item} from '../../components/ticket-list';
 import TicketCard from '../../components/ticket-card';
 import FilterFormContainer from '../../components/filter-form-container';
-import SortingControlForm from '../../components/sorting-control-form';
+import SortingFormContainer from '../../components/sorting-form-container';
 
 class TicketPage extends React.Component {
   onFilterChange = (): void => console.log();
+
+  onSortingChange = (): void => console.log();
 
   render(): React.ReactNode {
     return (
@@ -27,8 +29,8 @@ class TicketPage extends React.Component {
             </Filter>
           </TicketPageLayout__Filter>
           <TicketPageLayout__SortingControl>
-            <SortingControlForm
-              onChange={console.log}
+            <SortingFormContainer
+              onChange={this.onSortingChange}
             />
           </TicketPageLayout__SortingControl>
           <TicketPageLayout__TicketList>
