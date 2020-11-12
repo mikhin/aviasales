@@ -1,0 +1,239 @@
+import React from 'react';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
+
+import Tickets from "../../views/tickets";
+import { stopOptionsType } from "../../components/filter-form";
+import { sortingOptionsType } from "../../components/sorting-form";
+
+import Ticket from '../../types/ticket';
+import retry from "../../helpers/retry";
+
+const DISPLAYED_TICKETS_COUNT = 5;
+
+type stateType = {
+  searchId: string;
+  tickets: Array<Ticket>;
+  fetchStatus: string;
+  stopOptions: stopOptionsType;
+  sortingOptions: sortingOptionsType;
+  isErrorWhileFetching: boolean;
+}
+
+const fetchStatuses = {
+  initial: '',
+  fetching: 'fetching',
+  fetchingFinished: 'fetchingFinished',
+}
+
+class TicketsPageContainer extends React.Component<RouteComponentProps, stateType> {
+  state = {
+    searchId: '',
+    tickets: [],
+    fetchStatus: fetchStatuses.initial,
+    stopOptions: [],
+    sortingOptions: [],
+    isErrorWhileFetching: false,
+  }
+
+  private _rawTickets: Array<Ticket> = [];
+
+  get rawTickets(): Array<Ticket> {
+    return this._rawTickets;
+  }
+
+  set rawTickets(tickets: Array<Ticket>) {
+    this._rawTickets = tickets;
+  }
+
+  componentDidMount(): void {
+    this.initializeSearchIdFetching();
+  }
+
+  componentDidUpdate(): void {
+    this.initializeTicketsFetching();
+  }
+
+  initializeSearchIdFetching = async (): Promise<void> => {
+    try {
+      await retry(this.fetchSearchId, 3, 1000);
+    } catch (error) {
+      this.setState({
+        isErrorWhileFetching: true,
+        fetchStatus: fetchStatuses.fetchingFinished,
+      })
+    }
+  }
+
+  initializeTicketsFetching = async (): Promise<void> => {
+    const { searchId, tickets, isErrorWhileFetching } = this.state;
+
+    if (searchId && tickets.length === 0 && !isErrorWhileFetching) {
+      try {
+        await retry(this.fetchTickets, 3, 1000);
+      } catch (error) {
+        this.setState({
+          isErrorWhileFetching: true,
+          fetchStatus: fetchStatuses.fetchingFinished,
+        })
+      }
+    }
+  }
+
+  getDisplayedTickets = (tickets: Array<Ticket>, filter: stopOptionsType, sorting: sortingOptionsType): Array<Ticket> => {
+    const sortingFunction = this.getSortingFunction(sorting);
+    const stopCountsList = filter
+      .filter((option) => option.isChecked && !!option.count)
+      .map((option) => option.count)
+
+    return [...tickets]
+      .sort(sortingFunction)
+      .filter((ticket: Ticket) => {
+        return this.filterTicketsByStops(ticket, stopCountsList);
+      })
+      .slice(0, DISPLAYED_TICKETS_COUNT);
+  }
+
+  getSortingFunction = (sorting: sortingOptionsType): (a: Ticket, b: Ticket) => number => {
+    const cheapestOption = sorting.find((option) => option.id === 'cheapest');
+
+    if (cheapestOption && cheapestOption.isChecked) {
+      return this.sortTicketsByPrice;
+    }
+
+    return this.sortTicketsByDuration;
+  }
+
+  sortTicketsByPrice = (a: Ticket, b: Ticket): number => a.price - b.price;
+
+  sortTicketsByDuration = (a: Ticket, b: Ticket): number => {
+    const [
+      { duration: forwardDuration1 },
+      { duration: oppositeDuration1 },
+    ] = a.segments;
+
+    const [
+      { duration: forwardDuration2 },
+      { duration: oppositeDuration2 },
+    ] = b.segments;
+
+    return (forwardDuration1 + oppositeDuration1) - (forwardDuration2 + oppositeDuration2);
+  }
+
+  filterTicketsByStops = (ticket: Ticket, filter: (number | undefined)[]): boolean => {
+    if (filter.length > 0) {
+      const [
+        { stops: forwardStops },
+        { stops: oppositeStops },
+      ] = ticket.segments;
+
+      return filter.includes(forwardStops.length) && filter.includes(oppositeStops.length);
+    }
+
+    return true;
+  }
+
+  onFilterChange = (filter: stopOptionsType): void => {
+    const {
+      sortingOptions
+    } = this.state
+
+    this.setState({
+      stopOptions: filter,
+    })
+
+    if (filter) {
+      this.setState({
+        tickets: this.getDisplayedTickets(this.rawTickets, filter, sortingOptions),
+      })
+    }
+  };
+
+  onSortingChange = (sorting: sortingOptionsType): void => {
+    const {
+      stopOptions
+    } = this.state
+
+    this.setState({
+      sortingOptions: sorting,
+    })
+
+    if (sorting) {
+      this.setState({
+        tickets: this.getDisplayedTickets(this.rawTickets, stopOptions, sorting),
+      })
+    }
+  };
+
+  fetchSearchId = async (): Promise<void> => {
+    this.setState({
+      fetchStatus: fetchStatuses.fetching
+    });
+
+    try {
+      const response = await fetch('/search');
+
+      const { searchId } = await response.json();
+
+      this.setState({
+        searchId,
+      })
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  fetchTickets = async (): Promise<void> => {
+    const { tickets, searchId, stopOptions, sortingOptions } = this.state;
+
+    try {
+      const response = await fetch(`/tickets?searchId=${searchId}`);
+
+      const { tickets: fetchedTickets, stop } = await response.json();
+
+      if (tickets.length === 0 && this.rawTickets.length === 0) {
+        this.setState({
+          fetchStatus: fetchStatuses.fetching,
+          tickets: this.getDisplayedTickets(fetchedTickets, stopOptions, sortingOptions),
+        });
+      }
+
+      this.rawTickets = [...this.rawTickets, ...fetchedTickets];
+
+      if (stop) {
+        this.setState({
+          fetchStatus: fetchStatuses.fetchingFinished,
+          tickets: this.getDisplayedTickets(this.rawTickets, stopOptions, sortingOptions),
+        });
+      } else {
+        await this.fetchTickets();
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  reloadPage = (): void => {
+    window.location.reload();
+  }
+
+  render(): React.ReactNode {
+    const {
+      fetchStatus,
+      tickets,
+      isErrorWhileFetching
+    } = this.state
+
+    return (
+      <Tickets
+        tickets={tickets}
+        fetchStatus={fetchStatus}
+        isErrorWhileFetching={isErrorWhileFetching}
+        onFilterChange={this.onFilterChange}
+        onSortingChange={this.onSortingChange}
+        onReloadPage={this.reloadPage}
+      />
+    );
+  }
+}
+
+export default withRouter(TicketsPageContainer);

@@ -128,7 +128,7 @@ class FilterFormContainer extends React.Component<propType, stateType> {
     }), onAfterStateUpdate);
   }
 
-  toggleOptions = (ids: Array<string | null>, onAfterStateUpdate?: () => void): void => {
+  toggleOptions = (ids: Array<string>, onAfterStateUpdate?: () => void): void => {
     this.setState(({ stopOptions }): stateType => ({
       stopOptions: stopOptions.map((option: stopOptionType) => ({
         ...option,
