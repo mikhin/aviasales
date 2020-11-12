@@ -1,8 +1,20 @@
 import React from 'react';
 
-import SegmentRoute from '../segment-route';
+import SegmentRoute, {propType as SegmentType} from '../segment-route';
 
-const TicketCard: React.FC = () => {
+import Override from "../../types/override";
+import Ticket from "../../types/ticket";
+
+type propType = Override<Ticket, {
+  segments: Array<SegmentType>;
+}>;
+
+const TicketCard: React.FC<propType> = ({price, carrier, segments}) => {
+  const [
+    forwardWaySegment,
+    oppositeWaySegment,
+  ] = segments;
+
   return (
     <div className="ticket-card">
       <div className="ticket-card__header">
@@ -11,36 +23,36 @@ const TicketCard: React.FC = () => {
           <span className="ticket-card__hidden-note">
             Стоимость билета:&nbsp;
           </span>
-          13 400&nbsp;₽
+          {price}&nbsp;₽
         </span>
-        <img className="ticket-card__company-logo" alt="" src="http://pics.avs.io/99/36/FV.png"/>
+        <img className="ticket-card__company-logo" alt="" src={`http://pics.avs.io/99/36/${carrier}.png`}/>
       </div>
       <div className="ticket-card__details">
         <div className="ticket-card__route-segment">
           <SegmentRoute
-            origin="MOW"
-            originTime="10:45"
-            destination="HKT"
-            destinationTime="08:00"
-            duration="21ч 15м"
-            stopTitle="2 пересадки"
-            stops="HKG, JNB"
+            origin={forwardWaySegment.origin}
+            originTime={forwardWaySegment.originTime}
+            destination={forwardWaySegment.destination}
+            destinationTime={forwardWaySegment.destinationTime}
+            duration={forwardWaySegment.duration}
+            stopsCount={forwardWaySegment.stopsCount}
+            stops={forwardWaySegment.stops}
           />
         </div>
         <div className="ticket-card__route-segment">
           <SegmentRoute
-            origin="HKT"
-            originTime="11:20"
-            destination="MOW"
-            destinationTime="00:50"
-            duration="13ч 30м"
-            stopTitle="1 пересадка"
-            stops="HKG"
+            origin={oppositeWaySegment.origin}
+            originTime={oppositeWaySegment.originTime}
+            destination={oppositeWaySegment.destination}
+            destinationTime={oppositeWaySegment.destinationTime}
+            duration={oppositeWaySegment.duration}
+            stopsCount={oppositeWaySegment.stopsCount}
+            stops={oppositeWaySegment.stops}
           />
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default TicketCard;
