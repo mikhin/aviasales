@@ -1,0 +1,17 @@
+@import "./src/app/components/colors/colors.vars";
+@import "./src/app/components/gaps/gaps.vars";
+
+.server-error-notice__action {
+  padding: 8px;
+  border: 1px solid $color_brand;
+  border-radius: $border_radius;
+  background: transparent;
+  color: $color_body;
+  cursor: pointer;
+
+  &:hover,
+  &:focus {
+    background: $color_brand;
+    color: $background-color_body;
+  }
+}
