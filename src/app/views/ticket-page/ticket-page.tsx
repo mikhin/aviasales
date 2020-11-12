@@ -87,39 +87,18 @@ class TicketPage extends React.Component<propType, stateType> {
     }
   }
 
-  getDisplayedTickets = (tickets: Array<Ticket>, filter?: stopOptionsType, sorting?: sortingOptionsType): Array<Ticket> => {
-    if (!!sorting && !filter) {
-      const sortingFunction = this.getSortingFunction(sorting);
+  getDisplayedTickets = (tickets: Array<Ticket>, filter: stopOptionsType, sorting: sortingOptionsType): Array<Ticket> => {
+    const sortingFunction = this.getSortingFunction(sorting);
+    const stopCountsList = filter
+      .filter((option) => option.isChecked)
+      .map((option) => option.count)
 
-      return [...tickets]
-        .sort(sortingFunction)
-        .slice(0, DISPLAYED_TICKETS_COUNT - 1);
-    } else if (!!filter && !sorting) {
-      const preparedStopOptions = filter
-        .filter((option) => option.isChecked)
-        .map((option) => option.count)
-
-      return [...tickets]
-        .filter((ticket: Ticket) => {
-          return this.filterTicketsByStops(ticket, preparedStopOptions);
-        })
-        .slice(0, DISPLAYED_TICKETS_COUNT - 1);
-    } else if (!!sorting && !!filter) {
-      const sortingFunction = this.getSortingFunction(sorting);
-
-      const preparedStopOptions = filter
-        .filter((option) => option.isChecked)
-        .map((option) => option.count)
-
-      return [...tickets]
-        .sort(sortingFunction)
-        .filter((ticket: Ticket) => {
-          return this.filterTicketsByStops(ticket, preparedStopOptions);
-        })
-        .slice(0, DISPLAYED_TICKETS_COUNT - 1);
-    }
-
-    return [...tickets].slice(0, DISPLAYED_TICKETS_COUNT - 1);
+    return [...tickets]
+      .sort(sortingFunction)
+      .filter((ticket: Ticket) => {
+        return this.filterTicketsByStops(ticket, stopCountsList);
+      })
+      .slice(0, DISPLAYED_TICKETS_COUNT);
   }
 
   getSortingFunction = (sorting: sortingOptionsType): (a: Ticket, b: Ticket) => number => {
