@@ -44,7 +44,15 @@ class Tickets extends React.Component<propType, stateType> {
     isErrorWhileFetching: false,
   }
 
-  rawTickets: Array<Ticket> = [];
+  private _rawTickets: Array<Ticket> = [];
+
+  get rawTickets(): Array<Ticket> {
+    return this._rawTickets;
+  }
+
+  set rawTickets(tickets: Array<Ticket>) {
+    this._rawTickets = tickets;
+  }
 
   componentDidMount(): void {
     this.initializeSearchIdFetching();
