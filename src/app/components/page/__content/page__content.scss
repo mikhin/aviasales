@@ -1,5 +1,5 @@
 @import "./src/app/components/gaps/gaps.vars";
-@import "../../breakpoints/breakpoints.vars";
+@import "./src/app/components/breakpoints/breakpoints.vars";
 
 .page__content {
   @media (min-width: $tablet-portrait) {

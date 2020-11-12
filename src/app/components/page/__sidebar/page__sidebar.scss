@@ -1,5 +1,5 @@
-@import "../../breakpoints/breakpoints.vars";
-@import "../../gaps/gaps.vars";
+@import "./src/app/components/breakpoints/breakpoints.vars";
+@import "./src/app/components/gaps/gaps.vars";
 
 .page__sidebar {
   margin-bottom: $gap_default;
