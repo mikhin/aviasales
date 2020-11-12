@@ -1,7 +1,7 @@
 @import "./src/app/components/breakpoints/breakpoints.vars";
 @import "./src/app/components/gaps/gaps.vars";
 
-.ticket-page-layout {
+.tickets-layout {
   @media (min-width: $tablet-portrait) {
     display: grid;
     grid-template-columns: 232px 502px;

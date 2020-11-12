@@ -2,13 +2,13 @@ import React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 
 import Page from '../../components/page';
-import TicketPageLayout, {
-  TicketPageLayout__Error,
-  TicketPageLayout__Filter,
-  TicketPageLayout__SortingControl,
-  TicketPageLayout__Throbber,
-  TicketPageLayout__TicketList,
-} from '../../components/ticket-page-layout';
+import TicketsLayout, {
+  TicketsLayout__Error,
+  TicketsLayout__Filter,
+  TicketsLayout__SortingControl,
+  TicketsLayout__Throbber,
+  TicketsLayout__TicketList,
+} from '../../components/tickets-layout';
 import Filter from '../../components/filter';
 import FilterFormContainer from '../../containers/filter-form-container';
 import { stopOptionsType } from "../../components/filter-form";
@@ -41,7 +41,7 @@ const fetchStatuses = {
   fetchingFinished: 'fetchingFinished',
 }
 
-class TicketPage extends React.Component<propType, stateType> {
+class Tickets extends React.Component<propType, stateType> {
   state = {
     searchId: null,
     tickets: [],
@@ -233,37 +233,37 @@ class TicketPage extends React.Component<propType, stateType> {
 
     return (
       <Page>
-        <TicketPageLayout>
-          <TicketPageLayout__Filter>
+        <TicketsLayout>
+          <TicketsLayout__Filter>
             <Filter>
               <FilterFormContainer
                 onChange={this.onFilterChange}
               />
             </Filter>
-          </TicketPageLayout__Filter>
+          </TicketsLayout__Filter>
 
-          <TicketPageLayout__SortingControl>
+          <TicketsLayout__SortingControl>
             <SortingFormContainer
               onChange={this.onSortingChange}
             />
-          </TicketPageLayout__SortingControl>
+          </TicketsLayout__SortingControl>
 
           {fetchStatus === fetchStatuses.fetching && (
-            <TicketPageLayout__Throbber>
+            <TicketsLayout__Throbber>
               <Throbber caption="Загрузка билетов"/>
-            </TicketPageLayout__Throbber>
+            </TicketsLayout__Throbber>
           )}
 
           {isErrorWhileFetching && tickets.length === 0 && (
-            <TicketPageLayout__Error>
+            <TicketsLayout__Error>
               <ServiceErrorNotice
                 onReloadPage={this.reloadPage}
               />
-            </TicketPageLayout__Error>
+            </TicketsLayout__Error>
           )}
 
           {tickets.length > 0 && (
-            <TicketPageLayout__TicketList>
+            <TicketsLayout__TicketList>
               <TicketList>
                 {tickets.map((ticket: Ticket) => (
                   <TicketList__Item key={`${ticket.carrier}/${ticket.price}`}>
@@ -275,12 +275,12 @@ class TicketPage extends React.Component<propType, stateType> {
                   </TicketList__Item>
                 ))}
               </TicketList>
-            </TicketPageLayout__TicketList>
+            </TicketsLayout__TicketList>
           )}
-        </TicketPageLayout>
+        </TicketsLayout>
       </Page>
     );
   }
 }
 
-export default withRouter(TicketPage);
+export default withRouter(Tickets);
