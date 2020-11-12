@@ -1,3 +1,11 @@
+@import "./src/app/components/gaps/gaps.vars";
+@import "../../breakpoints/breakpoints.vars";
+
 .page__content {
-  padding-bottom: 120px;
+  @media (min-width: $tablet-portrait) {
+    padding-bottom: 120px;
+    display: grid;
+    grid-template-columns: 232px 502px;
+    grid-column-gap: $gap_default;
+  }
 }

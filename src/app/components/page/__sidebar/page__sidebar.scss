@@ -1,0 +1,11 @@
+@import "../../breakpoints/breakpoints.vars";
+@import "../../gaps/gaps.vars";
+
+.page__sidebar {
+  margin-bottom: $gap_default;
+  grid-column: 1/2;
+
+  @media (min-width: $tablet-portrait) {
+    margin-bottom: 0;
+  }
+}

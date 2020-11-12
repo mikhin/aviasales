@@ -1,0 +1,7 @@
+@import "../../gaps/gaps.vars";
+
+.page__section {
+  + .page__section {
+    margin-top: $gap_default;
+  }
+}

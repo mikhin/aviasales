@@ -1,8 +1,0 @@
-@import "./src/app/components/gaps/gaps.vars";
-
-.tickets-layout__throbber {
-  display: flex;
-  justify-content: center;
-  margin-bottom: $gap_default;
-  grid-area: throbber;
-}

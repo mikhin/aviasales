@@ -1,14 +1,7 @@
 import React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 
-import Page from '../../components/page';
-import TicketsLayout, {
-  TicketsLayout__Error,
-  TicketsLayout__Filter,
-  TicketsLayout__SortingControl,
-  TicketsLayout__Throbber,
-  TicketsLayout__TicketList,
-} from '../../components/tickets-layout';
+import Page, { Page__Main, Page__Section, Page__Sidebar } from '../../components/page';
 import Filter from '../../components/filter';
 import FilterFormContainer from '../../containers/filter-form-container';
 import { stopOptionsType } from "../../components/filter-form";
@@ -233,37 +226,38 @@ class Tickets extends React.Component<propType, stateType> {
 
     return (
       <Page>
-        <TicketsLayout>
-          <TicketsLayout__Filter>
-            <Filter>
-              <FilterFormContainer
-                onChange={this.onFilterChange}
-              />
-            </Filter>
-          </TicketsLayout__Filter>
+        <Page__Sidebar>
+          <Filter>
+            <FilterFormContainer
+              onChange={this.onFilterChange}
+            />
+          </Filter>
+        </Page__Sidebar>
 
-          <TicketsLayout__SortingControl>
+        <Page__Main>
+          <Page__Section>
             <SortingFormContainer
               onChange={this.onSortingChange}
             />
-          </TicketsLayout__SortingControl>
+          </Page__Section>
+
 
           {fetchStatus === fetchStatuses.fetching && (
-            <TicketsLayout__Throbber>
+            <Page__Section>
               <Throbber caption="Загрузка билетов"/>
-            </TicketsLayout__Throbber>
+            </Page__Section>
           )}
 
           {isErrorWhileFetching && tickets.length === 0 && (
-            <TicketsLayout__Error>
+            <Page__Section>
               <ServiceErrorNotice
                 onReloadPage={this.reloadPage}
               />
-            </TicketsLayout__Error>
+            </Page__Section>
           )}
 
           {tickets.length > 0 && (
-            <TicketsLayout__TicketList>
+            <Page__Section>
               <TicketList>
                 {tickets.map((ticket: Ticket) => (
                   <TicketList__Item key={`${ticket.carrier}/${ticket.price}`}>
@@ -275,9 +269,9 @@ class Tickets extends React.Component<propType, stateType> {
                   </TicketList__Item>
                 ))}
               </TicketList>
-            </TicketsLayout__TicketList>
+            </Page__Section>
           )}
-        </TicketsLayout>
+        </Page__Main>
       </Page>
     );
   }

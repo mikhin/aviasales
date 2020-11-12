@@ -13,9 +13,9 @@ const Page: React.FC<propType> = ({ children }) => {
         <header className="page__header">
           <Logo/>
         </header>
-        <main className="page__content">
+        <div className="page__content">
           {children}
-        </main>
+        </div>
       </div>
     </div>
   );
