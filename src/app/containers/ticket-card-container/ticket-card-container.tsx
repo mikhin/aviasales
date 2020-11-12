@@ -1,5 +1,5 @@
 import React from 'react';
-import TicketCard from "../ticket-card";
+import TicketCard from "../../components/ticket-card";
 import Ticket from "../../types/ticket";
 import stops from "../../constants/stops";
 

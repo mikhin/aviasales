@@ -2,7 +2,7 @@ import React from 'react';
 import {RouteComponentProps, withRouter} from 'react-router-dom';
 import {parse, ParseOptions, stringify} from "query-string";
 
-import SortingForm, {sortingOptionsType, sortingOptionType} from "../sorting-form";
+import SortingForm, {sortingOptionsType, sortingOptionType} from "../../components/sorting-form";
 
 import sortingOptions from "../../constants/sorting";
 

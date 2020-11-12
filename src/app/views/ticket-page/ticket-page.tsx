@@ -10,12 +10,12 @@ import TicketPageLayout, {
   TicketPageLayout__TicketList,
 } from '../../components/ticket-page-layout';
 import Filter from '../../components/filter';
-import FilterFormContainer from '../../components/filter-form-container';
+import FilterFormContainer from '../../containers/filter-form-container';
 import { stopOptionsType } from "../../components/filter-form";
-import SortingFormContainer from '../../components/sorting-form-container';
+import SortingFormContainer from '../../containers/sorting-form-container';
 import { sortingOptionsType } from "../../components/sorting-form";
 import TicketList, { TicketList__Item } from '../../components/ticket-list';
-import TicketCardContainer from "../../components/ticket-card-container";
+import TicketCardContainer from "../../containers/ticket-card-container";
 import Throbber from "../../components/throbber";
 import ServiceErrorNotice from "../../components/server-error-notice";
 
