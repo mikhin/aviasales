@@ -19,6 +19,14 @@ type stateType = {
   isErrorWhileFetching: boolean;
 }
 
+type cachedDisplayedTicketsStorageEntry = {
+  key: string;
+  source: Array<Ticket>;
+  result: Array<Ticket>;
+};
+
+type cachedDisplayedTicketsStorage = Array<cachedDisplayedTicketsStorageEntry>;
+
 const fetchStatuses = {
   initial: '',
   fetching: 'fetching',
@@ -35,6 +43,7 @@ class TicketsPageContainer extends React.Component<RouteComponentProps, stateTyp
     isErrorWhileFetching: false,
   }
 
+  private _cachedDisplayedTickets: cachedDisplayedTicketsStorage = [];
   private _rawTickets: Array<Ticket> = [];
 
   get rawTickets(): Array<Ticket> {
@@ -43,6 +52,14 @@ class TicketsPageContainer extends React.Component<RouteComponentProps, stateTyp
 
   set rawTickets(tickets: Array<Ticket>) {
     this._rawTickets = tickets;
+  }
+
+  get cachedDisplayedTickets(): cachedDisplayedTicketsStorage {
+    return this._cachedDisplayedTickets;
+  }
+
+  set cachedDisplayedTickets(cachedDisplayedTickets: cachedDisplayedTicketsStorage) {
+    this._cachedDisplayedTickets = cachedDisplayedTickets;
   }
 
   componentDidMount(): void {
@@ -76,6 +93,28 @@ class TicketsPageContainer extends React.Component<RouteComponentProps, stateTyp
           fetchStatus: fetchStatuses.fetchingFinished,
         })
       }
+    }
+  }
+
+  getCachedDisplayedTickets = (tickets: Array<Ticket>, filter: stopOptionsType, sorting: sortingOptionsType): Array<Ticket> => {
+    const filterKeyPart = filter.filter((option) => option.isChecked).map((option) => option.id).join('');
+    const sortingKeyPart = sorting.filter((option) => option.isChecked).map((option) => option.id).join('');
+    const cacheKey = `${filterKeyPart}/${sortingKeyPart}`;
+
+    const cachedEntry = this.cachedDisplayedTickets.find((entry) => entry.key === cacheKey && entry.source === tickets);
+
+    if (cachedEntry) {
+      return cachedEntry.result;
+    } else {
+      const displayedTickets = this.getDisplayedTickets(tickets, filter, sorting);
+
+      this.cachedDisplayedTickets = [...this.cachedDisplayedTickets, {
+        key: cacheKey,
+        source: tickets,
+        result: displayedTickets,
+      }]
+
+      return displayedTickets;
     }
   }
 
@@ -143,7 +182,7 @@ class TicketsPageContainer extends React.Component<RouteComponentProps, stateTyp
 
     if (filter) {
       this.setState({
-        tickets: this.getDisplayedTickets(this.rawTickets, filter, sortingOptions),
+        tickets: this.getCachedDisplayedTickets(this.rawTickets, filter, sortingOptions),
       })
     }
   };
@@ -159,7 +198,7 @@ class TicketsPageContainer extends React.Component<RouteComponentProps, stateTyp
 
     if (sorting) {
       this.setState({
-        tickets: this.getDisplayedTickets(this.rawTickets, stopOptions, sorting),
+        tickets: this.getCachedDisplayedTickets(this.rawTickets, stopOptions, sorting),
       })
     }
   };
@@ -193,7 +232,7 @@ class TicketsPageContainer extends React.Component<RouteComponentProps, stateTyp
       if (tickets.length === 0 && this.rawTickets.length === 0) {
         this.setState({
           fetchStatus: fetchStatuses.fetching,
-          tickets: this.getDisplayedTickets(fetchedTickets, stopOptions, sortingOptions),
+          tickets: this.getCachedDisplayedTickets(fetchedTickets, stopOptions, sortingOptions),
         });
       }
 
@@ -202,7 +241,7 @@ class TicketsPageContainer extends React.Component<RouteComponentProps, stateTyp
       if (stop) {
         this.setState({
           fetchStatus: fetchStatuses.fetchingFinished,
-          tickets: this.getDisplayedTickets(this.rawTickets, stopOptions, sortingOptions),
+          tickets: this.getCachedDisplayedTickets(this.rawTickets, stopOptions, sortingOptions),
         });
       } else {
         await this.fetchTickets();
