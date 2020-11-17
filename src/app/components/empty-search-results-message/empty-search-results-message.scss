@@ -1,0 +1,9 @@
+@import "./src/app/components/colors/colors.vars";
+@import "./src/app/components/gaps/gaps.vars";
+
+.empty-search-results-message {
+  padding: $gap_default;
+  border-radius: $border_radius;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .1);
+  background-color: $background-color_body;
+}

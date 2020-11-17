@@ -8,6 +8,7 @@ import TicketList, { TicketList__Item } from '../../components/ticket-list';
 import TicketCardContainer from "../../containers/ticket-card-container";
 import Throbber from "../../components/throbber";
 import ServiceErrorNotice from "../../components/server-error-notice";
+import EmptySearchResultsMessage from "../../components/empty-search-results-message";
 
 import Ticket from '../../types/ticket';
 import { stopOptionsType } from "../../components/filter-form";
@@ -45,7 +46,6 @@ const Tickets: React.FC<propType> = ({ tickets, fetchStatus, isErrorWhileFetchin
         />
       </Page__Section>
 
-
       {fetchStatus === fetchStatuses.fetching && (
         <Page__Section>
           <Throbber caption="Загрузка билетов"/>
@@ -57,6 +57,12 @@ const Tickets: React.FC<propType> = ({ tickets, fetchStatus, isErrorWhileFetchin
           <ServiceErrorNotice
             onReloadPage={onReloadPage}
           />
+        </Page__Section>
+      )}
+
+      {!isErrorWhileFetching && tickets.length === 0 && fetchStatus === fetchStatuses.fetchingFinished && (
+        <Page__Section>
+          <EmptySearchResultsMessage/>
         </Page__Section>
       )}
 
