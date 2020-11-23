@@ -22,7 +22,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "jest -c jest.config.js",
     "eject": "react-scripts eject",
     "lint:ts": "eslint src --config .eslintrc --ext .tsx,.ts --fix",
     "lint:scss": "stylelint ./src/**/*.scss --syntax scss --fix --config .stylelintrc"
