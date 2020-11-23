@@ -19,14 +19,17 @@ const SegmentRoute: React.FC<propType> = ({ origin, originTime, destination, des
       </div>
       <dl className="segment-route__details">
         <SegmentRoute__Detail
+          id="origin-destination"
           term={`${origin} – ${destination}`}
           definition={`${originTime} – ${destinationTime}`}
         />
         <SegmentRoute__Detail
+          id="duration"
           term="В пути"
           definition={duration}
         />
         <SegmentRoute__Detail
+          id="stops-count"
           term={stopsCount}
           definition={stops}
         />
