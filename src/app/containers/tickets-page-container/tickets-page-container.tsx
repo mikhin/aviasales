@@ -43,25 +43,8 @@ class TicketsPageContainer extends React.Component<RouteComponentProps, stateTyp
     isErrorWhileFetching: false,
   }
 
-  private _cachedDisplayedTickets: cachedDisplayedTicketsStorage = [];
-
-  get cachedDisplayedTickets(): cachedDisplayedTicketsStorage {
-    return this._cachedDisplayedTickets;
-  }
-
-  set cachedDisplayedTickets(cachedDisplayedTickets: cachedDisplayedTicketsStorage) {
-    this._cachedDisplayedTickets = cachedDisplayedTickets;
-  }
-
-  private _rawTickets: Array<Ticket> = [];
-
-  get rawTickets(): Array<Ticket> {
-    return this._rawTickets;
-  }
-
-  set rawTickets(tickets: Array<Ticket>) {
-    this._rawTickets = tickets;
-  }
+  private cachedDisplayedTickets: cachedDisplayedTicketsStorage = [];
+  private rawTickets: Array<Ticket> = [];
 
   async componentDidMount(): Promise<void> {
     await this.initializeSearchIdFetching();
