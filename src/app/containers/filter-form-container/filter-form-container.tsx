@@ -37,22 +37,13 @@ class FilterFormContainer extends React.Component<propType, stateType> {
     if (!filterValue) {
       this.toggleAllOptions(true, () => {
         this.toggleUnifyingOptionInHistory(true);
+        this.liftStateUp();
       });
     } else {
       const queryParams = Array.isArray(filterValue) ? filterValue : [filterValue];
 
       this.toggleOptions(queryParams, () => {
-        const { onChange } = this.props;
-
         this.toggleUnifyingOptionIfNeeded(true);
-
-        const {
-          stopOptions,
-        } = this.state
-
-        if (onChange) {
-          onChange(stopOptions);
-        }
       });
     }
   }
@@ -113,9 +104,9 @@ class FilterFormContainer extends React.Component<propType, stateType> {
 
   toggleUnifyingOptionIfNeeded = (isChecked: boolean): void => {
     if (this.areAllOptionsEqual(isChecked)) {
-      this.toggleAllOptions(isChecked);
+      this.toggleAllOptions(isChecked, this.liftStateUp);
     } else {
-      this.toggleOption(UNIFYING_OPTION_ID, false);
+      this.toggleOption(UNIFYING_OPTION_ID, false, this.liftStateUp);
     }
   }
 
@@ -148,34 +139,25 @@ class FilterFormContainer extends React.Component<propType, stateType> {
 
   onStopOptionChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const { id, checked } = event.currentTarget;
-    const { onChange } = this.props;
 
     if (id === UNIFYING_OPTION_ID) {
       this.toggleAllOptions(checked, () => {
         this.toggleUnifyingOptionInHistory(checked);
-
-        const {
-          stopOptions,
-        } = this.state
-
-        if (onChange) {
-          onChange(stopOptions);
-        }
+        this.liftStateUp();
       });
     } else {
       this.toggleOption(id, checked, () => {
         this.toggleOptionInHistory(id, checked);
         this.toggleUnifyingOptionIfNeeded(checked);
-
-        const {
-          stopOptions,
-        } = this.state
-
-        if (onChange) {
-          onChange(stopOptions);
-        }
       });
     }
+  }
+
+  liftStateUp = (): void => {
+    const { stopOptions } = this.state;
+    const { onChange } = this.props;
+
+    if (onChange) onChange(stopOptions);
   }
 
   render(): React.ReactNode {

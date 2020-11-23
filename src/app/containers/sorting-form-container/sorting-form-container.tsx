@@ -39,12 +39,11 @@ class SortingFormContainer extends React.Component<propType, stateType> {
     const {sorting: sortingValue} = parse(search, PARSE_QUERY_FORMAT);
     const queryParams = Array.isArray(sortingValue) ? sortingValue[0] : sortingValue;
 
-    // console.log(queryParams); Добавить назначение по умолчанию при несуществующем значении фильтра в query
-
     if (!!queryParams) {
       this.toggleOption(queryParams, true);
     } else {
       this.toggleOptionInHistory(sortingOptions[0].id);
+      this.liftStateUp();
     }
   }
 
@@ -63,32 +62,32 @@ class SortingFormContainer extends React.Component<propType, stateType> {
     })
   }
 
-  toggleOption = (id: string, isChecked: boolean, onAfterStateUpdate?: () => void): void => {
+  toggleOption = (id: string, isChecked: boolean): void => {
     this.setState(({sortingOptions}): stateType => ({
       sortingOptions: sortingOptions.map((option: sortingOptionType) => ({
         ...option,
         isChecked: option.id === id ? isChecked : false,
       })),
-    }), () => {
-      const {
-        onChange,
-      } = this.props;
+    }), this.liftStateUp);
+  }
 
-      const {
-        sortingOptions
-      } = this.state;
+  liftStateUp = (): void => {
+    const {
+      onChange,
+    } = this.props;
 
-      if (onAfterStateUpdate) onAfterStateUpdate();
-      if (onChange) onChange(sortingOptions);
-    });
+    const {
+      sortingOptions
+    } = this.state;
+
+    if (onChange) onChange(sortingOptions);
   }
 
   onSortingOptionChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    const {id, checked} = event.currentTarget;
+    const { id, checked } = event.currentTarget;
 
-    this.toggleOption(id, checked, () => {
-      this.toggleOptionInHistory(id);
-    });
+    this.toggleOption(id, checked);
+    this.toggleOptionInHistory(id);
   }
 
   render(): React.ReactNode {
