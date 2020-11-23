@@ -9,17 +9,17 @@ export default [
     count: 0,
   },
   {
-    id: '1-stop',
+    id: 'stop-1',
     label: '1 пересадка',
     count: 1,
   },
   {
-    id: '2-stops',
+    id: 'stops-2',
     label: '2 пересадки',
     count: 2,
   },
   {
-    id: '3-stops',
+    id: 'stops-3',
     label: '3 пересадки',
     count: 3,
   },
