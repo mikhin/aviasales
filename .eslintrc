@@ -9,16 +9,22 @@
     "project": "tsconfig.json",
     "tsconfigRootDir": "."
   },
-  "plugins": ["@typescript-eslint"],
+  "plugins": [
+    "@typescript-eslint"
+  ],
   "rules": {
     // Проверка доступных модулей выполняется во время генерации декларации типов с помощью tsc, поэтому это правило не нужно.
     "import/no-unresolved": "off",
     "react/jsx-pascal-case": 0,
     "import/extensions": 0,
     "react/jsx-filename-extension": [
-      "error", { "extensions": [
-        ".tsx"
-      ] }],
+      "error",
+      {
+        "extensions": [
+          ".tsx"
+        ]
+      }
+    ],
     "no-extra-semi": "off",
     "@typescript-eslint/camelcase": "off",
     "no-useless-constructor": "off",
@@ -26,5 +32,14 @@
     "@typescript-eslint/no-useless-constructor": "error",
     "@typescript-eslint/no-use-before-define": "off",
     "@typescript-eslint/prefer-includes": "off"
+  },
+  "env": {
+    "jest": true
+  },
+  "globals": {
+    "page": true,
+    "browser": true,
+    "context": true,
+    "jestPuppeteer": true
   }
 }
