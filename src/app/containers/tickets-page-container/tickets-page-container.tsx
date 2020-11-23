@@ -86,7 +86,7 @@ class TicketsPageContainer extends React.Component<RouteComponentProps, stateTyp
         await retry(this.fetchTickets, 3, 1000);
       } catch (error) {
         this.setState({
-          isErrorWhileFetching: true,
+          isErrorWhileFetching: this.rawTickets.length === 0,
           fetchStatus: fetchStatuses.fetchingFinished,
         })
       }
@@ -261,7 +261,8 @@ class TicketsPageContainer extends React.Component<RouteComponentProps, stateTyp
 
     return (
       <Tickets
-        tickets={tickets}
+        displayableTickets={tickets}
+        canTicketsBeDisplayed={this.rawTickets.length > 0}
         fetchStatus={fetchStatus}
         isErrorWhileFetching={isErrorWhileFetching}
         onFilterChange={this.onFilterChange}

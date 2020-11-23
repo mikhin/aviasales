@@ -15,7 +15,8 @@ import { stopOptionsType } from "../../components/filter-form";
 import { sortingOptionsType } from "../../components/sorting-form";
 
 type propType = {
-  tickets: Array<Ticket>;
+  displayableTickets: Array<Ticket>;
+  canTicketsBeDisplayed: boolean;
   fetchStatus: string;
   isErrorWhileFetching: boolean;
   onFilterChange: (stopOptions: stopOptionsType) => void;
@@ -29,7 +30,7 @@ const fetchStatuses = {
   fetchingFinished: 'fetchingFinished',
 }
 
-const Tickets: React.FC<propType> = ({ tickets, fetchStatus, isErrorWhileFetching, onFilterChange, onSortingChange, onReloadPage }) => (
+const Tickets: React.FC<propType> = ({ displayableTickets, canTicketsBeDisplayed, fetchStatus, isErrorWhileFetching, onFilterChange, onSortingChange, onReloadPage }) => (
   <Page>
     <Page__Sidebar>
       <Filter>
@@ -52,7 +53,7 @@ const Tickets: React.FC<propType> = ({ tickets, fetchStatus, isErrorWhileFetchin
         </Page__Section>
       )}
 
-      {isErrorWhileFetching && tickets.length === 0 && (
+      {isErrorWhileFetching && displayableTickets.length === 0 && (
         <Page__Section>
           <ServiceErrorNotice
             onReloadPage={onReloadPage}
@@ -60,16 +61,19 @@ const Tickets: React.FC<propType> = ({ tickets, fetchStatus, isErrorWhileFetchin
         </Page__Section>
       )}
 
-      {!isErrorWhileFetching && tickets.length === 0 && fetchStatus === fetchStatuses.fetchingFinished && (
+      {!isErrorWhileFetching
+      && displayableTickets.length === 0
+      && canTicketsBeDisplayed
+      && (
         <Page__Section>
           <EmptySearchResultsMessage/>
         </Page__Section>
       )}
 
-      {tickets.length > 0 && (
+      {displayableTickets.length > 0 && (
         <Page__Section>
           <TicketList>
-            {tickets.map((ticket: Ticket) => (
+            {displayableTickets.map((ticket: Ticket) => (
               <TicketList__Item key={`${ticket.carrier}/${ticket.price}`}>
                 <TicketCardContainer
                   price={ticket.price}
