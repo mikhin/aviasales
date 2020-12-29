@@ -4,6 +4,8 @@ export { default as Page__Section } from './__section';
 export { default as Page__Sidebar } from './__sidebar';
 
 require('./__content/page__content.scss');
+require('./__content-wrapper/page__content-wrapper.scss');
+require('./__footer/page__footer.scss');
 require('./__header/page__header.scss');
 require('./__main/page__main.scss');
 require('./__section/page__section.scss');
