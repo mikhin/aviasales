@@ -1,9 +1,9 @@
 import React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 
-import TicketsView from "../../views/tickets";
-import { stopOptionsType } from "../filter-form";
-import { sortingOptionsType } from "../sorting-form";
+import TicketsPageLayout from "../../components/tickets-page-layout";
+import { stopOptionsType } from "../../components/filter-form";
+import { sortingOptionsType } from "../../components/sorting-form";
 
 import Ticket from '../../types/ticket';
 import retry from "../../helpers/retry";
@@ -33,7 +33,7 @@ const fetchStatuses = {
   fetchingFinished: 'fetchingFinished',
 }
 
-class TicketsPageContainer extends React.Component<RouteComponentProps, stateType> {
+class Tickets extends React.Component<RouteComponentProps, stateType> {
   state = {
     searchId: '',
     tickets: [],
@@ -243,7 +243,7 @@ class TicketsPageContainer extends React.Component<RouteComponentProps, stateTyp
     } = this.state
 
     return (
-      <TicketsView
+      <TicketsPageLayout
         displayableTickets={tickets}
         canTicketsBeDisplayed={this.rawTickets.length > 0}
         fetchStatus={fetchStatus}
@@ -256,4 +256,4 @@ class TicketsPageContainer extends React.Component<RouteComponentProps, stateTyp
   }
 }
 
-export default withRouter(TicketsPageContainer);
+export default withRouter(Tickets);

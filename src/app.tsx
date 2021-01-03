@@ -1,13 +1,13 @@
 import React from 'react';
 import {BrowserRouter} from 'react-router-dom';
 
-import TicketsPageContainer from "./app/components/tickets-page-container";
+import Tickets from "./app/views/tickets";
 
 import './app/components/document';
 
 const App: React.FC = () => (
   <BrowserRouter>
-    <TicketsPageContainer/>
+    <Tickets/>
   </BrowserRouter>
 );
 

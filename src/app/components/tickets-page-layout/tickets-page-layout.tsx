@@ -1,18 +1,18 @@
 import React from 'react';
 
-import Page, { Page__Main, Page__Section, Page__Sidebar } from '../../components/page';
-import Filter from '../../components/filter';
-import FilterFormContainer from '../../components/filter-form-container';
-import SortingFormContainer from '../../components/sorting-form-container';
-import TicketList, { TicketList__Item } from '../../components/ticket-list';
-import TicketCardContainer from "../../components/ticket-card-container";
-import Throbber from "../../components/throbber";
-import ServiceErrorNotice from "../../components/server-error-notice";
-import EmptySearchResultsMessage from "../../components/empty-search-results-message";
+import Page, { Page__Main, Page__Section, Page__Sidebar } from '../page';
+import Filter from '../filter';
+import FilterFormContainer from '../filter-form-container';
+import SortingFormContainer from '../sorting-form-container';
+import TicketList, { TicketList__Item } from '../ticket-list';
+import TicketCardContainer from "../ticket-card-container";
+import Throbber from "../throbber";
+import ServiceErrorNotice from "../server-error-notice";
+import EmptySearchResultsMessage from "../empty-search-results-message";
 
 import Ticket from '../../types/ticket';
-import { stopOptionsType } from "../../components/filter-form";
-import { sortingOptionsType } from "../../components/sorting-form";
+import { stopOptionsType } from "../filter-form";
+import { sortingOptionsType } from "../sorting-form";
 
 type propType = {
   displayableTickets: Array<Ticket>;
@@ -30,7 +30,7 @@ const fetchStatuses = {
   fetchingFinished: 'fetchingFinished',
 }
 
-const TicketsView: React.FC<propType> = ({ displayableTickets, canTicketsBeDisplayed, fetchStatus, isErrorWhileFetching, onFilterChange, onSortingChange, onReloadPage }) => (
+const TicketsPageLayout: React.FC<propType> = ({ displayableTickets, canTicketsBeDisplayed, fetchStatus, isErrorWhileFetching, onFilterChange, onSortingChange, onReloadPage }) => (
   <Page>
     <Page__Sidebar>
       <Filter>
@@ -89,4 +89,4 @@ const TicketsView: React.FC<propType> = ({ displayableTickets, canTicketsBeDispl
   </Page>
 );
 
-export default TicketsView;
+export default TicketsPageLayout;
