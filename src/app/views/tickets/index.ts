@@ -1,1 +1,1 @@
-export { default } from './tickets';
+export { default } from './tickets-view';

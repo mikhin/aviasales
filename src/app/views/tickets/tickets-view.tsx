@@ -30,7 +30,7 @@ const fetchStatuses = {
   fetchingFinished: 'fetchingFinished',
 }
 
-const Tickets: React.FC<propType> = ({ displayableTickets, canTicketsBeDisplayed, fetchStatus, isErrorWhileFetching, onFilterChange, onSortingChange, onReloadPage }) => (
+const TicketsView: React.FC<propType> = ({ displayableTickets, canTicketsBeDisplayed, fetchStatus, isErrorWhileFetching, onFilterChange, onSortingChange, onReloadPage }) => (
   <Page>
     <Page__Sidebar>
       <Filter>
@@ -89,4 +89,4 @@ const Tickets: React.FC<propType> = ({ displayableTickets, canTicketsBeDisplayed
   </Page>
 );
 
-export default Tickets;
+export default TicketsView;

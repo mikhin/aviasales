@@ -1,7 +1,7 @@
 import React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 
-import Tickets from "../../views/tickets";
+import TicketsView from "../../views/tickets";
 import { stopOptionsType } from "../../components/filter-form";
 import { sortingOptionsType } from "../../components/sorting-form";
 
@@ -243,7 +243,7 @@ class TicketsPageContainer extends React.Component<RouteComponentProps, stateTyp
     } = this.state
 
     return (
-      <Tickets
+      <TicketsView
         displayableTickets={tickets}
         canTicketsBeDisplayed={this.rawTickets.length > 0}
         fetchStatus={fetchStatus}
