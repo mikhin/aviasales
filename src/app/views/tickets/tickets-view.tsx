@@ -2,10 +2,10 @@ import React from 'react';
 
 import Page, { Page__Main, Page__Section, Page__Sidebar } from '../../components/page';
 import Filter from '../../components/filter';
-import FilterFormContainer from '../../containers/filter-form-container';
-import SortingFormContainer from '../../containers/sorting-form-container';
+import FilterFormContainer from '../../components/filter-form-container';
+import SortingFormContainer from '../../components/sorting-form-container';
 import TicketList, { TicketList__Item } from '../../components/ticket-list';
-import TicketCardContainer from "../../containers/ticket-card-container";
+import TicketCardContainer from "../../components/ticket-card-container";
 import Throbber from "../../components/throbber";
 import ServiceErrorNotice from "../../components/server-error-notice";
 import EmptySearchResultsMessage from "../../components/empty-search-results-message";

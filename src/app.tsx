@@ -1,7 +1,7 @@
 import React from 'react';
 import {BrowserRouter} from 'react-router-dom';
 
-import TicketsPageContainer from "./app/containers/tickets-page-container";
+import TicketsPageContainer from "./app/components/tickets-page-container";
 
 import './app/components/document';
 

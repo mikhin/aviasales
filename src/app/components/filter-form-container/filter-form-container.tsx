@@ -2,7 +2,7 @@ import React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { parse, ParseOptions, stringify } from 'query-string';
 
-import FilterForm, { stopOptionsType, stopOptionType } from "../../components/filter-form";
+import FilterForm, { stopOptionsType, stopOptionType } from "../filter-form";
 
 import stops from "../../constants/stops";
 

@@ -2,8 +2,8 @@ import React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 
 import TicketsView from "../../views/tickets";
-import { stopOptionsType } from "../../components/filter-form";
-import { sortingOptionsType } from "../../components/sorting-form";
+import { stopOptionsType } from "../filter-form";
+import { sortingOptionsType } from "../sorting-form";
 
 import Ticket from '../../types/ticket';
 import retry from "../../helpers/retry";
