@@ -22,7 +22,8 @@
       "puppeteer",
       "jest-environment-puppeteer",
       "expect-puppeteer"
-    ]
+    ],
+    "downlevelIteration": true
   },
   "include": [
     "src",
