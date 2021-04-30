@@ -2,7 +2,7 @@ import React from 'react';
 import Form, {Form__Field, Form__FieldSet, Form__Legend} from "../form";
 import CheckboxField from "../checkbox-field";
 
-import stopType from "../../types/business/stop";
+import stopType from "../../types/stop";
 
 export type stopOptionType = stopType & {
   isChecked: boolean;

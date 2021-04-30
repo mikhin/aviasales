@@ -1,6 +1,6 @@
 import React from 'react';
 
-import stopType from "../../types/business/stop";
+import stopType from "../../types/stop";
 
 export type sortingOptionType = stopType & {
   isChecked: boolean;
