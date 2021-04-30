@@ -1,7 +1,15 @@
 import React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 
-import TicketsPageLayout from "../../components/tickets-page-layout";
+import Page, { Page__Main, Page__Section, Page__Sidebar } from '../../components/page';
+import Filter from '../../components/filter';
+import FilterFormContainer from '../../components/filter-form-container';
+import SortingFormContainer from '../../components/sorting-form-container';
+import Throbber from '../../components/throbber';
+import ServiceErrorNotice from '../../components/server-error-notice';
+import EmptySearchResultsMessage from '../../components/empty-search-results-message';
+import TicketList, { TicketList__Item } from '../../components/ticket-list';
+import TicketCardContainer from '../../components/ticket-card-container';
 import { stopOptionsType } from "../../components/filter-form";
 import { sortingOptionsType } from "../../components/sorting-form";
 
@@ -242,16 +250,62 @@ class Tickets extends React.Component<RouteComponentProps, stateType> {
       isErrorWhileFetching
     } = this.state
 
+    const areTicketsAvailable = tickets.length === 0 && this.rawTickets.length > 0;
+
     return (
-      <TicketsPageLayout
-        displayableTickets={tickets}
-        canTicketsBeDisplayed={this.rawTickets.length > 0}
-        fetchStatus={fetchStatus}
-        isErrorWhileFetching={isErrorWhileFetching}
-        onFilterChange={this.onFilterChange}
-        onSortingChange={this.onSortingChange}
-        onReloadPage={this.reloadPage}
-      />
+    <Page>
+      <Page__Sidebar>
+        <Filter>
+          <FilterFormContainer
+            onChange={this.onFilterChange}
+          />
+        </Filter>
+      </Page__Sidebar>
+
+      <Page__Main>
+        <Page__Section>
+          <SortingFormContainer
+            onChange={this.onSortingChange}
+          />
+        </Page__Section>
+
+        {fetchStatus === fetchStatuses.fetching && (
+          <Page__Section>
+            <Throbber caption="Загрузка билетов"/>
+          </Page__Section>
+        )}
+
+        {isErrorWhileFetching && tickets.length === 0 && (
+          <Page__Section>
+            <ServiceErrorNotice
+              onReloadPage={this.reloadPage}
+            />
+          </Page__Section>
+        )}
+
+        {!isErrorWhileFetching && areTicketsAvailable && (
+          <Page__Section>
+            <EmptySearchResultsMessage/>
+          </Page__Section>
+        )}
+
+        {tickets.length > 0 && (
+          <Page__Section>
+            <TicketList>
+              {tickets.map((ticket: Ticket) => (
+                <TicketList__Item key={`${ticket.carrier}/${ticket.price}`}>
+                  <TicketCardContainer
+                    price={ticket.price}
+                    carrier={ticket.carrier}
+                    segments={ticket.segments}
+                  />
+                </TicketList__Item>
+              ))}
+            </TicketList>
+          </Page__Section>
+        )}
+      </Page__Main>
+    </Page>
     );
   }
 }
