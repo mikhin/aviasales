@@ -1,5 +1,6 @@
-import setSearchIdStub from './stubs/set-search-id-stub';
-import setTicketsStub from './stubs/set-tickets-stub';
+import setStub from './stubs/set-stub';
+import ticketsStub from './stubs/data/tickets';
+import searchIdStub from './stubs/data/search-id';
 
 describe('Страница поиска билетов', () => {
   beforeEach(async () => {
@@ -8,9 +9,9 @@ describe('Страница поиска билетов', () => {
 
     page.on('request', (interceptedRequest): void => {
       if (interceptedRequest.url().includes('/search')) {
-        setSearchIdStub(interceptedRequest);
+        setStub(interceptedRequest, searchIdStub);
       } else if (interceptedRequest.url().includes('/tickets')) {
-        setTicketsStub(interceptedRequest);
+        setStub(interceptedRequest, ticketsStub);
       } else {
         interceptedRequest.continue();
       }
