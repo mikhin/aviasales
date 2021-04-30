@@ -15,7 +15,7 @@ type propType = {
   onStopOptionChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const FilterForm: React.FC<propType> = ({stopOptions, onStopOptionChange}) => {
+const TicketsFilterForm: React.FC<propType> = ({stopOptions, onStopOptionChange}) => {
   return (
     <Form>
       <Form__FieldSet>
@@ -38,4 +38,4 @@ const FilterForm: React.FC<propType> = ({stopOptions, onStopOptionChange}) => {
   );
 }
 
-export default FilterForm;
+export default TicketsFilterForm;

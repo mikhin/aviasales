@@ -2,7 +2,7 @@ import React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { parse, ParseOptions, stringify } from 'query-string';
 
-import FilterForm, { stopOptionsType, stopOptionType } from "../filter-form";
+import TicketsFilterForm, { stopOptionsType, stopOptionType } from "../tickets-filter-form";
 
 import stops from "../../constants/stops";
 
@@ -16,7 +16,7 @@ type stateType = {
 const UNIFYING_OPTION_ID = 'all';
 const PARSE_QUERY_FORMAT: ParseOptions = { arrayFormat: 'comma' };
 
-class FilterFormContainer extends React.Component<propType, stateType> {
+class TicketsFilterFormContainer extends React.Component<propType, stateType> {
   state = {
     stopOptions: stops.map((option) => ({ ...option, isChecked: false })),
   }
@@ -166,7 +166,7 @@ class FilterFormContainer extends React.Component<propType, stateType> {
     } = this.state;
 
     return (
-      <FilterForm
+      <TicketsFilterForm
         stopOptions={stopOptions}
         onStopOptionChange={this.onStopOptionChange}
       />
@@ -174,4 +174,4 @@ class FilterFormContainer extends React.Component<propType, stateType> {
   }
 }
 
-export default withRouter(FilterFormContainer);
+export default withRouter(TicketsFilterFormContainer);

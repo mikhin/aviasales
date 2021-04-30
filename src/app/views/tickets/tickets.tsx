@@ -3,14 +3,14 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 
 import Page, { Page__Main, Page__Section, Page__Sidebar } from '../../components/page';
 import Filter from '../../components/filter';
-import FilterFormContainer from '../../components/filter-form-container';
+import TicketsFilterFormContainer from '../../components/tickets-filter-form-container';
 import SortingFormContainer from '../../components/sorting-form-container';
 import Throbber from '../../components/throbber';
 import ServiceErrorNotice from '../../components/server-error-notice';
 import EmptySearchResultsMessage from '../../components/empty-search-results-message';
 import TicketList, { TicketList__Item } from '../../components/ticket-list';
 import TicketCardContainer from '../../components/ticket-card-container';
-import { stopOptionsType } from "../../components/filter-form";
+import { stopOptionsType } from "../../components/tickets-filter-form";
 import { sortingOptionsType } from "../../components/sorting-form";
 
 import Ticket from '../../types/ticket';
@@ -257,7 +257,7 @@ class Tickets extends React.Component<RouteComponentProps, stateType> {
       <Page__Sidebar>
         <Page__Section>
           <Filter>
-            <FilterFormContainer
+            <TicketsFilterFormContainer
               onChange={this.onFilterChange}
             />
           </Filter>
