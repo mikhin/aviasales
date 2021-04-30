@@ -13,8 +13,7 @@
   border: 1px solid $color_border;
   background-color: $background-color_body;
 
-  &:hover,
-  &:focus {
+  &:hover {
     border: 1px solid $color_brand;
     color: $color_brand;
   }

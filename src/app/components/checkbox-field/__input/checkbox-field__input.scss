@@ -15,4 +15,10 @@
       }
     }
   }
+
+  &:focus {
+    + .checkbox-field__label {
+      background-color: $gray-sky;
+    }
+  }
 }

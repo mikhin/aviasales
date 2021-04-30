@@ -4,9 +4,24 @@
 .sorting-form__input {
   @include visually-hidden;
 
-  &:checked + .sorting-form__label {
-    border: 1px solid $color_brand;
-    background-color: $color_brand;
-    color: $background-color_body;
+  &:focus {
+    + .sorting-form__label {
+      border: 1px solid $color_brand;
+      color: $color_brand;
+    }
+  }
+
+  &:checked {
+    + .sorting-form__label {
+      border: 1px solid $color_brand;
+      background-color: $color_brand;
+      color: $background-color_body;
+    }
+
+    &:focus {
+      + .sorting-form__label {
+        color: $background-color_body;
+      }
+    }
   }
 }
