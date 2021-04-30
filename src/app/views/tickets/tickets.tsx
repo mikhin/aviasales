@@ -255,11 +255,19 @@ class Tickets extends React.Component<RouteComponentProps, stateType> {
     return (
     <Page>
       <Page__Sidebar>
-        <Filter>
-          <FilterFormContainer
-            onChange={this.onFilterChange}
-          />
-        </Filter>
+        <Page__Section>
+          <Filter>
+            <FilterFormContainer
+              onChange={this.onFilterChange}
+            />
+          </Filter>
+        </Page__Section>
+
+        {fetchStatus === fetchStatuses.fetching && (
+          <Page__Section>
+            <Throbber caption="Загрузка билетов"/>
+          </Page__Section>
+        )}
       </Page__Sidebar>
 
       <Page__Main>
@@ -268,12 +276,6 @@ class Tickets extends React.Component<RouteComponentProps, stateType> {
             onChange={this.onSortingChange}
           />
         </Page__Section>
-
-        {fetchStatus === fetchStatuses.fetching && (
-          <Page__Section>
-            <Throbber caption="Загрузка билетов"/>
-          </Page__Section>
-        )}
 
         {isErrorWhileFetching && tickets.length === 0 && (
           <Page__Section>
