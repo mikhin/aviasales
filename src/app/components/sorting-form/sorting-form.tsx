@@ -1,8 +1,8 @@
 import React from 'react';
 
-import stopType from "../../types/stop";
-
-export type sortingOptionType = stopType & {
+export type sortingOptionType = {
+  id: string;
+  label: string;
   isChecked: boolean;
 }
 
