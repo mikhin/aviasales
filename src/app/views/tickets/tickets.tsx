@@ -2,7 +2,7 @@ import React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 
 import Page, { Page__Main, Page__Section, Page__Sidebar } from '../../components/page';
-import Filter from '../../components/filter';
+import TicketsFilter from '../../components/tickets-filter';
 import TicketsFilterFormContainer from '../../components/tickets-filter-form-container';
 import SortingFormContainer from '../../components/sorting-form-container';
 import Throbber from '../../components/throbber';
@@ -256,11 +256,11 @@ class Tickets extends React.Component<RouteComponentProps, State> {
     <Page>
       <Page__Sidebar>
         <Page__Section>
-          <Filter>
+          <TicketsFilter>
             <TicketsFilterFormContainer
               onChange={this.onFilterChange}
             />
-          </Filter>
+          </TicketsFilter>
         </Page__Section>
 
         {fetchStatus === fetchStatuses.fetching && (

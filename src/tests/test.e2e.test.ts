@@ -26,7 +26,7 @@ describe('Страница поиска билетов', () => {
     });
 
     it('На странице отображается фильтр', async () => {
-      await expect(page).toMatchElement('.filter')
+      await expect(page).toMatchElement('.tickets-filter')
     });
 
     it('На странице отображается управление сортировкой', async () => {
