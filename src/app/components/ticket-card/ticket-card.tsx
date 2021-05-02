@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SegmentRoute, {Props as SegmentType} from '../segment-route';
+import SegmentRoute, {Props as SegmentType} from '../air-route-segment';
 
 import Override from "../../types/override";
 import Ticket from "../../types/ticket";

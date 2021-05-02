@@ -1,5 +1,5 @@
 import React from 'react';
-import SegmentRoute__Detail from './__detail';
+import AirRouteSegment__Detail from './__detail';
 
 export type Props = {
   origin: string;
@@ -11,24 +11,24 @@ export type Props = {
   stops: string;
 };
 
-const SegmentRoute: React.FC<Props> = ({ origin, originTime, destination, destinationTime, duration, stopsCount, stops }) => {
+const AirRouteSegment: React.FC<Props> = ({ origin, originTime, destination, destinationTime, duration, stopsCount, stops }) => {
   return (
-    <div className="segment-route">
-      <div className="segment-route__header">
-        <h3 className="segment-route__title">Туда: {origin} – {destination}</h3>
+    <div className="air-route-segment">
+      <div className="air-route-segment__header">
+        <h3 className="air-route-segment__title">Туда: {origin} – {destination}</h3>
       </div>
-      <dl className="segment-route__details">
-        <SegmentRoute__Detail
+      <dl className="air-route-segment__details">
+        <AirRouteSegment__Detail
           id="origin-destination"
           term={`${origin} – ${destination}`}
           definition={`${originTime} – ${destinationTime}`}
         />
-        <SegmentRoute__Detail
+        <AirRouteSegment__Detail
           id="duration"
           term="В пути"
           definition={duration}
         />
-        <SegmentRoute__Detail
+        <AirRouteSegment__Detail
           id="stops-count"
           term={stopsCount}
           definition={stops}
@@ -38,4 +38,4 @@ const SegmentRoute: React.FC<Props> = ({ origin, originTime, destination, destin
   );
 }
 
-export default SegmentRoute;
+export default AirRouteSegment;

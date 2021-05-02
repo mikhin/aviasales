@@ -52,16 +52,16 @@ describe('Страница поиска билетов', () => {
       await expect(page).toMatchElement('.ticket-card__price', { text: '15109' });
       await expect(page).toMatchElement('.ticket-card__company-logo');
 
-      await expect(page).toMatchElement('.ticket-card__route-segment:first-child .segment-route__detail_type_origin-destination .segment-route__detail-term', { text: 'MOW – HKT' });
-      await expect(page).toMatchElement('.ticket-card__route-segment:first-child .segment-route__detail_type_origin-destination .segment-route__detail-definition', { text: '15:07 – 06:40' });
-      await expect(page).toMatchElement('.ticket-card__route-segment:first-child .segment-route__detail_type_duration .segment-route__detail-definition', { text: '15ч 33м' });
-      await expect(page).toMatchElement('.ticket-card__route-segment:first-child .segment-route__detail_type_stops-count .segment-route__detail-term', { text: '1 пересадка' });
-      await expect(page).toMatchElement('.ticket-card__route-segment:first-child .segment-route__detail_type_stops-count .segment-route__detail-definition', { text: 'DXB' });
+      await expect(page).toMatchElement('.ticket-card__route-segment:first-child .air-route-segment__detail_type_origin-destination .air-route-segment__detail-term', { text: 'MOW – HKT' });
+      await expect(page).toMatchElement('.ticket-card__route-segment:first-child .air-route-segment__detail_type_origin-destination .air-route-segment__detail-definition', { text: '15:07 – 06:40' });
+      await expect(page).toMatchElement('.ticket-card__route-segment:first-child .air-route-segment__detail_type_duration .air-route-segment__detail-definition', { text: '15ч 33м' });
+      await expect(page).toMatchElement('.ticket-card__route-segment:first-child .air-route-segment__detail_type_stops-count .air-route-segment__detail-term', { text: '1 пересадка' });
+      await expect(page).toMatchElement('.ticket-card__route-segment:first-child .air-route-segment__detail_type_stops-count .air-route-segment__detail-definition', { text: 'DXB' });
 
-      await expect(page).toMatchElement('.ticket-card__route-segment:nth-child(2) .segment-route__detail_type_origin-destination .segment-route__detail-term', { text: 'HKT – MOW' });
-      await expect(page).toMatchElement('.ticket-card__route-segment:nth-child(2) .segment-route__detail_type_origin-destination .segment-route__detail-definition', { text: '13:07 – 02:33' });
-      await expect(page).toMatchElement('.ticket-card__route-segment:nth-child(2) .segment-route__detail_type_duration .segment-route__detail-definition', { text: '13ч 26м' });
-      await expect(page).toMatchElement('.ticket-card__route-segment:nth-child(2) .segment-route__detail_type_stops-count .segment-route__detail-term', { text: 'Без пересадок' });
+      await expect(page).toMatchElement('.ticket-card__route-segment:nth-child(2) .air-route-segment__detail_type_origin-destination .air-route-segment__detail-term', { text: 'HKT – MOW' });
+      await expect(page).toMatchElement('.ticket-card__route-segment:nth-child(2) .air-route-segment__detail_type_origin-destination .air-route-segment__detail-definition', { text: '13:07 – 02:33' });
+      await expect(page).toMatchElement('.ticket-card__route-segment:nth-child(2) .air-route-segment__detail_type_duration .air-route-segment__detail-definition', { text: '13ч 26м' });
+      await expect(page).toMatchElement('.ticket-card__route-segment:nth-child(2) .air-route-segment__detail_type_stops-count .air-route-segment__detail-term', { text: 'Без пересадок' });
     });
   });
 
@@ -98,17 +98,17 @@ describe('Страница поиска билетов', () => {
       await expect(page).toMatchElement('.ticket-card__price', { text: '92922' });
       await expect(page).toMatchElement('.ticket-card__company-logo');
 
-      await expect(page).toMatchElement('.ticket-card__route-segment:first-child .segment-route__detail_type_origin-destination .segment-route__detail-term', { text: 'MOW – HKT' });
-      await expect(page).toMatchElement('.ticket-card__route-segment:first-child .segment-route__detail_type_origin-destination .segment-route__detail-definition', { text: '07:26 – 17:40' });
-      await expect(page).toMatchElement('.ticket-card__route-segment:first-child .segment-route__detail_type_duration .segment-route__detail-definition', { text: '10ч 14м' });
-      await expect(page).toMatchElement('.ticket-card__route-segment:first-child .segment-route__detail_type_stops-count .segment-route__detail-term', { text: '2 пересадки' });
-      await expect(page).toMatchElement('.ticket-card__route-segment:first-child .segment-route__detail_type_stops-count .segment-route__detail-definition', { text: 'AUH, SHA' });
+      await expect(page).toMatchElement('.ticket-card__route-segment:first-child .air-route-segment__detail_type_origin-destination .air-route-segment__detail-term', { text: 'MOW – HKT' });
+      await expect(page).toMatchElement('.ticket-card__route-segment:first-child .air-route-segment__detail_type_origin-destination .air-route-segment__detail-definition', { text: '07:26 – 17:40' });
+      await expect(page).toMatchElement('.ticket-card__route-segment:first-child .air-route-segment__detail_type_duration .air-route-segment__detail-definition', { text: '10ч 14м' });
+      await expect(page).toMatchElement('.ticket-card__route-segment:first-child .air-route-segment__detail_type_stops-count .air-route-segment__detail-term', { text: '2 пересадки' });
+      await expect(page).toMatchElement('.ticket-card__route-segment:first-child .air-route-segment__detail_type_stops-count .air-route-segment__detail-definition', { text: 'AUH, SHA' });
 
-      await expect(page).toMatchElement('.ticket-card__route-segment:nth-child(2) .segment-route__detail_type_origin-destination .segment-route__detail-term', { text: 'HKT – MOW' });
-      await expect(page).toMatchElement('.ticket-card__route-segment:nth-child(2) .segment-route__detail_type_origin-destination .segment-route__detail-definition', { text: '04:24 – 14:46' });
-      await expect(page).toMatchElement('.ticket-card__route-segment:nth-child(2) .segment-route__detail_type_duration .segment-route__detail-definition', { text: '10ч 22м' });
-      await expect(page).toMatchElement('.ticket-card__route-segment:nth-child(2) .segment-route__detail_type_stops-count .segment-route__detail-term', { text: '3 пересадки' });
-      await expect(page).toMatchElement('.ticket-card__route-segment:nth-child(2) .segment-route__detail_type_stops-count .segment-route__detail-definition', { text: 'HKG, DXB, IST' });
+      await expect(page).toMatchElement('.ticket-card__route-segment:nth-child(2) .air-route-segment__detail_type_origin-destination .air-route-segment__detail-term', { text: 'HKT – MOW' });
+      await expect(page).toMatchElement('.ticket-card__route-segment:nth-child(2) .air-route-segment__detail_type_origin-destination .air-route-segment__detail-definition', { text: '04:24 – 14:46' });
+      await expect(page).toMatchElement('.ticket-card__route-segment:nth-child(2) .air-route-segment__detail_type_duration .air-route-segment__detail-definition', { text: '10ч 22м' });
+      await expect(page).toMatchElement('.ticket-card__route-segment:nth-child(2) .air-route-segment__detail_type_stops-count .air-route-segment__detail-term', { text: '3 пересадки' });
+      await expect(page).toMatchElement('.ticket-card__route-segment:nth-child(2) .air-route-segment__detail_type_stops-count .air-route-segment__detail-definition', { text: 'HKG, DXB, IST' });
     });
   });
 
@@ -182,16 +182,16 @@ describe('Страница поиска билетов', () => {
       await expect(page).toMatchElement('.ticket-card__price', { text: '15600' });
       await expect(page).toMatchElement('.ticket-card__company-logo');
 
-      await expect(page).toMatchElement('.ticket-card__route-segment:first-child .segment-route__detail_type_origin-destination .segment-route__detail-term', { text: 'MOW – HKT' });
-      await expect(page).toMatchElement('.ticket-card__route-segment:first-child .segment-route__detail_type_origin-destination .segment-route__detail-definition', { text: '20:44 – 01:21' });
-      await expect(page).toMatchElement('.ticket-card__route-segment:first-child .segment-route__detail_type_duration .segment-route__detail-definition', { text: '28ч 37м' });
-      await expect(page).toMatchElement('.ticket-card__route-segment:first-child .segment-route__detail_type_stops-count .segment-route__detail-term', { text: '2 пересадки' });
-      await expect(page).toMatchElement('.ticket-card__route-segment:first-child .segment-route__detail_type_stops-count .segment-route__detail-definition', { text: 'SIN, HKG' });
+      await expect(page).toMatchElement('.ticket-card__route-segment:first-child .air-route-segment__detail_type_origin-destination .air-route-segment__detail-term', { text: 'MOW – HKT' });
+      await expect(page).toMatchElement('.ticket-card__route-segment:first-child .air-route-segment__detail_type_origin-destination .air-route-segment__detail-definition', { text: '20:44 – 01:21' });
+      await expect(page).toMatchElement('.ticket-card__route-segment:first-child .air-route-segment__detail_type_duration .air-route-segment__detail-definition', { text: '28ч 37м' });
+      await expect(page).toMatchElement('.ticket-card__route-segment:first-child .air-route-segment__detail_type_stops-count .air-route-segment__detail-term', { text: '2 пересадки' });
+      await expect(page).toMatchElement('.ticket-card__route-segment:first-child .air-route-segment__detail_type_stops-count .air-route-segment__detail-definition', { text: 'SIN, HKG' });
 
-      await expect(page).toMatchElement('.ticket-card__route-segment:nth-child(2) .segment-route__detail_type_origin-destination .segment-route__detail-term', { text: 'HKT – MOW' });
-      await expect(page).toMatchElement('.ticket-card__route-segment:nth-child(2) .segment-route__detail_type_origin-destination .segment-route__detail-definition', { text: '18:06 – 12:49' });
-      await expect(page).toMatchElement('.ticket-card__route-segment:nth-child(2) .segment-route__detail_type_duration .segment-route__detail-definition', { text: '18ч 43м' });
-      await expect(page).toMatchElement('.ticket-card__route-segment:nth-child(2) .segment-route__detail_type_stops-count .segment-route__detail-term', { text: 'Без пересадок' });
+      await expect(page).toMatchElement('.ticket-card__route-segment:nth-child(2) .air-route-segment__detail_type_origin-destination .air-route-segment__detail-term', { text: 'HKT – MOW' });
+      await expect(page).toMatchElement('.ticket-card__route-segment:nth-child(2) .air-route-segment__detail_type_origin-destination .air-route-segment__detail-definition', { text: '18:06 – 12:49' });
+      await expect(page).toMatchElement('.ticket-card__route-segment:nth-child(2) .air-route-segment__detail_type_duration .air-route-segment__detail-definition', { text: '18ч 43м' });
+      await expect(page).toMatchElement('.ticket-card__route-segment:nth-child(2) .air-route-segment__detail_type_stops-count .air-route-segment__detail-term', { text: 'Без пересадок' });
     });
   });
 });
