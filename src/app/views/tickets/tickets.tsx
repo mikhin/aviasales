@@ -1,20 +1,20 @@
 import React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 
-import Page, { Page__Main, Page__Section, Page__Sidebar } from '../../components/page';
-import TicketsFilter from '../../components/tickets-filter';
-import TicketsFilterFormContainer from '../../components/tickets-filter-form-container';
-import SortingFormContainer from '../../components/sorting-form-container';
-import Throbber from '../../components/throbber';
-import ServiceErrorNotice from '../../components/server-error-notice';
-import EmptySearchResultsMessage from '../../components/empty-search-results-message';
-import TicketList, { TicketList__Item } from '../../components/ticket-list';
-import TicketCardContainer from '../../components/ticket-card-container';
-import { StopOptions } from "../../components/tickets-filter-form";
-import { SortingOptions } from "../../components/sorting-form";
+import Page, { Page__Main, Page__Section, Page__Sidebar } from 'app/components/page';
+import TicketsFilter from 'app/components/tickets-filter';
+import TicketsFilterFormContainer from 'app/components/tickets-filter-form-container';
+import SortingFormContainer from 'app/components/sorting-form-container';
+import Throbber from 'app/components/throbber';
+import ServiceErrorNotice from 'app/components/server-error-notice';
+import EmptySearchResultsMessage from 'app/components/empty-search-results-message';
+import TicketList, { TicketList__Item } from 'app/components/ticket-list';
+import TicketCardContainer from 'app/components/ticket-card-container';
+import { StopOptions } from "app/components/tickets-filter-form";
+import { SortingOptions } from "app/components/sorting-form";
 
-import Ticket from '../../types/ticket';
-import retry from "../../helpers/retry";
+import Ticket from 'app/types/ticket';
+import retry from "app/helpers/retry";
 
 const DISPLAYED_TICKETS_COUNT = 5;
 

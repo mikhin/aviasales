@@ -2,8 +2,8 @@ import React from 'react';
 
 import SegmentRoute, {Props as SegmentType} from '../air-route-segment';
 
-import Override from "../../types/override";
-import Ticket from "../../types/ticket";
+import Override from "app/types/override";
+import Ticket from "app/types/ticket";
 
 type Props = Override<Ticket, {
   segments: Array<SegmentType>;

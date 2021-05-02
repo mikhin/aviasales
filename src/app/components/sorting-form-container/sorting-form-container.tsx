@@ -2,9 +2,9 @@ import React from 'react';
 import {RouteComponentProps, withRouter} from 'react-router-dom';
 import {parse, ParseOptions, stringify} from "query-string";
 
-import SortingForm, {SortingOptions, SortingOption} from "../sorting-form";
+import SortingForm, {SortingOptions, SortingOption} from "app/components/sorting-form";
 
-import sortingOptions from "../../constants/sorting";
+import sortingOptions from "app/constants/sorting";
 
 type Props = RouteComponentProps & {
   onChange: (sortingOptions: SortingOptions) => void;

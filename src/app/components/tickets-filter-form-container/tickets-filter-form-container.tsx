@@ -2,9 +2,9 @@ import React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { parse, ParseOptions, stringify } from 'query-string';
 
-import TicketsFilterForm, { StopOptions, StopOption } from "../tickets-filter-form";
+import TicketsFilterForm, { StopOptions, StopOption } from "app/components/tickets-filter-form";
 
-import stops from "../../constants/stops";
+import stops from "app/constants/stops";
 
 type Props = RouteComponentProps & {
   onChange: (stopOptions: StopOptions) => void;
