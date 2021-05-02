@@ -1,9 +1,10 @@
 import React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { parse, ParseOptions, stringify } from 'query-string';
+import { parse, stringify } from 'query-string';
 
 import TicketsFilterForm, { StopOptions, StopOption } from "app/components/tickets-filter-form";
 
+import queryStringParseFormat from 'app/constants/query-string-parse-format';
 import stops from "app/constants/stops";
 
 type Props = RouteComponentProps & {
@@ -14,7 +15,6 @@ type State = {
 }
 
 const UNIFYING_OPTION_ID = 'all';
-const PARSE_QUERY_FORMAT: ParseOptions = { arrayFormat: 'comma' };
 
 class TicketsFilterFormContainer extends React.Component<Props, State> {
   state = {
@@ -32,7 +32,7 @@ class TicketsFilterFormContainer extends React.Component<Props, State> {
       },
     } = this.props;
 
-    const { filter: filterValue } = parse(search, PARSE_QUERY_FORMAT);
+    const { filter: filterValue } = parse(search, queryStringParseFormat);
 
     if (!filterValue) {
       this.toggleAllOptions(true, () => {
@@ -64,7 +64,7 @@ class TicketsFilterFormContainer extends React.Component<Props, State> {
       stopOptions
     } = this.state;
 
-    const { filter, ...restQueryParams } = parse(search, PARSE_QUERY_FORMAT);
+    const { filter, ...restQueryParams } = parse(search, queryStringParseFormat);
 
     if (isChecked) {
       history.push({
@@ -73,11 +73,11 @@ class TicketsFilterFormContainer extends React.Component<Props, State> {
             .filter((stop: StopOption) => stop.isChecked && stop.id !== UNIFYING_OPTION_ID)
             .map((stop: StopOption) => stop.id),
           ...restQueryParams
-        }, PARSE_QUERY_FORMAT),
+        }, queryStringParseFormat),
       })
     } else {
       history.push({
-        search: stringify({ filter: undefined, ...restQueryParams }, PARSE_QUERY_FORMAT)
+        search: stringify({ filter: undefined, ...restQueryParams }, queryStringParseFormat)
       })
     }
   }
@@ -90,7 +90,7 @@ class TicketsFilterFormContainer extends React.Component<Props, State> {
       }
     } = this.props;
 
-    const { filter: filterValue = '', ...restQueryParams } = parse(search, PARSE_QUERY_FORMAT);
+    const { filter: filterValue = '', ...restQueryParams } = parse(search, queryStringParseFormat);
     const queryParams = Array.isArray(filterValue) ? filterValue : [filterValue];
 
     const newQueryParams = isChecked
@@ -98,7 +98,7 @@ class TicketsFilterFormContainer extends React.Component<Props, State> {
       : queryParams.filter((item) => item !== id);
 
     history.push({
-      search: stringify({ filter: newQueryParams, ...restQueryParams }, PARSE_QUERY_FORMAT),
+      search: stringify({ filter: newQueryParams, ...restQueryParams }, queryStringParseFormat),
     })
   }
 

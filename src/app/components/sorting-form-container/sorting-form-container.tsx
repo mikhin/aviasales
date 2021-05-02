@@ -1,9 +1,10 @@
 import React from 'react';
 import {RouteComponentProps, withRouter} from 'react-router-dom';
-import {parse, ParseOptions, stringify} from "query-string";
+import {parse, stringify} from "query-string";
 
 import SortingForm, {SortingOptions, SortingOption} from "app/components/sorting-form";
 
+import queryStringParseFormat from 'app/constants/query-string-parse-format';
 import sortingOptions from "app/constants/sorting";
 
 type Props = RouteComponentProps & {
@@ -13,8 +14,6 @@ type Props = RouteComponentProps & {
 type State = {
   sortingOptions: SortingOptions;
 }
-
-const PARSE_QUERY_FORMAT: ParseOptions = {arrayFormat: 'comma'};
 
 class SortingFormContainer extends React.Component<Props, State> {
   state = {
@@ -36,7 +35,7 @@ class SortingFormContainer extends React.Component<Props, State> {
       sortingOptions
     } = this.state;
 
-    const {sorting: sortingValue} = parse(search, PARSE_QUERY_FORMAT);
+    const {sorting: sortingValue} = parse(search, queryStringParseFormat);
     const queryParams = Array.isArray(sortingValue) ? sortingValue[0] : sortingValue;
 
     if (!!queryParams) {
@@ -55,10 +54,10 @@ class SortingFormContainer extends React.Component<Props, State> {
       }
     } = this.props;
 
-    const {...queryParams} = parse(search, PARSE_QUERY_FORMAT);
+    const {...queryParams} = parse(search, queryStringParseFormat);
 
     history.push({
-      search: stringify({...queryParams, sorting: id}, PARSE_QUERY_FORMAT),
+      search: stringify({...queryParams, sorting: id}, queryStringParseFormat),
     })
   }
 
