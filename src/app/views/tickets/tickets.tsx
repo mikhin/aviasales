@@ -22,7 +22,7 @@ type stateType = {
   searchId: string;
   tickets: Array<Ticket>;
   fetchStatus: string;
-  stopOptions: stopOptionsType;
+  selectedStopOptions: stopOptionsType;
   sortingOptions: sortingOptionsType;
   isErrorWhileFetching: boolean;
 }
@@ -46,7 +46,7 @@ class Tickets extends React.Component<RouteComponentProps, stateType> {
     searchId: '',
     tickets: [],
     fetchStatus: fetchStatuses.initial,
-    stopOptions: [],
+    selectedStopOptions: [],
     sortingOptions: [],
     isErrorWhileFetching: false,
   }
@@ -165,7 +165,7 @@ class Tickets extends React.Component<RouteComponentProps, stateType> {
     } = this.state
 
     this.setState({
-      stopOptions: filter,
+      selectedStopOptions: filter,
     })
 
     if (filter) {
@@ -177,7 +177,7 @@ class Tickets extends React.Component<RouteComponentProps, stateType> {
 
   onSortingChange = (sorting: sortingOptionsType): void => {
     const {
-      stopOptions
+      selectedStopOptions
     } = this.state
 
     this.setState({
@@ -186,7 +186,7 @@ class Tickets extends React.Component<RouteComponentProps, stateType> {
 
     if (sorting) {
       this.setState({
-        tickets: this.getCachedDisplayedTickets(this.rawTickets, stopOptions, sorting),
+        tickets: this.getCachedDisplayedTickets(this.rawTickets, selectedStopOptions, sorting),
       })
     }
   };
@@ -210,7 +210,7 @@ class Tickets extends React.Component<RouteComponentProps, stateType> {
   }
 
   fetchTickets = async (): Promise<void> => {
-    const { searchId, stopOptions, sortingOptions } = this.state;
+    const { searchId, selectedStopOptions, sortingOptions } = this.state;
 
     try {
       const response = await fetch(`/tickets?searchId=${searchId}`);
@@ -220,7 +220,7 @@ class Tickets extends React.Component<RouteComponentProps, stateType> {
       if (this.rawTickets.length === 0) {
         this.setState({
           fetchStatus: fetchStatuses.fetching,
-          tickets: this.getCachedDisplayedTickets(fetchedTickets, stopOptions, sortingOptions),
+          tickets: this.getCachedDisplayedTickets(fetchedTickets, selectedStopOptions, sortingOptions),
         });
       }
 
@@ -229,7 +229,7 @@ class Tickets extends React.Component<RouteComponentProps, stateType> {
       if (stop) {
         this.setState({
           fetchStatus: fetchStatuses.fetchingFinished,
-          tickets: this.getCachedDisplayedTickets(this.rawTickets, stopOptions, sortingOptions),
+          tickets: this.getCachedDisplayedTickets(this.rawTickets, selectedStopOptions, sortingOptions),
         });
       } else {
         await this.fetchTickets();
