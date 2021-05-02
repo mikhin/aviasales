@@ -1,15 +1,15 @@
 import React from 'react';
 
-import SegmentRoute, {propType as SegmentType} from '../segment-route';
+import SegmentRoute, {Props as SegmentType} from '../segment-route';
 
 import Override from "../../types/override";
 import Ticket from "../../types/ticket";
 
-type propType = Override<Ticket, {
+type Props = Override<Ticket, {
   segments: Array<SegmentType>;
 }>;
 
-const TicketCard: React.FC<propType> = ({price, carrier, segments}) => {
+const TicketCard: React.FC<Props> = ({price, carrier, segments}) => {
   const [
     forwardWaySegment,
     oppositeWaySegment,

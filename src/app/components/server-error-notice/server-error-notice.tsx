@@ -1,10 +1,10 @@
 import React from 'react';
 
-type propType = {
+type Props = {
   onReloadPage: () => void;
 }
 
-const ServerErrorNotice: React.FC<propType> = ({ onReloadPage }) => {
+const ServerErrorNotice: React.FC<Props> = ({ onReloadPage }) => {
   return (
     <div className="server-error-notice">
       <p className="server-error-notice__explanation">

@@ -1,10 +1,10 @@
 import React from 'react';
 
-type propType = {
+type Props = {
   children: React.ReactNode;
 }
 
-const TicketList__Item: React.FC<propType> = ({ children }) => {
+const TicketList__Item: React.FC<Props> = ({ children }) => {
   return (
     <li className="ticket-list__item">
       {children}

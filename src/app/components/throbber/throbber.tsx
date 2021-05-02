@@ -1,10 +1,10 @@
 import React from 'react';
 
-type propType = {
+type Props = {
   caption: string;
 }
 
-const Throbber: React.FC<propType> = ({caption}) => {
+const Throbber: React.FC<Props> = ({caption}) => {
   return (
     <div className="throbber">
       <p className="throbber__text">

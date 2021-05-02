@@ -2,11 +2,11 @@ import React from 'react';
 
 import Logo from '../logo';
 
-type propType = {
+type Props = {
   children: React.ReactNode;
 }
 
-const Page: React.FC<propType> = ({ children }) => {
+const Page: React.FC<Props> = ({ children }) => {
   return (
     <div className="page">
       <div className="page__content-wrapper">

@@ -1,7 +1,7 @@
-type stopType = {
+type AirTransfer = {
   id: string;
   label: string;
   count?: number;
 }
 
-export default stopType;
+export default AirTransfer;

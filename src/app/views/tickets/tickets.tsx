@@ -10,30 +10,30 @@ import ServiceErrorNotice from '../../components/server-error-notice';
 import EmptySearchResultsMessage from '../../components/empty-search-results-message';
 import TicketList, { TicketList__Item } from '../../components/ticket-list';
 import TicketCardContainer from '../../components/ticket-card-container';
-import { stopOptionsType } from "../../components/tickets-filter-form";
-import { sortingOptionsType } from "../../components/sorting-form";
+import { StopOptions } from "../../components/tickets-filter-form";
+import { SortingOptions } from "../../components/sorting-form";
 
 import Ticket from '../../types/ticket';
 import retry from "../../helpers/retry";
 
 const DISPLAYED_TICKETS_COUNT = 5;
 
-type stateType = {
+type State = {
   searchId: string;
   tickets: Array<Ticket>;
   fetchStatus: string;
-  selectedStopOptions: stopOptionsType;
-  sortingOptions: sortingOptionsType;
+  selectedStopOptions: StopOptions;
+  sortingOptions: SortingOptions;
   isErrorWhileFetching: boolean;
 }
 
-type cachedDisplayedTicketsStorageEntry = {
+type CachedDisplayedTicketsStorageEntry = {
   key: string;
   source: Array<Ticket>;
   result: Array<Ticket>;
 };
 
-type cachedDisplayedTicketsStorage = Array<cachedDisplayedTicketsStorageEntry>;
+type CachedDisplayedTicketsStorage = Array<CachedDisplayedTicketsStorageEntry>;
 
 const fetchStatuses = {
   initial: '',
@@ -41,7 +41,7 @@ const fetchStatuses = {
   fetchingFinished: 'fetchingFinished',
 }
 
-class Tickets extends React.Component<RouteComponentProps, stateType> {
+class Tickets extends React.Component<RouteComponentProps, State> {
   state = {
     searchId: '',
     tickets: [],
@@ -51,7 +51,7 @@ class Tickets extends React.Component<RouteComponentProps, stateType> {
     isErrorWhileFetching: false,
   }
 
-  private cachedDisplayedTickets: cachedDisplayedTicketsStorage = [];
+  private cachedDisplayedTickets: CachedDisplayedTicketsStorage = [];
   private rawTickets: Array<Ticket> = [];
 
   async componentDidMount(): Promise<void> {
@@ -84,7 +84,7 @@ class Tickets extends React.Component<RouteComponentProps, stateType> {
     }
   }
 
-  getCachedDisplayedTickets = (tickets: Array<Ticket>, filter: stopOptionsType, sorting: sortingOptionsType): Array<Ticket> => {
+  getCachedDisplayedTickets = (tickets: Array<Ticket>, filter: StopOptions, sorting: SortingOptions): Array<Ticket> => {
     const filterKeyPart = filter.filter((option) => option.isChecked).map((option) => option.id).join('');
     const sortingKeyPart = sorting.filter((option) => option.isChecked).map((option) => option.id).join('');
     const cacheKey = `${filterKeyPart}/${sortingKeyPart}`;
@@ -106,7 +106,7 @@ class Tickets extends React.Component<RouteComponentProps, stateType> {
     }
   }
 
-  getDisplayedTickets = (tickets: Array<Ticket>, filter: stopOptionsType, sorting: sortingOptionsType): Array<Ticket> => {
+  getDisplayedTickets = (tickets: Array<Ticket>, filter: StopOptions, sorting: SortingOptions): Array<Ticket> => {
     const sortingFunction = this.getSortingFunction(sorting);
     const stopCountsList = filter
       .filter((option) => option.isChecked)
@@ -120,7 +120,7 @@ class Tickets extends React.Component<RouteComponentProps, stateType> {
       .slice(0, DISPLAYED_TICKETS_COUNT);
   }
 
-  getSortingFunction = (sorting: sortingOptionsType): (a: Ticket, b: Ticket) => number => {
+  getSortingFunction = (sorting: SortingOptions): (a: Ticket, b: Ticket) => number => {
     const cheapestOption = sorting.find((option) => option.id === 'cheapest');
 
     if (cheapestOption && cheapestOption.isChecked) {
@@ -159,7 +159,7 @@ class Tickets extends React.Component<RouteComponentProps, stateType> {
     return false;
   }
 
-  onFilterChange = (filter: stopOptionsType): void => {
+  onFilterChange = (filter: StopOptions): void => {
     const {
       sortingOptions
     } = this.state
@@ -175,7 +175,7 @@ class Tickets extends React.Component<RouteComponentProps, stateType> {
     }
   };
 
-  onSortingChange = (sorting: sortingOptionsType): void => {
+  onSortingChange = (sorting: SortingOptions): void => {
     const {
       selectedStopOptions
     } = this.state

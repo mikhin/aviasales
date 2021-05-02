@@ -1,10 +1,10 @@
 import React from 'react';
 
-type propType = {
+type Props = {
   children: React.ReactNode;
 }
 
-const Page__Sidebar: React.FC<propType> = ({ children }) => {
+const Page__Sidebar: React.FC<Props> = ({ children }) => {
   return (
     <aside className="page__sidebar">
       {children}

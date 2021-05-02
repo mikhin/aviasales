@@ -1,10 +1,10 @@
 import React from 'react';
 
-type propType = {
+type Props = {
   children: React.ReactNode;
 }
 
-const Form: React.FC<propType> = ({children}) => {
+const Form: React.FC<Props> = ({children}) => {
   return (
     <form className="form">
       {children}

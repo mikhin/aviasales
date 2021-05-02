@@ -1,10 +1,10 @@
 import React from 'react';
 
-type propType = {
+type Props = {
   children: React.ReactNode;
 }
 
-const Form__Legend: React.FC<propType> = ({children}) => {
+const Form__Legend: React.FC<Props> = ({children}) => {
   return (
     <legend className="form__legend">
       {children}

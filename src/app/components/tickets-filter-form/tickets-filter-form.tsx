@@ -2,20 +2,20 @@ import React from 'react';
 import Form, {Form__Field, Form__FieldSet, Form__Legend} from "../form";
 import CheckboxField from "../checkbox-field";
 
-import stopType from "../../types/stop";
+import AirTransfer from "../../types/air-transfer";
 
-export type stopOptionType = stopType & {
+export type StopOption = AirTransfer & {
   isChecked: boolean;
 }
 
-export type stopOptionsType = Array<stopOptionType>;
+export type StopOptions = Array<StopOption>;
 
-type propType = {
-  stopOptions: stopOptionsType;
+type Props = {
+  stopOptions: StopOptions;
   onStopOptionChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const TicketsFilterForm: React.FC<propType> = ({stopOptions, onStopOptionChange}) => {
+const TicketsFilterForm: React.FC<Props> = ({stopOptions, onStopOptionChange}) => {
   return (
     <Form>
       <Form__FieldSet>

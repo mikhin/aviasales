@@ -1,13 +1,13 @@
 import React from 'react';
 
-type propType = {
+type Props = {
   id: string;
   label: string;
   isChecked: boolean;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const CheckboxField: React.FC<propType> = ({id, label, isChecked, onChange}) => {
+const CheckboxField: React.FC<Props> = ({id, label, isChecked, onChange}) => {
   return (
     <div className="checkbox-field">
       <input

@@ -1,10 +1,10 @@
 import React from 'react';
 
-type propType = {
+type Props = {
   children: React.ReactNode;
 }
 
-const Filter: React.FC<propType> = ({ children }) => {
+const Filter: React.FC<Props> = ({ children }) => {
   return (
     <div className="filter">
       {children}

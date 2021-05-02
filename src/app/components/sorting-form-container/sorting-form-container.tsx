@@ -2,21 +2,21 @@ import React from 'react';
 import {RouteComponentProps, withRouter} from 'react-router-dom';
 import {parse, ParseOptions, stringify} from "query-string";
 
-import SortingForm, {sortingOptionsType, sortingOptionType} from "../sorting-form";
+import SortingForm, {SortingOptions, SortingOption} from "../sorting-form";
 
 import sortingOptions from "../../constants/sorting";
 
-type propType = RouteComponentProps & {
-  onChange: (sortingOptions: sortingOptionsType) => void;
+type Props = RouteComponentProps & {
+  onChange: (sortingOptions: SortingOptions) => void;
 }
 
-type stateType = {
-  sortingOptions: sortingOptionsType;
+type State = {
+  sortingOptions: SortingOptions;
 }
 
 const PARSE_QUERY_FORMAT: ParseOptions = {arrayFormat: 'comma'};
 
-class SortingFormContainer extends React.Component<propType, stateType> {
+class SortingFormContainer extends React.Component<Props, State> {
   state = {
     sortingOptions: sortingOptions.map((option, index) => ({...option, isChecked: index === 0})),
   }
@@ -63,8 +63,8 @@ class SortingFormContainer extends React.Component<propType, stateType> {
   }
 
   toggleOption = (id: string, isChecked: boolean): void => {
-    this.setState(({sortingOptions}): stateType => ({
-      sortingOptions: sortingOptions.map((option: sortingOptionType) => ({
+    this.setState(({sortingOptions}): State => ({
+      sortingOptions: sortingOptions.map((option: SortingOption) => ({
         ...option,
         isChecked: option.id === id ? isChecked : false,
       })),

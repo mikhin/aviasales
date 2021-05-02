@@ -1,22 +1,22 @@
 import React from 'react';
 
-export type sortingOptionType = {
+export type SortingOption = {
   id: string;
   label: string;
   isChecked: boolean;
 }
 
-export type sortingOptionsType = Array<sortingOptionType>;
+export type SortingOptions = Array<SortingOption>;
 
-type propType = {
-  sortingOptions: sortingOptionsType;
+type Props = {
+  sortingOptions: SortingOptions;
   onSortingOptionChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const SortingForm: React.FC<propType> = ({sortingOptions, onSortingOptionChange}) => {
+const SortingForm: React.FC<Props> = ({sortingOptions, onSortingOptionChange}) => {
   return (
     <form className="sorting-form">
-      {sortingOptions.map((option: sortingOptionType) => (
+      {sortingOptions.map((option: SortingOption) => (
         <React.Fragment key={option.id}>
           <input
             className="sorting-form__input"

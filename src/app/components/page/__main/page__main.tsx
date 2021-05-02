@@ -1,10 +1,10 @@
 import React from 'react';
 
-type propType = {
+type Props = {
   children: React.ReactNode;
 }
 
-const Page__Main: React.FC<propType> = ({ children }) => {
+const Page__Main: React.FC<Props> = ({ children }) => {
   return (
     <main className="page__main">
       {children}

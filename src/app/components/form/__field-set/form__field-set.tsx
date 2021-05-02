@@ -1,10 +1,10 @@
 import React from 'react';
 
-type propType = {
+type Props = {
   children: React.ReactNode;
 }
 
-const Form__FieldSet: React.FC<propType> = ({children}) => {
+const Form__FieldSet: React.FC<Props> = ({children}) => {
   return (
     <fieldset className="form__field-set">
       {children}

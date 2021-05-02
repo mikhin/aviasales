@@ -2,21 +2,21 @@ import React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { parse, ParseOptions, stringify } from 'query-string';
 
-import TicketsFilterForm, { stopOptionsType, stopOptionType } from "../tickets-filter-form";
+import TicketsFilterForm, { StopOptions, StopOption } from "../tickets-filter-form";
 
 import stops from "../../constants/stops";
 
-type propType = RouteComponentProps & {
-  onChange: (stopOptions: stopOptionsType) => void;
+type Props = RouteComponentProps & {
+  onChange: (stopOptions: StopOptions) => void;
 }
-type stateType = {
-  stopOptions: stopOptionsType;
+type State = {
+  stopOptions: StopOptions;
 }
 
 const UNIFYING_OPTION_ID = 'all';
 const PARSE_QUERY_FORMAT: ParseOptions = { arrayFormat: 'comma' };
 
-class TicketsFilterFormContainer extends React.Component<propType, stateType> {
+class TicketsFilterFormContainer extends React.Component<Props, State> {
   state = {
     stopOptions: stops.map((option) => ({ ...option, isChecked: false })),
   }
@@ -49,8 +49,8 @@ class TicketsFilterFormContainer extends React.Component<propType, stateType> {
   }
 
   areAllOptionsEqual = (isChecked: boolean): boolean => this.state.stopOptions
-    .filter((option: stopOptionType) => option.id !== UNIFYING_OPTION_ID)
-    .every((option: stopOptionType) => option.isChecked === isChecked)
+    .filter((option: StopOption) => option.id !== UNIFYING_OPTION_ID)
+    .every((option: StopOption) => option.isChecked === isChecked)
 
   toggleUnifyingOptionInHistory = (isChecked: boolean): void => {
     const {
@@ -70,8 +70,8 @@ class TicketsFilterFormContainer extends React.Component<propType, stateType> {
       history.push({
         search: stringify({
           filter: stopOptions
-            .filter((stop: stopOptionType) => stop.isChecked && stop.id !== UNIFYING_OPTION_ID)
-            .map((stop: stopOptionType) => stop.id),
+            .filter((stop: StopOption) => stop.isChecked && stop.id !== UNIFYING_OPTION_ID)
+            .map((stop: StopOption) => stop.id),
           ...restQueryParams
         }, PARSE_QUERY_FORMAT),
       })
@@ -111,8 +111,8 @@ class TicketsFilterFormContainer extends React.Component<propType, stateType> {
   }
 
   toggleOption = (id: string, isChecked: boolean, onAfterStateUpdate?: () => void): void => {
-    this.setState(({ stopOptions }): stateType => ({
-      stopOptions: stopOptions.map((option: stopOptionType) => ({
+    this.setState(({ stopOptions }): State => ({
+      stopOptions: stopOptions.map((option: StopOption) => ({
         ...option,
         isChecked: option.id === id ? isChecked : option.isChecked,
       })),
@@ -120,8 +120,8 @@ class TicketsFilterFormContainer extends React.Component<propType, stateType> {
   }
 
   toggleOptions = (ids: Array<string>, onAfterStateUpdate?: () => void): void => {
-    this.setState(({ stopOptions }): stateType => ({
-      stopOptions: stopOptions.map((option: stopOptionType) => ({
+    this.setState(({ stopOptions }): State => ({
+      stopOptions: stopOptions.map((option: StopOption) => ({
         ...option,
         isChecked: ids.includes(option.id),
       })),
@@ -129,8 +129,8 @@ class TicketsFilterFormContainer extends React.Component<propType, stateType> {
   }
 
   toggleAllOptions = (isChecked: boolean, onAfterStateUpdate?: () => void): void => {
-    this.setState(({ stopOptions }): stateType => ({
-      stopOptions: stopOptions.map((option: stopOptionType) => ({
+    this.setState(({ stopOptions }): State => ({
+      stopOptions: stopOptions.map((option: StopOption) => ({
         ...option,
         isChecked: isChecked
       })),

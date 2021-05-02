@@ -1,7 +1,7 @@
 import React from 'react';
 import SegmentRoute__Detail from './__detail';
 
-export type propType = {
+export type Props = {
   origin: string;
   originTime: string;
   destination: string;
@@ -11,7 +11,7 @@ export type propType = {
   stops: string;
 };
 
-const SegmentRoute: React.FC<propType> = ({ origin, originTime, destination, destinationTime, duration, stopsCount, stops }) => {
+const SegmentRoute: React.FC<Props> = ({ origin, originTime, destination, destinationTime, duration, stopsCount, stops }) => {
   return (
     <div className="segment-route">
       <div className="segment-route__header">
