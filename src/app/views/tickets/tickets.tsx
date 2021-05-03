@@ -16,7 +16,7 @@ import { SortingOptions } from "app/components/sorting-form";
 import { Ticket } from 'app/types/ticket';
 import { retry } from "app/helpers/retry";
 import { transfersFilterUnifyingOptionId, transfersFilterUnifyingOption } from 'app/constants/transfers-filter-unifying-option';
-import { sortingOptions } from 'app/constants/sorting';
+import { sortingOptions } from 'app/constants/sorting-options';
 import { pluralize } from 'app/helpers/pluralize';
 import { fetchSearchId, fetchTickets } from '../../api';
 
