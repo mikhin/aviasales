@@ -18,6 +18,7 @@ import retry from "app/helpers/retry";
 import { transfersFilterUnifyingOptionId, transfersFilterUnifyingOption } from 'app/constants/transfers-filter-unifying-option';
 import sortingOptions from 'app/constants/sorting';
 import pluralize from 'app/helpers/pluralize';
+import { fetchSearchId, fetchTickets } from '../../api';
 
 const DISPLAYED_TICKETS_COUNT = 5;
 
@@ -64,7 +65,7 @@ class Tickets extends React.Component<RouteComponentProps, State> {
 
   initializeSearchIdFetching = async (): Promise<void> => {
     try {
-      await retry(this.fetchSearchId, 3, 1000);
+      await retry(this.getSearchId, 3, 1000);
     } catch (error) {
       this.setState({
         isErrorWhileFetching: true,
@@ -77,7 +78,7 @@ class Tickets extends React.Component<RouteComponentProps, State> {
     const { searchId, isErrorWhileFetching } = this.state
     if (searchId && !isErrorWhileFetching) {
       try {
-        await retry(this.fetchTickets, 3, 1000);
+        await retry(this.getTickets, 3, 1000);
       } catch (error) {
         this.setState({
           isErrorWhileFetching: this.rawTickets.length === 0,
@@ -240,55 +241,45 @@ class Tickets extends React.Component<RouteComponentProps, State> {
     });
   }
 
-  fetchSearchId = async (): Promise<void> => {
+  getSearchId = async (): Promise<void> => {
     this.setState({
       fetchStatus: fetchStatuses.fetching
     });
 
-    try {
-      const response = await fetch('/search');
+    const searchId = await fetchSearchId();
 
-      const { searchId } = await response.json();
-
-      this.setState({
-        searchId,
-      })
-    } catch (error) {
-      throw error;
-    }
+    this.setState({
+      searchId,
+    })
   }
 
-  fetchTickets = async (): Promise<void> => {
-    const { searchId, selectedSortingOptions } = this.state;
+  getTickets = async (): Promise<void> => {
+    const { searchId } = this.state;
 
-    try {
-      const response = await fetch(`/tickets?searchId=${searchId}`);
+    const [tickets, isRequestFinished] = await fetchTickets(searchId);
 
-      const { tickets: fetchedTickets, stop } = await response.json();
+    const { selectedSortingOptions } = this.state;
 
-      this.setStopVariants(fetchedTickets);
+    this.setStopVariants(tickets);
 
-      const { selectedStopOptions } = this.state;
+    const { selectedStopOptions } = this.state;
 
-      if (this.rawTickets.length === 0) {
-        this.setState({
-          fetchStatus: fetchStatuses.fetching,
-          tickets: this.getCachedDisplayedTickets(fetchedTickets, selectedStopOptions, selectedSortingOptions),
-        });
-      }
+    if (this.rawTickets.length === 0) {
+      this.setState({
+        fetchStatus: fetchStatuses.fetching,
+        tickets: this.getCachedDisplayedTickets(tickets, selectedStopOptions, selectedSortingOptions),
+      });
+    }
 
-      this.rawTickets = [...this.rawTickets, ...fetchedTickets];
+    this.rawTickets = [...this.rawTickets, ...tickets];
 
-      if (stop) {
-        this.setState({
-          fetchStatus: fetchStatuses.fetchingFinished,
-          tickets: this.getCachedDisplayedTickets(this.rawTickets, selectedStopOptions, selectedSortingOptions),
-        });
-      } else {
-        await this.fetchTickets();
-      }
-    } catch (error) {
-      throw error;
+    if (isRequestFinished) {
+      this.setState({
+        fetchStatus: fetchStatuses.fetchingFinished,
+        tickets: this.getCachedDisplayedTickets(this.rawTickets, selectedStopOptions, selectedSortingOptions),
+      });
+    } else {
+      await this.getTickets();
     }
   }
 
