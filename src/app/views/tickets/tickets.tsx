@@ -310,7 +310,7 @@ class Tickets extends React.Component<RouteComponentProps, State> {
           </TicketsFilter>
         </Page__Section>
 
-        {fetchStatus === fetchStatuses.fetching && (
+        {fetchStatus === fetchStatuses.fetching && !isErrorWhileFetching && (
           <Page__Section>
             <Throbber caption="Загрузка билетов"/>
           </Page__Section>
