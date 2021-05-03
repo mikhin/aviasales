@@ -1,1 +1,1 @@
-export { default } from './ticket-list__item';
+export { TicketList__Item } from './ticket-list__item';

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const EmptySearchResultsMessage: React.FC = () => {
+export const EmptySearchResultsMessage: React.FC = () => {
   return (
     <div className="empty-search-results-message">
       <p className="empty-search-results-message__explanation">
@@ -9,5 +9,3 @@ const EmptySearchResultsMessage: React.FC = () => {
     </div>
   );
 };
-
-export default EmptySearchResultsMessage;

@@ -1,1 +1,1 @@
-export { default } from './form__field';
+export { Form__Field } from './form__field';

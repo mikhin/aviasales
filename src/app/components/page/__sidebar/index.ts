@@ -1,1 +1,1 @@
-export { default } from './page__sidebar';
+export { Page__Sidebar } from './page__sidebar';

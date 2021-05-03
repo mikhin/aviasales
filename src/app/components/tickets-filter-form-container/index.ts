@@ -1,1 +1,1 @@
-export { default } from './tickets-filter-form-container';
+export { TicketsFilterFormContainer } from './tickets-filter-form-container';

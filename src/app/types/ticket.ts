@@ -1,9 +1,7 @@
-import Segment from "./segment";
+import { Segment } from "app/types/segment";
 
-type Ticket = {
+export type Ticket = {
   price: number;
   carrier: string;
   segments: Array<Segment>;
 };
-
-export default Ticket;

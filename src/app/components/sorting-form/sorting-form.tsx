@@ -13,7 +13,7 @@ type Props = {
   onSortingOptionChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const SortingForm: React.FC<Props> = ({sortingOptions, onSortingOptionChange}) => {
+export const SortingForm: React.FC<Props> = ({sortingOptions, onSortingOptionChange}) => {
   return (
     <form className="sorting-form">
       {sortingOptions.map((option: SortingOption) => (
@@ -36,5 +36,3 @@ const SortingForm: React.FC<Props> = ({sortingOptions, onSortingOptionChange}) =
     </form>
   );
 }
-
-export default SortingForm;

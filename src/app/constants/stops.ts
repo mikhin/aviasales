@@ -1,4 +1,4 @@
-export default [
+export const stops = [
   {
     id: 'all',
     label: 'Все',

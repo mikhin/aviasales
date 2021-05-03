@@ -4,7 +4,7 @@ type Props = {
   caption: string;
 }
 
-const CircleThrobber: React.FC<Props> = ({caption}) => {
+export const CircleThrobber: React.FC<Props> = ({caption}) => {
   return (
     <div className="circle-throbber">
       <p className="circle-throbber__text">
@@ -13,5 +13,3 @@ const CircleThrobber: React.FC<Props> = ({caption}) => {
     </div>
   );
 };
-
-export default CircleThrobber;

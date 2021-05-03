@@ -1,1 +1,1 @@
-export { default } from './ticket-card-container';
+export { TicketCardContainer } from './ticket-card-container';

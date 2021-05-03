@@ -1,9 +1,9 @@
 import React from 'react';
-import TicketCard from "app/components/ticket-card";
-import Ticket from "app/types/ticket";
-import stops from "app/constants/stops";
+import { TicketCard } from "app/components/ticket-card";
+import { Ticket } from "app/types/ticket";
+import { stops } from "app/constants/stops";
 
-const TicketCardContainer: React.FC<Ticket> = ({price, carrier, segments}) => {
+export const TicketCardContainer: React.FC<Ticket> = ({price, carrier, segments}) => {
   const [
     forwardWaySegment,
     oppositeWaySegment,
@@ -70,5 +70,3 @@ const TicketCardContainer: React.FC<Ticket> = ({price, carrier, segments}) => {
     />
   );
 };
-
-export default TicketCardContainer;

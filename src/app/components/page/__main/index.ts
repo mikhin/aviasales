@@ -1,1 +1,1 @@
-export { default } from './page__main';
+export { Page__Main } from './page__main';

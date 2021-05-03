@@ -1,4 +1,4 @@
-export default [
+export const sortingOptions = [
   {
     id: 'cheapest',
     label: 'Самый дешёвый',

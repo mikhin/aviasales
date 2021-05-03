@@ -1,5 +1,3 @@
 import { ParseOptions } from 'query-string';
 
-const queryStringParseFormat: ParseOptions = { arrayFormat: 'comma' };
-
-export default queryStringParseFormat;
+export const queryStringParseFormat: ParseOptions = { arrayFormat: 'comma' };

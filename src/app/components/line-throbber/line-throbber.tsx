@@ -4,7 +4,7 @@ type Props = {
   caption: string;
 }
 
-const LineThrobber: React.FC<Props> = ({caption}) => {
+export const LineThrobber: React.FC<Props> = ({caption}) => {
   return (
     <div className="line-throbber">
       <p className="line-throbber__text">
@@ -13,5 +13,3 @@ const LineThrobber: React.FC<Props> = ({caption}) => {
     </div>
   );
 };
-
-export default LineThrobber;

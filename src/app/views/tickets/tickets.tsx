@@ -1,23 +1,23 @@
 import React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 
-import Page, { Page__Main, Page__Section, Page__Sidebar } from 'app/components/page';
-import TicketsFilter from 'app/components/tickets-filter';
-import TicketsFilterFormContainer from 'app/components/tickets-filter-form-container';
-import SortingFormContainer from 'app/components/sorting-form-container';
-import LineThrobber from 'app/components/line-throbber';
-import ServiceErrorNotice from 'app/components/server-error-notice';
-import EmptySearchResultsMessage from 'app/components/empty-search-results-message';
-import TicketList, { TicketList__Item } from 'app/components/ticket-list';
-import TicketCardContainer from 'app/components/ticket-card-container';
+import { Page, Page__Main, Page__Section, Page__Sidebar } from 'app/components/page';
+import { TicketsFilter } from 'app/components/tickets-filter';
+import { TicketsFilterFormContainer } from 'app/components/tickets-filter-form-container';
+import { SortingFormContainer } from 'app/components/sorting-form-container';
+import { LineThrobber } from 'app/components/line-throbber';
+import { ServerErrorNotice } from 'app/components/server-error-notice';
+import { EmptySearchResultsMessage } from 'app/components/empty-search-results-message';
+import { TicketList, TicketList__Item } from 'app/components/ticket-list';
+import { TicketCardContainer } from 'app/components/ticket-card-container';
 import { StopOptions } from "app/components/tickets-filter-form";
 import { SortingOptions } from "app/components/sorting-form";
 
-import Ticket from 'app/types/ticket';
-import retry from "app/helpers/retry";
+import { Ticket } from 'app/types/ticket';
+import { retry } from "app/helpers/retry";
 import { transfersFilterUnifyingOptionId, transfersFilterUnifyingOption } from 'app/constants/transfers-filter-unifying-option';
-import sortingOptions from 'app/constants/sorting';
-import pluralize from 'app/helpers/pluralize';
+import { sortingOptions } from 'app/constants/sorting';
+import { pluralize } from 'app/helpers/pluralize';
 import { fetchSearchId, fetchTickets } from '../../api';
 
 const DISPLAYED_TICKETS_COUNT = 5;
@@ -319,7 +319,7 @@ class Tickets extends React.Component<RouteComponentProps, State> {
 
         {isErrorWhileFetching && tickets.length === 0 && (
           <Page__Section>
-            <ServiceErrorNotice
+            <ServerErrorNotice
               onReloadPage={this.reloadPage}
             />
           </Page__Section>

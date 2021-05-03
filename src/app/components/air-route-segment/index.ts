@@ -1,4 +1,4 @@
-export { default } from './air-route-segment';
+export { AirRouteSegment } from './air-route-segment';
 export * from "./air-route-segment";
 
 require('./__details/air-route-segment__details.scss');

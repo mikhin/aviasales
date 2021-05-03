@@ -1,7 +1,7 @@
-export { default } from './page';
-export { default as Page__Main } from './__main';
-export { default as Page__Section } from './__section';
-export { default as Page__Sidebar } from './__sidebar';
+export { Page } from './page';
+export { Page__Main } from './__main';
+export { Page__Section } from './__section';
+export { Page__Sidebar } from './__sidebar';
 
 require('./__content/page__content.scss');
 require('./__content-wrapper/page__content-wrapper.scss');

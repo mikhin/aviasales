@@ -1,6 +1,6 @@
-import setStub from './stubs/set-stub';
-import ticketsStub from './stubs/data/tickets';
-import searchIdStub from './stubs/data/search-id';
+import { setStub } from './stubs/set-stub';
+import { ticketsStub } from './stubs/data/tickets';
+import { searchIdStub } from './stubs/data/search-id';
 
 describe('Страница поиска билетов', () => {
   beforeEach(async () => {

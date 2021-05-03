@@ -1,1 +1,1 @@
-export { default } from './sorting-form-container';
+export { SortingFormContainer } from './sorting-form-container';

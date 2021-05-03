@@ -4,7 +4,7 @@ type Props = {
   onReloadPage: () => void;
 }
 
-const ServerErrorNotice: React.FC<Props> = ({ onReloadPage }) => {
+export const ServerErrorNotice: React.FC<Props> = ({ onReloadPage }) => {
   return (
     <div className="server-error-notice">
       <p className="server-error-notice__explanation">
@@ -20,5 +20,3 @@ const ServerErrorNotice: React.FC<Props> = ({ onReloadPage }) => {
     </div>
   );
 };
-
-export default ServerErrorNotice;

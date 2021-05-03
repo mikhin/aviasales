@@ -1,9 +1,9 @@
 import React from 'react';
-import Form, {Form__Field, Form__FieldSet, Form__Legend} from "app/components/form";
-import CheckboxField from "app/components/checkbox-field";
-import CircleThrobber from 'app/components/circle-throbber';
+import { Form, Form__Field, Form__FieldSet, Form__Legend } from "app/components/form";
+import { CheckboxField } from "app/components/checkbox-field";
+import { CircleThrobber } from 'app/components/circle-throbber';
 
-import AirTransfer from "app/types/air-transfer";
+import { AirTransfer } from "app/types/air-transfer";
 
 export type StopOption = AirTransfer & {
   isChecked: boolean;
@@ -16,7 +16,7 @@ type Props = {
   onStopOptionChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const TicketsFilterForm: React.FC<Props> = ({stopOptions, onStopOptionChange}) => {
+export const TicketsFilterForm: React.FC<Props> = ({stopOptions, onStopOptionChange}) => {
   return (
     <Form mix="tickets-filter-form">
       <Form__FieldSet>
@@ -42,5 +42,3 @@ const TicketsFilterForm: React.FC<Props> = ({stopOptions, onStopOptionChange}) =
     </Form>
   );
 }
-
-export default TicketsFilterForm;

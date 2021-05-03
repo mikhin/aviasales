@@ -1,12 +1,12 @@
 import React from 'react';
 
-import Logo from '../logo';
+import { Logo } from '../logo';
 
 type Props = {
   children: React.ReactNode;
 }
 
-const Page: React.FC<Props> = ({ children }) => {
+export const Page: React.FC<Props> = ({ children }) => {
   return (
     <div className="page">
       <div className="page__content-wrapper">
@@ -23,5 +23,3 @@ const Page: React.FC<Props> = ({ children }) => {
     </div>
   );
 }
-
-export default Page;

@@ -1,4 +1,4 @@
-export { default } from './circle-throbber';
+export { CircleThrobber } from './circle-throbber';
 
 require('./__text/circle-throbber__text.scss');
 require('./circle-throbber.scss');

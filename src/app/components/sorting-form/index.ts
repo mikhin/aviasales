@@ -1,4 +1,3 @@
-export { default } from './sorting-form';
 export * from "./sorting-form";
 
 require('./__input/sorting-form__input.scss');

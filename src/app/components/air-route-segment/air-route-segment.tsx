@@ -1,5 +1,5 @@
 import React from 'react';
-import AirRouteSegment__Detail from './__detail';
+import { AirRouteSegment__Detail } from 'app/components/air-route-segment/__detail';
 
 export type Props = {
   origin: string;
@@ -11,7 +11,7 @@ export type Props = {
   stops: string;
 };
 
-const AirRouteSegment: React.FC<Props> = ({ origin, originTime, destination, destinationTime, duration, stopsCount, stops }) => {
+export const AirRouteSegment: React.FC<Props> = ({ origin, originTime, destination, destinationTime, duration, stopsCount, stops }) => {
   return (
     <div className="air-route-segment">
       <div className="air-route-segment__header">
@@ -37,5 +37,3 @@ const AirRouteSegment: React.FC<Props> = ({ origin, originTime, destination, des
     </div>
   );
 }
-
-export default AirRouteSegment;

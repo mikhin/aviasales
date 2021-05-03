@@ -1,4 +1,4 @@
-export default {
+export const ticketsStub = {
   "stop": true,
   "tickets": [
     {

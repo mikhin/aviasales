@@ -1,4 +1,4 @@
-export { default } from './ticket-card';
+export { TicketCard } from './ticket-card';
 
 require('./__company-logo/ticket-card__company-logo.scss');
 require('./__header/ticket-card__header.scss');

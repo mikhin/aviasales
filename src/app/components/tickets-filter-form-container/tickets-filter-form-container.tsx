@@ -1,6 +1,6 @@
 import React from 'react';
 
-import TicketsFilterForm, { StopOptions, StopOption } from "app/components/tickets-filter-form";
+import { TicketsFilterForm, StopOptions, StopOption } from "app/components/tickets-filter-form";
 
 type Props = {
   onChange: (stopOptions: StopOptions) => void;
@@ -9,7 +9,7 @@ type Props = {
 
 const UNIFYING_OPTION_ID = 'all';
 
-class TicketsFilterFormContainer extends React.Component<Props> {
+export class TicketsFilterFormContainer extends React.Component<Props> {
   areOptionsEqual = (selectedOptions: StopOptions, isChecked: boolean): boolean => selectedOptions
     .filter((option: StopOption) => option.id !== UNIFYING_OPTION_ID)
     .every((option: StopOption) => option.isChecked === isChecked)
@@ -80,5 +80,3 @@ class TicketsFilterFormContainer extends React.Component<Props> {
     )
   }
 }
-
-export default TicketsFilterFormContainer;

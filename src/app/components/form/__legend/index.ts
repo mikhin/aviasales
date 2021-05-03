@@ -1,1 +1,1 @@
-export { default } from './form__legend';
+export { Form__Legend } from './form__legend';

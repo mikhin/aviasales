@@ -1,13 +1,13 @@
 import React from 'react';
 
-import SortingForm, {SortingOptions, SortingOption} from "app/components/sorting-form";
+import { SortingForm, SortingOptions, SortingOption} from "app/components/sorting-form";
 
 type Props = {
   onChange: (sortingOptions: SortingOptions) => void;
   selectedSortingOptions: SortingOptions;
 }
 
-class SortingFormContainer extends React.Component<Props> {
+export class SortingFormContainer extends React.Component<Props> {
   toggleOption = (id: string, isChecked: boolean): void => {
     const {
       selectedSortingOptions,
@@ -43,5 +43,3 @@ class SortingFormContainer extends React.Component<Props> {
     );
   }
 }
-
-export default SortingFormContainer;

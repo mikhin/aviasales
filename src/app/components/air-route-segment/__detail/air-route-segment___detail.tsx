@@ -6,7 +6,7 @@ type Props = {
   definition: string;
 };
 
-const AirRouteSegment__Detail: React.FC<Props> = ({ id, term, definition }) => {
+export const AirRouteSegment__Detail: React.FC<Props> = ({ id, term, definition }) => {
   return (
     <div className={`air-route-segment__detail air-route-segment__detail_type_${id}`}>
       <dt className="air-route-segment__detail-term">{term}</dt>
@@ -14,5 +14,3 @@ const AirRouteSegment__Detail: React.FC<Props> = ({ id, term, definition }) => {
     </div>
   );
 }
-
-export default AirRouteSegment__Detail;

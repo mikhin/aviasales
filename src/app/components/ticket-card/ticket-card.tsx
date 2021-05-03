@@ -1,15 +1,15 @@
 import React from 'react';
 
-import SegmentRoute, {Props as SegmentType} from '../air-route-segment';
+import { AirRouteSegment, Props as SegmentType} from 'app/components/air-route-segment';
 
-import Override from "app/types/override";
-import Ticket from "app/types/ticket";
+import { Override } from "app/types/override";
+import { Ticket } from "app/types/ticket";
 
 type Props = Override<Ticket, {
   segments: Array<SegmentType>;
 }>;
 
-const TicketCard: React.FC<Props> = ({price, carrier, segments}) => {
+export const TicketCard: React.FC<Props> = ({price, carrier, segments}) => {
   const [
     forwardWaySegment,
     oppositeWaySegment,
@@ -29,7 +29,7 @@ const TicketCard: React.FC<Props> = ({price, carrier, segments}) => {
       </div>
       <div className="ticket-card__details">
         <div className="ticket-card__route-segment">
-          <SegmentRoute
+          <AirRouteSegment
             origin={forwardWaySegment.origin}
             originTime={forwardWaySegment.originTime}
             destination={forwardWaySegment.destination}
@@ -40,7 +40,7 @@ const TicketCard: React.FC<Props> = ({price, carrier, segments}) => {
           />
         </div>
         <div className="ticket-card__route-segment">
-          <SegmentRoute
+          <AirRouteSegment
             origin={oppositeWaySegment.origin}
             originTime={oppositeWaySegment.originTime}
             destination={oppositeWaySegment.destination}
@@ -54,5 +54,3 @@ const TicketCard: React.FC<Props> = ({price, carrier, segments}) => {
     </div>
   );
 };
-
-export default TicketCard;
