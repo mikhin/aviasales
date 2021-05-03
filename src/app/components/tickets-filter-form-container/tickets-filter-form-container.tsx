@@ -1,17 +1,16 @@
 import React from 'react';
 
 import { TicketsFilterForm, StopOptions, StopOption } from "app/components/tickets-filter-form";
+import { transfersFilterUnifyingOptionId } from 'app/constants/transfers-filter-unifying-option';
 
 type Props = {
   onChange: (stopOptions: StopOptions) => void;
   selectedStopOptions: StopOptions;
 }
 
-const UNIFYING_OPTION_ID = 'all';
-
 export class TicketsFilterFormContainer extends React.Component<Props> {
   areOptionsEqual = (selectedOptions: StopOptions, isChecked: boolean): boolean => selectedOptions
-    .filter((option: StopOption) => option.id !== UNIFYING_OPTION_ID)
+    .filter((option: StopOption) => option.id !== transfersFilterUnifyingOptionId)
     .every((option: StopOption) => option.isChecked === isChecked)
 
   toggleOption = (id: string, isChecked: boolean): StopOptions => {
@@ -29,7 +28,7 @@ export class TicketsFilterFormContainer extends React.Component<Props> {
 
     stopOptions = stopOptions.map((option: StopOption) => ({
       ...option,
-      isChecked: option.id === UNIFYING_OPTION_ID
+      isChecked: option.id === transfersFilterUnifyingOptionId
         ? this.areOptionsEqual(stopOptions, isChecked) ? isChecked : false
         : option.isChecked,
     }));
@@ -60,7 +59,7 @@ export class TicketsFilterFormContainer extends React.Component<Props> {
   onStopOptionChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const { id, checked } = event.currentTarget;
 
-    if (id === UNIFYING_OPTION_ID) {
+    if (id === transfersFilterUnifyingOptionId) {
       this.toggleAllOptions(checked);
     } else {
       this.toggleOption(id, checked);
