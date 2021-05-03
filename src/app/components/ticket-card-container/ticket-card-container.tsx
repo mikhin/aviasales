@@ -1,9 +1,15 @@
 import React from 'react';
-import { TicketCard } from "app/components/ticket-card";
-import { Ticket } from "app/types/ticket";
-import { stops } from "app/constants/stops";
 
-export const TicketCardContainer: React.FC<Ticket> = ({price, carrier, segments}) => {
+import { TicketCard } from "app/components/ticket-card";
+import { StopOptions } from 'app/components/tickets-filter-form';
+
+import { Ticket } from "app/types/ticket";
+
+type Props = Ticket & {
+  stopOptions: StopOptions;
+}
+
+export const TicketCardContainer: React.FC<Props> = ({price, carrier, segments, stopOptions}) => {
   const [
     forwardWaySegment,
     oppositeWaySegment,
@@ -30,7 +36,7 @@ export const TicketCardContainer: React.FC<Ticket> = ({price, carrier, segments}
   }
 
   function getStopsCount(segmentStops: Array<string>): string {
-    const option = stops.find((stop) => stop.count === segmentStops.length);
+    const option = stopOptions.find((stop) => stop.count === segmentStops.length);
 
     if (option) {
       return option.label;

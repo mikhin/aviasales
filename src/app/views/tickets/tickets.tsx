@@ -344,6 +344,7 @@ class Tickets extends React.Component<RouteComponentProps, State> {
                     price={ticket.price}
                     carrier={ticket.carrier}
                     segments={ticket.segments}
+                    stopOptions={selectedStopOptions}
                   />
                 </TicketList__Item>
               ))}
