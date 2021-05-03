@@ -73,22 +73,10 @@ describe('Страница поиска билетов', () => {
       await expect(page).toMatchElement(`#${cheapestOptionId}.sorting-form__input:checked`)
     });
 
-    it('По умолчанию в адресной строке отображается вариант «Самый дешевый»', async () => {
-      const urlSearchParams = await page.evaluate(() => window.location.search);
-      expect(urlSearchParams).toContain(cheapestOptionId);
-    });
-
     it('Выбор опции «Самый быстрый» меняет состояние сортировки', async () => {
       await page.click(`.sorting-form__label[for=${fastestOptionId}]`)
 
       await expect(page).toMatchElement(`#${fastestOptionId}.sorting-form__input:checked`)
-    });
-
-    it('Выбор опции «Самый быстрый» меняет состояние сортировки в адресной строке', async () => {
-      await page.click(`.sorting-form__label[for=${fastestOptionId}]`)
-
-      const urlSearchParams = await page.evaluate(() => window.location.search);
-      expect(urlSearchParams).toContain(fastestOptionId);
     });
 
     it('Выбор опции «Самый быстрый» меняет поисковую выдачу', async () => {
