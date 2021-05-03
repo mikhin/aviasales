@@ -16,10 +16,19 @@ import { SortingOptions } from "app/components/sorting-form";
 import { Ticket } from 'app/types/ticket';
 import { retry } from "app/helpers/retry";
 import { transfersFilterUnifyingOptionId, transfersFilterUnifyingOption } from 'app/constants/transfers-filter-unifying-option';
-import { sortingOptions } from 'app/constants/sorting-options';
 import { pluralize } from 'app/helpers/pluralize';
 import { fetchSearchId, fetchTickets } from '../../api';
 
+const SORTING_OPTIONS = [
+  {
+    id: 'cheapest',
+    label: 'Самый дешёвый',
+  },
+  {
+    id: 'fastest',
+    label: 'Самый быстрый',
+  },
+];
 const DISPLAYED_TICKETS_COUNT = 5;
 
 type State = {
@@ -51,7 +60,7 @@ class Tickets extends React.Component<RouteComponentProps, State> {
     tickets: [],
     fetchStatus: fetchStatuses.initial,
     selectedStopOptions: [],
-    selectedSortingOptions: sortingOptions.map((option, index) => ({...option, isChecked: index === 0})),
+    selectedSortingOptions: SORTING_OPTIONS.map((option, index) => ({...option, isChecked: index === 0})),
     isErrorWhileFetching: false,
   }
 
