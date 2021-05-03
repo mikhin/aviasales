@@ -159,5 +159,3 @@ describe('Страница поиска билетов', () => {
     });
   });
 });
-
-// await page.screenshot({path: 'buddy-screenshot.png'});
