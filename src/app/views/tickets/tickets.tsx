@@ -15,8 +15,9 @@ import { SortingOptions } from "app/components/sorting-form";
 
 import Ticket from 'app/types/ticket';
 import retry from "app/helpers/retry";
-import stops from 'app/constants/stops';
+import { transfersFilterUnifyingOptionId, transfersFilterUnifyingOption } from 'app/constants/transfers-filter-unifying-option';
 import sortingOptions from 'app/constants/sorting';
+import pluralize from 'app/helpers/pluralize';
 
 const DISPLAYED_TICKETS_COUNT = 5;
 
@@ -48,7 +49,7 @@ class Tickets extends React.Component<RouteComponentProps, State> {
     searchId: '',
     tickets: [],
     fetchStatus: fetchStatuses.initial,
-    selectedStopOptions: stops.map((option) => ({ ...option, isChecked: true })),
+    selectedStopOptions: [],
     selectedSortingOptions: sortingOptions.map((option, index) => ({...option, isChecked: index === 0})),
     isErrorWhileFetching: false,
   }
@@ -193,6 +194,52 @@ class Tickets extends React.Component<RouteComponentProps, State> {
     }
   };
 
+  setStopVariants = (tickets: Array<Ticket>): void => {
+    const stopVariantsCounts = tickets
+      .map((ticket): Array<number> => {
+        const [
+          { stops: forwardStops },
+          { stops: oppositeStops },
+        ] = ticket.segments;
+
+        return [forwardStops.length, oppositeStops.length];
+      })
+      .flat();
+
+    const stopVariantsList = Array
+      .from(new Set(stopVariantsCounts))
+      .sort();
+
+    this.setState((prevState) => {
+      const unifyingOption = prevState
+        .selectedStopOptions
+        .find((option) => option.id === transfersFilterUnifyingOptionId)
+        || {
+          ...transfersFilterUnifyingOption,
+          isChecked: true,
+        };
+
+      const newStopVariants = stopVariantsList.map((count) => {
+        const id = `stops-${count}`;
+        const label = count === 0 ? 'Без пересадок' : `${count} ${pluralize(count, 'пересадка', 'пересадки', 'пересадок')}`;
+
+        const existingOption = prevState.selectedStopOptions.find((option) => option.id === id);
+        const newOption = {
+          id,
+          label,
+          count,
+          isChecked: true,
+        };
+
+        return existingOption || newOption;
+      });
+
+      return {
+        selectedStopOptions: [unifyingOption, ...newStopVariants],
+      }
+    });
+  }
+
   fetchSearchId = async (): Promise<void> => {
     this.setState({
       fetchStatus: fetchStatuses.fetching
@@ -212,12 +259,16 @@ class Tickets extends React.Component<RouteComponentProps, State> {
   }
 
   fetchTickets = async (): Promise<void> => {
-    const { searchId, selectedStopOptions, selectedSortingOptions } = this.state;
+    const { searchId, selectedSortingOptions } = this.state;
 
     try {
       const response = await fetch(`/tickets?searchId=${searchId}`);
 
       const { tickets: fetchedTickets, stop } = await response.json();
+
+      this.setStopVariants(fetchedTickets);
+
+      const { selectedStopOptions } = this.state;
 
       if (this.rawTickets.length === 0) {
         this.setState({
@@ -252,7 +303,7 @@ class Tickets extends React.Component<RouteComponentProps, State> {
       isErrorWhileFetching,
       selectedStopOptions,
       selectedSortingOptions,
-    } = this.state
+    } = this.state;
 
     const areTicketsAvailable = tickets.length === 0 && this.rawTickets.length > 0;
 

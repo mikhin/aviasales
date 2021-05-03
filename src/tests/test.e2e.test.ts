@@ -103,69 +103,45 @@ describe('Страница поиска билетов', () => {
   describe('Фильтрация', () => {
     it('В форме «Количество пересадок» отображаются все опции', async () => {
       await expect(page).toMatchElement(`.checkbox-field__input#all`)
-      await expect(page).toMatchElement(`.checkbox-field__input#without-stops`)
-      await expect(page).toMatchElement(`.checkbox-field__input#stop-1`)
+      await expect(page).toMatchElement(`.checkbox-field__input#stops-0`)
+      await expect(page).toMatchElement(`.checkbox-field__input#stops-1`)
       await expect(page).toMatchElement(`.checkbox-field__input#stops-2`)
       await expect(page).toMatchElement(`.checkbox-field__input#stops-3`)
     });
 
     it('По умолчанию все опции активированы', async () => {
       await expect(page).toMatchElement(`.checkbox-field__input#all:checked`)
-      await expect(page).toMatchElement(`.checkbox-field__input#without-stops:checked`);
-      await expect(page).toMatchElement(`.checkbox-field__input#stop-1:checked`);
+      await expect(page).toMatchElement(`.checkbox-field__input#stops-0:checked`);
+      await expect(page).toMatchElement(`.checkbox-field__input#stops-1:checked`);
       await expect(page).toMatchElement(`.checkbox-field__input#stops-2:checked`);
       await expect(page).toMatchElement(`.checkbox-field__input#stops-3:checked`);
     });
 
-    it('По умолчанию в адресной строке отображаются все опции', async () => {
-      const urlSearchParams = await page.evaluate(() => window.location.search);
-
-      expect(urlSearchParams).toContain('without-stops');
-      expect(urlSearchParams).toContain('stop-1');
-      expect(urlSearchParams).toContain('stops-2');
-      expect(urlSearchParams).toContain('stops-3');
-    });
-
     it('Деактивация опции «Все» производит деактивацию всех опций', async () => {
+      await page.waitForTimeout(1000);
       await page.click('.checkbox-field__label[for="all"]');
 
-      await expect(page).toMatchElement('.checkbox-field__input#without-stops:not(:checked)');
-      await expect(page).toMatchElement('.checkbox-field__input#stop-1:not(:checked)');
+      await expect(page).toMatchElement('.checkbox-field__input#stops-0:not(:checked)');
+      await expect(page).toMatchElement('.checkbox-field__input#stops-1:not(:checked)');
       await expect(page).toMatchElement('.checkbox-field__input#stops-2:not(:checked)');
       await expect(page).toMatchElement('.checkbox-field__input#stops-3:not(:checked)');
     });
 
-    it('Деактивация опции «Все» производит деактивацию всех опций в адресной строке', async () => {
-      await page.click('.checkbox-field__label[for="all"]');
-
-      const urlSearchParams = await page.evaluate(() => window.location.search);
-
-      expect(urlSearchParams).not.toContain('without-stops');
-      expect(urlSearchParams).not.toContain('stop-1');
-      expect(urlSearchParams).not.toContain('stops-2');
-      expect(urlSearchParams).not.toContain('stops-3');
-    });
-
     it('Деактивация опции «Все» производит отображение предупреждения о пустой поисковой выдаче', async () => {
+      await page.waitForTimeout(1000);
       await page.click('.checkbox-field__label[for="all"]');
       await expect(page).toMatchElement('.empty-search-results-message');
     });
 
     it('Деактивация любой опции кроме «Все» производит деактивацию опции «Все»', async () => {
+      await page.waitForTimeout(1000);
       await page.click('.checkbox-field__label[for="stops-3"]')
       await expect(page).toMatchElement('.checkbox-field__input#all:not(:checked)');
     });
 
-    it('Деактивация опции удаляет идентификатор опции из параметров в адресной строке', async () => {
-      await page.click('.checkbox-field__label[for="stops-3"]')
-
-      const urlSearchParams = await page.evaluate(() => window.location.search);
-
-      expect(urlSearchParams).not.toContain('stops-3');
-    });
-
     it('Деактивация опции меняет поисковую выдачу', async () => {
-      await page.click('.checkbox-field__label[for="stop-1"]')
+      await page.waitForTimeout(1000);
+      await page.click('.checkbox-field__label[for="stops-1"]')
 
       await expect(page).toMatchElement('.ticket-card__price', { text: '15600' });
       await expect(page).toMatchElement('.ticket-card__company-logo');
