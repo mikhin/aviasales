@@ -15,9 +15,12 @@ import { SortingOptions } from "app/components/sorting-form";
 
 import { Ticket } from 'app/types/ticket';
 import { retry } from "app/helpers/retry";
-import { transfersFilterUnifyingOptionId, transfersFilterUnifyingOption } from 'app/constants/transfers-filter-unifying-option';
+import {
+  transfersFilterUnifyingOption,
+  transfersFilterUnifyingOptionId
+} from 'app/constants/transfers-filter-unifying-option';
 import { pluralize } from 'app/helpers/pluralize';
-import { fetchSearchId, fetchTickets } from '../../api';
+import { fetchSearchId, fetchTickets } from 'app/api';
 
 const SORTING_OPTIONS = [
   {
@@ -60,7 +63,7 @@ class Tickets extends React.Component<RouteComponentProps, State> {
     tickets: [],
     fetchStatus: fetchStatuses.initial,
     selectedStopOptions: [],
-    selectedSortingOptions: SORTING_OPTIONS.map((option, index) => ({...option, isChecked: index === 0})),
+    selectedSortingOptions: SORTING_OPTIONS.map((option, index) => ({ ...option, isChecked: index === 0 })),
     isErrorWhileFetching: false,
   }
 
@@ -221,13 +224,15 @@ class Tickets extends React.Component<RouteComponentProps, State> {
       .sort();
 
     this.setState((prevState) => {
+      const defaultUnifyingOption = {
+        ...transfersFilterUnifyingOption,
+        isChecked: true,
+      };
+
       const unifyingOption = prevState
-        .selectedStopOptions
-        .find((option) => option.id === transfersFilterUnifyingOptionId)
-        || {
-          ...transfersFilterUnifyingOption,
-          isChecked: true,
-        };
+          .selectedStopOptions
+          .find((option) => option.id === transfersFilterUnifyingOptionId)
+        || defaultUnifyingOption;
 
       const newStopVariants = stopVariantsList.map((count) => {
         const id = `stops-${count}`;
@@ -305,63 +310,64 @@ class Tickets extends React.Component<RouteComponentProps, State> {
       selectedSortingOptions,
     } = this.state;
 
-    const areTicketsAvailable = tickets.length === 0 && this.rawTickets.length > 0;
-
     return (
-    <Page>
-      <Page__Sidebar>
+      <Page>
+        <Page__Sidebar>
           <TicketsFilter>
             <TicketsFilterFormContainer
               selectedStopOptions={selectedStopOptions}
               onChange={this.onFilterChange}
             />
           </TicketsFilter>
-      </Page__Sidebar>
+        </Page__Sidebar>
 
-      <Page__Main>
-        <Page__Section>
-          <SortingFormContainer
-            selectedSortingOptions={selectedSortingOptions}
-            onChange={this.onSortingChange}
-          />
-        </Page__Section>
-
-        {isErrorWhileFetching && tickets.length === 0 && (
+        <Page__Main>
           <Page__Section>
-            <ServerErrorNotice
-              onReloadPage={this.reloadPage}
+            <SortingFormContainer
+              selectedSortingOptions={selectedSortingOptions}
+              onChange={this.onSortingChange}
             />
           </Page__Section>
-        )}
 
-        {!isErrorWhileFetching && areTicketsAvailable && (
-          <Page__Section>
-            <EmptySearchResultsMessage/>
-          </Page__Section>
-        )}
+          {isErrorWhileFetching && tickets.length === 0 && (
+            <Page__Section>
+              <ServerErrorNotice
+                onReloadPage={this.reloadPage}
+              />
+            </Page__Section>
+          )}
 
-        {tickets.length > 0 && (
-          <Page__Section>
-            {fetchStatus === fetchStatuses.fetching && !isErrorWhileFetching && (
-              <LineThrobber caption="Загрузка билетов"/>
-            )}
+          {!isErrorWhileFetching
+          && tickets.length === 0
+          && this.rawTickets.length > 0
+          && (
+            <Page__Section>
+              <EmptySearchResultsMessage/>
+            </Page__Section>
+          )}
 
-            <TicketList>
-              {tickets.map((ticket: Ticket) => (
-                <TicketList__Item key={`${ticket.carrier}/${ticket.price}`}>
-                  <TicketCardContainer
-                    price={ticket.price}
-                    carrier={ticket.carrier}
-                    segments={ticket.segments}
-                    stopOptions={selectedStopOptions}
-                  />
-                </TicketList__Item>
-              ))}
-            </TicketList>
-          </Page__Section>
-        )}
-      </Page__Main>
-    </Page>
+          {tickets.length > 0 && (
+            <Page__Section>
+              {fetchStatus === fetchStatuses.fetching && !isErrorWhileFetching && (
+                <LineThrobber caption="Загрузка билетов"/>
+              )}
+
+              <TicketList>
+                {tickets.map((ticket: Ticket) => (
+                  <TicketList__Item key={`${ticket.carrier}/${ticket.price}`}>
+                    <TicketCardContainer
+                      price={ticket.price}
+                      carrier={ticket.carrier}
+                      segments={ticket.segments}
+                      stopOptions={selectedStopOptions}
+                    />
+                  </TicketList__Item>
+                ))}
+              </TicketList>
+            </Page__Section>
+          )}
+        </Page__Main>
+      </Page>
     );
   }
 }
