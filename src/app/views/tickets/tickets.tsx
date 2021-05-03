@@ -15,6 +15,7 @@ import { SortingOptions } from "app/components/sorting-form";
 
 import Ticket from 'app/types/ticket';
 import retry from "app/helpers/retry";
+import stops from 'app/constants/stops';
 
 const DISPLAYED_TICKETS_COUNT = 5;
 
@@ -46,7 +47,7 @@ class Tickets extends React.Component<RouteComponentProps, State> {
     searchId: '',
     tickets: [],
     fetchStatus: fetchStatuses.initial,
-    selectedStopOptions: [],
+    selectedStopOptions: stops.map((option) => ({ ...option, isChecked: true })),
     sortingOptions: [],
     isErrorWhileFetching: false,
   }
@@ -247,7 +248,8 @@ class Tickets extends React.Component<RouteComponentProps, State> {
     const {
       fetchStatus,
       tickets,
-      isErrorWhileFetching
+      isErrorWhileFetching,
+      selectedStopOptions
     } = this.state
 
     const areTicketsAvailable = tickets.length === 0 && this.rawTickets.length > 0;
@@ -258,6 +260,7 @@ class Tickets extends React.Component<RouteComponentProps, State> {
         <Page__Section>
           <TicketsFilter>
             <TicketsFilterFormContainer
+              selectedStopOptions={selectedStopOptions}
               onChange={this.onFilterChange}
             />
           </TicketsFilter>
