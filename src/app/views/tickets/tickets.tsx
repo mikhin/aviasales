@@ -2,7 +2,6 @@ import React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 
 import { Page, Page__Main, Page__Section, Page__Sidebar } from 'app/components/page';
-import { TicketsFilter } from 'app/components/tickets-filter';
 import { TicketsFilterFormContainer } from 'app/components/tickets-filter-form-container';
 import { SortingFormContainer } from 'app/components/sorting-form-container';
 import { LineThrobber } from 'app/components/line-throbber';
@@ -313,12 +312,10 @@ class Tickets extends React.Component<RouteComponentProps, State> {
     return (
       <Page>
         <Page__Sidebar>
-          <TicketsFilter>
-            <TicketsFilterFormContainer
-              selectedStopOptions={selectedStopOptions}
-              onChange={this.onFilterChange}
-            />
-          </TicketsFilter>
+          <TicketsFilterFormContainer
+            selectedStopOptions={selectedStopOptions}
+            onChange={this.onFilterChange}
+          />
         </Page__Sidebar>
 
         <Page__Main>
