@@ -1,1 +1,1 @@
-export { default } from './air_route_segment___detail';
+export { default } from './air-route-segment___detail';
