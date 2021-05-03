@@ -9,7 +9,7 @@ type Props = Override<Ticket, {
   segments: Array<SegmentType>;
 }>;
 
-export const TicketCard: React.FC<Props> = ({price, carrier, segments}) => {
+export const TicketCard: React.FC<Props> = React.memo(({price, carrier, segments}) => {
   const [
     forwardWaySegment,
     oppositeWaySegment,
@@ -53,4 +53,4 @@ export const TicketCard: React.FC<Props> = ({price, carrier, segments}) => {
       </div>
     </div>
   );
-};
+});

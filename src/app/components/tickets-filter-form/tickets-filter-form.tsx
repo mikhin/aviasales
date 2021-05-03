@@ -16,7 +16,7 @@ type Props = {
   onStopOptionChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export const TicketsFilterForm: React.FC<Props> = ({stopOptions, onStopOptionChange}) => {
+export const TicketsFilterForm: React.FC<Props> = React.memo(({stopOptions, onStopOptionChange}) => {
   return (
     <Form mix="tickets-filter-form">
       <Form__FieldSet>
@@ -41,4 +41,4 @@ export const TicketsFilterForm: React.FC<Props> = ({stopOptions, onStopOptionCha
       </Form__FieldSet>
     </Form>
   );
-}
+});

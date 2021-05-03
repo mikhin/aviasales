@@ -11,7 +11,7 @@ export type Props = {
   stops: string;
 };
 
-export const AirRouteSegment: React.FC<Props> = ({ origin, originTime, destination, destinationTime, duration, stopsCount, stops }) => {
+export const AirRouteSegment: React.FC<Props> = React.memo(({ origin, originTime, destination, destinationTime, duration, stopsCount, stops }) => {
   return (
     <div className="air-route-segment">
       <div className="air-route-segment__header">
@@ -36,4 +36,4 @@ export const AirRouteSegment: React.FC<Props> = ({ origin, originTime, destinati
       </dl>
     </div>
   );
-}
+});

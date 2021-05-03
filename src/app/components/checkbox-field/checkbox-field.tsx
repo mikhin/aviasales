@@ -7,7 +7,7 @@ type Props = {
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export const CheckboxField: React.FC<Props> = ({id, label, isChecked, onChange}) => {
+export const CheckboxField: React.FC<Props> = React.memo(({id, label, isChecked, onChange}) => {
   return (
     <div className="checkbox-field">
       <input
@@ -22,4 +22,4 @@ export const CheckboxField: React.FC<Props> = ({id, label, isChecked, onChange})
       </label>
     </div>
   );
-}
+});

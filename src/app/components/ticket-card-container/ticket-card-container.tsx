@@ -9,7 +9,7 @@ type Props = Ticket & {
   stopOptions: StopOptions;
 }
 
-export const TicketCardContainer: React.FC<Props> = ({price, carrier, segments, stopOptions}) => {
+export const TicketCardContainer: React.FC<Props> = React.memo(({price, carrier, segments, stopOptions}) => {
   const [
     forwardWaySegment,
     oppositeWaySegment,
@@ -75,4 +75,4 @@ export const TicketCardContainer: React.FC<Props> = ({price, carrier, segments, 
       ]}
     />
   );
-};
+});
