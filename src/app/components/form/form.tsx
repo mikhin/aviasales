@@ -2,11 +2,12 @@ import React from 'react';
 
 type Props = {
   children: React.ReactNode;
+  mix: string;
 }
 
-const Form: React.FC<Props> = ({children}) => {
+const Form: React.FC<Props> = ({children, mix}) => {
   return (
-    <form className="form">
+    <form className={`form ${mix}`}>
       {children}
     </form>
   );

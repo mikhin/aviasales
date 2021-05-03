@@ -1,0 +1,5 @@
+@import "./src/app/components/visually-hidden/visually-hidden";
+
+.line-throbber__text {
+  @include visually-hidden;
+}

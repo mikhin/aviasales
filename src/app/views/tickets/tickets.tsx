@@ -5,7 +5,7 @@ import Page, { Page__Main, Page__Section, Page__Sidebar } from 'app/components/p
 import TicketsFilter from 'app/components/tickets-filter';
 import TicketsFilterFormContainer from 'app/components/tickets-filter-form-container';
 import SortingFormContainer from 'app/components/sorting-form-container';
-import Throbber from 'app/components/throbber';
+import LineThrobber from 'app/components/line-throbber';
 import ServiceErrorNotice from 'app/components/server-error-notice';
 import EmptySearchResultsMessage from 'app/components/empty-search-results-message';
 import TicketList, { TicketList__Item } from 'app/components/ticket-list';
@@ -301,20 +301,12 @@ class Tickets extends React.Component<RouteComponentProps, State> {
     return (
     <Page>
       <Page__Sidebar>
-        <Page__Section>
           <TicketsFilter>
             <TicketsFilterFormContainer
               selectedStopOptions={selectedStopOptions}
               onChange={this.onFilterChange}
             />
           </TicketsFilter>
-        </Page__Section>
-
-        {fetchStatus === fetchStatuses.fetching && !isErrorWhileFetching && (
-          <Page__Section>
-            <Throbber caption="Загрузка билетов"/>
-          </Page__Section>
-        )}
       </Page__Sidebar>
 
       <Page__Main>
@@ -341,6 +333,10 @@ class Tickets extends React.Component<RouteComponentProps, State> {
 
         {tickets.length > 0 && (
           <Page__Section>
+            {fetchStatus === fetchStatuses.fetching && !isErrorWhileFetching && (
+              <LineThrobber caption="Загрузка билетов"/>
+            )}
+
             <TicketList>
               {tickets.map((ticket: Ticket) => (
                 <TicketList__Item key={`${ticket.carrier}/${ticket.price}`}>
