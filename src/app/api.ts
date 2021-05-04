@@ -2,7 +2,7 @@ import { Ticket } from './types/ticket';
 
 export async function fetchSearchId(): Promise<string> {
   try {
-    const response = await fetch('/search');
+    const response = await fetch('/api/search');
 
     const { searchId } = await response.json();
 
@@ -14,7 +14,7 @@ export async function fetchSearchId(): Promise<string> {
 
 export async function fetchTickets(searchId: string): Promise<[Array<Ticket>, boolean]> {
   try {
-    const response = await fetch(`/tickets?searchId=${searchId}`);
+    const response = await fetch(`/api/tickets?searchId=${searchId}`);
 
     const { tickets, stop } = await response.json();
 
