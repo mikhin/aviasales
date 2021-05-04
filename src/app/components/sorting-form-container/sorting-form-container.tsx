@@ -8,26 +8,22 @@ type Props = {
 }
 
 export class SortingFormContainer extends React.Component<Props> {
-  toggleOption = (id: string, isChecked: boolean): void => {
+  onSortingOptionChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const {
       selectedSortingOptions,
       onChange
     } = this.props;
 
+    const { id, checked } = event.currentTarget;
+
     const sortingOptions = selectedSortingOptions.map((option: SortingOption) => ({
       ...option,
-      isChecked: option.id === id ? isChecked : false,
+      isChecked: option.id === id ? checked : false,
     }));
 
     if (onChange) {
       onChange(sortingOptions)
     }
-  }
-
-  onSortingOptionChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    const { id, checked } = event.currentTarget;
-
-    this.toggleOption(id, checked);
   }
 
   render(): React.ReactNode {
