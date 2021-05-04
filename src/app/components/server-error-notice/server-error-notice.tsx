@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button } from 'app/components/button';
 
 type Props = {
   onReloadPage: () => void;
@@ -10,13 +11,15 @@ export const ServerErrorNotice: React.FC<Props> = ({ onReloadPage }) => {
       <p className="server-error-notice__explanation">
         Произошла ошибка, приносим извинения. Попробуйте обновить страницу
       </p>
-      <button
-        type="button"
+      <Button
         onClick={onReloadPage}
-        className="server-error-notice__action"
+        mods={{
+          theme: 'ghost',
+          size: 'm',
+        }}
       >
         Обновить страницу
-      </button>
+      </Button>
     </div>
   );
 };
