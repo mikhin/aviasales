@@ -18,7 +18,7 @@ export const TicketCard: React.FC<Props> = React.memo(({price, carrier, segments
   return (
     <div className="ticket-card">
       <div className="ticket-card__header">
-        <h3 className="ticket-card__hidden-note">Билет направления MOW – HKT</h3>
+        <h3 className="ticket-card__hidden-note">Билет направления ${forwardWaySegment.origin} – {forwardWaySegment.destination}</h3>
         <span className="ticket-card__price">
           <span className="ticket-card__hidden-note">
             Стоимость билета:&nbsp;
@@ -48,6 +48,7 @@ export const TicketCard: React.FC<Props> = React.memo(({price, carrier, segments
             duration={oppositeWaySegment.duration}
             stopsCount={oppositeWaySegment.stopsCount}
             stops={oppositeWaySegment.stops}
+            isOpposite
           />
         </div>
       </div>
