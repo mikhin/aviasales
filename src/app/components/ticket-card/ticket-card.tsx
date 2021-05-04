@@ -15,6 +15,8 @@ export const TicketCard: React.FC<Props> = React.memo(({price, carrier, segments
     oppositeWaySegment,
   ] = segments;
 
+  const formattedPrice = price.toLocaleString().split(',').join(' ');
+
   return (
     <div className="ticket-card">
       <div className="ticket-card__header">
@@ -23,7 +25,7 @@ export const TicketCard: React.FC<Props> = React.memo(({price, carrier, segments
           <span className="ticket-card__hidden-note">
             Стоимость билета:&nbsp;
           </span>
-          {price}&nbsp;₽
+          {formattedPrice}&nbsp;₽
         </span>
         <img className="ticket-card__company-logo" alt="" src={`http://pics.avs.io/99/36/${carrier}.png`}/>
       </div>

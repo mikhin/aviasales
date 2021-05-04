@@ -49,7 +49,7 @@ describe('Страница поиска билетов', () => {
     })
 
     it('Информация в карточке билета доступна для просмотра', async () => {
-      await expect(page).toMatchElement('.ticket-card__price', { text: '15109' });
+      await expect(page).toMatchElement('.ticket-card__price', { text: '15 109' });
       await expect(page).toMatchElement('.ticket-card__company-logo');
 
       await expect(page).toMatchElement('.ticket-card__route-segment:first-child .air-route-segment__detail_type_origin-destination .air-route-segment__detail-term', { text: 'MOW – HKT' });
@@ -83,7 +83,7 @@ describe('Страница поиска билетов', () => {
       const fastestOptionId = 'fastest';
       await page.click(`.sorting-form__label[for=${fastestOptionId}]`)
 
-      await expect(page).toMatchElement('.ticket-card__price', { text: '92922' });
+      await expect(page).toMatchElement('.ticket-card__price', { text: '92 922' });
       await expect(page).toMatchElement('.ticket-card__company-logo');
 
       await expect(page).toMatchElement('.ticket-card__route-segment:first-child .air-route-segment__detail_type_origin-destination .air-route-segment__detail-term', { text: 'MOW – HKT' });
@@ -143,7 +143,7 @@ describe('Страница поиска билетов', () => {
       await page.waitForTimeout(1000);
       await page.click('.checkbox-field__label[for="stops-1"]')
 
-      await expect(page).toMatchElement('.ticket-card__price', { text: '15600' });
+      await expect(page).toMatchElement('.ticket-card__price', { text: '15 600' });
       await expect(page).toMatchElement('.ticket-card__company-logo');
 
       await expect(page).toMatchElement('.ticket-card__route-segment:first-child .air-route-segment__detail_type_origin-destination .air-route-segment__detail-term', { text: 'MOW – HKT' });
