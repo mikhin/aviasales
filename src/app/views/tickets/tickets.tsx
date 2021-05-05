@@ -20,6 +20,7 @@ import {
 } from 'app/constants/transfers-filter-unifying-option';
 import { pluralize } from 'app/helpers/pluralize';
 import { fetchSearchId, fetchTickets } from 'app/api';
+import { TicketStorage } from 'app/services/ticket-storage';
 
 const SORTING_OPTIONS = [
   {
@@ -31,7 +32,6 @@ const SORTING_OPTIONS = [
     label: 'Самый быстрый',
   },
 ];
-const DISPLAYED_TICKETS_COUNT = 5;
 
 type State = {
   searchId: string;
@@ -42,14 +42,6 @@ type State = {
   isErrorWhileFetching: boolean;
 }
 
-type CachedDisplayedTicketsStorageEntry = {
-  key: string;
-  source: Array<Ticket>;
-  result: Array<Ticket>;
-};
-
-type CachedDisplayedTicketsStorage = Array<CachedDisplayedTicketsStorageEntry>;
-
 const fetchStatuses = {
   initial: '',
   fetching: 'fetching',
@@ -58,6 +50,7 @@ const fetchStatuses = {
 
 class Tickets extends React.Component<RouteComponentProps, State> {
   state = {
+    displayedTicketsCount: 5,
     searchId: '',
     tickets: [],
     fetchStatus: fetchStatuses.initial,
@@ -66,8 +59,7 @@ class Tickets extends React.Component<RouteComponentProps, State> {
     isErrorWhileFetching: false,
   }
 
-  private cachedDisplayedTickets: CachedDisplayedTicketsStorage = [];
-  private rawTickets: Array<Ticket> = [];
+  ticketStorage = new TicketStorage();
 
   async componentDidMount(): Promise<void> {
     await this.initializeSearchIdFetching();
@@ -92,91 +84,17 @@ class Tickets extends React.Component<RouteComponentProps, State> {
         await retry(this.getTickets, 3, 1000);
       } catch (error) {
         this.setState({
-          isErrorWhileFetching: this.rawTickets.length === 0,
+          isErrorWhileFetching: this.ticketStorage.rawTickets.length === 0,
           fetchStatus: fetchStatuses.fetchingFinished,
         })
       }
     }
   }
 
-  getCachedDisplayedTickets = (tickets: Array<Ticket>, filter: StopOptions, sorting: SortingOptions): Array<Ticket> => {
-    const filterKeyPart = filter.filter((option) => option.isChecked).map((option) => option.id).join('');
-    const sortingKeyPart = sorting.filter((option) => option.isChecked).map((option) => option.id).join('');
-    const cacheKey = `${filterKeyPart}/${sortingKeyPart}`;
-
-    const cachedEntry = this.cachedDisplayedTickets.find((entry) => entry.key === cacheKey && entry.source === tickets);
-
-    if (cachedEntry) {
-      return cachedEntry.result;
-    } else {
-      const displayedTickets = this.getDisplayedTickets(tickets, filter, sorting);
-
-      this.cachedDisplayedTickets = [...this.cachedDisplayedTickets, {
-        key: cacheKey,
-        source: tickets,
-        result: displayedTickets,
-      }]
-
-      return displayedTickets;
-    }
-  }
-
-  getDisplayedTickets = (tickets: Array<Ticket>, filter: StopOptions, sorting: SortingOptions): Array<Ticket> => {
-    const sortingFunction = this.getSortingFunction(sorting);
-    const stopCountsList = filter
-      .filter((option) => option.isChecked)
-      .map((option) => option.count)
-
-    return [...tickets]
-      .sort(sortingFunction)
-      .filter((ticket: Ticket) => {
-        return this.filterTicketsByStops(ticket, stopCountsList);
-      })
-      .slice(0, DISPLAYED_TICKETS_COUNT);
-  }
-
-  getSortingFunction = (sorting: SortingOptions): (a: Ticket, b: Ticket) => number => {
-    const cheapestOption = sorting.find((option) => option.id === 'cheapest');
-
-    if (cheapestOption && cheapestOption.isChecked) {
-      return this.sortTicketsByPrice;
-    }
-
-    return this.sortTicketsByDuration;
-  }
-
-  sortTicketsByPrice = (a: Ticket, b: Ticket): number => a.price - b.price;
-
-  sortTicketsByDuration = (a: Ticket, b: Ticket): number => {
-    const [
-      { duration: forwardDuration1 },
-      { duration: oppositeDuration1 },
-    ] = a.segments;
-
-    const [
-      { duration: forwardDuration2 },
-      { duration: oppositeDuration2 },
-    ] = b.segments;
-
-    return (forwardDuration1 + oppositeDuration1) - (forwardDuration2 + oppositeDuration2);
-  }
-
-  filterTicketsByStops = (ticket: Ticket, filter: Array<(number | undefined)>): boolean => {
-    if (filter.length > 0) {
-      const [
-        { stops: forwardStops },
-        { stops: oppositeStops },
-      ] = ticket.segments;
-
-      return filter.includes(forwardStops.length) && filter.includes(oppositeStops.length);
-    }
-
-    return false;
-  }
-
   onFilterChange = (filter: StopOptions): void => {
     const {
-      selectedSortingOptions
+      selectedSortingOptions,
+      displayedTicketsCount
     } = this.state
 
     this.setState({
@@ -185,14 +103,15 @@ class Tickets extends React.Component<RouteComponentProps, State> {
 
     if (filter) {
       this.setState({
-        tickets: this.getCachedDisplayedTickets(this.rawTickets, filter, selectedSortingOptions),
+        tickets: this.ticketStorage.getCachedDisplayedTickets(this.ticketStorage.rawTickets, filter, selectedSortingOptions, displayedTicketsCount),
       })
     }
   };
 
   onSortingChange = (sorting: SortingOptions): void => {
     const {
-      selectedStopOptions
+      selectedStopOptions,
+      displayedTicketsCount
     } = this.state
 
     this.setState({
@@ -201,7 +120,7 @@ class Tickets extends React.Component<RouteComponentProps, State> {
 
     if (sorting) {
       this.setState({
-        tickets: this.getCachedDisplayedTickets(this.rawTickets, selectedStopOptions, sorting),
+        tickets: this.ticketStorage.getCachedDisplayedTickets(this.ticketStorage.rawTickets, selectedStopOptions, sorting, displayedTicketsCount),
       })
     }
   };
@@ -267,7 +186,7 @@ class Tickets extends React.Component<RouteComponentProps, State> {
   }
 
   getTickets = async (): Promise<void> => {
-    const { searchId } = this.state;
+    const { searchId, displayedTicketsCount } = this.state;
 
     const [tickets, isRequestFinished] = await fetchTickets(searchId);
 
@@ -277,19 +196,19 @@ class Tickets extends React.Component<RouteComponentProps, State> {
 
     const { selectedStopOptions } = this.state;
 
-    if (this.rawTickets.length === 0) {
+    if (this.ticketStorage.rawTickets.length === 0) {
       this.setState({
         fetchStatus: fetchStatuses.fetching,
-        tickets: this.getCachedDisplayedTickets(tickets, selectedStopOptions, selectedSortingOptions),
+        tickets: this.ticketStorage.getCachedDisplayedTickets(tickets, selectedStopOptions, selectedSortingOptions, displayedTicketsCount),
       });
     }
 
-    this.rawTickets = [...this.rawTickets, ...tickets];
+    this.ticketStorage.rawTickets = [...this.ticketStorage.rawTickets, ...tickets];
 
     if (isRequestFinished) {
       this.setState({
         fetchStatus: fetchStatuses.fetchingFinished,
-        tickets: this.getCachedDisplayedTickets(this.rawTickets, selectedStopOptions, selectedSortingOptions),
+        tickets: this.ticketStorage.getCachedDisplayedTickets(this.ticketStorage.rawTickets, selectedStopOptions, selectedSortingOptions, displayedTicketsCount),
       });
     } else {
       await this.getTickets();
@@ -336,7 +255,7 @@ class Tickets extends React.Component<RouteComponentProps, State> {
 
           {!isErrorWhileFetching
           && tickets.length === 0
-          && this.rawTickets.length > 0
+          && this.ticketStorage.rawTickets.length > 0
           && (
             <Page__Section>
               <EmptySearchResultsMessage/>
