@@ -268,12 +268,14 @@ class Tickets extends React.Component<RouteComponentProps, State> {
             </Page__Section>
           )}
 
+          {tickets.length > 0 && fetchStatus === fetchStatuses.fetching && !isErrorWhileFetching && (
+            <Page__Section>
+              <LineThrobber caption="Загрузка билетов"/>
+            </Page__Section>
+          )}
+
           {tickets.length > 0 && (
             <Page__Section>
-              {fetchStatus === fetchStatuses.fetching && !isErrorWhileFetching && (
-                <LineThrobber caption="Загрузка билетов"/>
-              )}
-
               <TicketList>
                 {tickets.map((ticket: Ticket) => (
                   <TicketList__Item key={`${ticket.carrier}/${ticket.price}`}>
