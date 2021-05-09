@@ -87,9 +87,12 @@ class Tickets extends React.Component<RouteComponentProps, State> {
       try {
         await retry(this.getTickets, 3, 1000);
       } catch (error) {
+        const { selectedStopOptions, selectedSortingOptions, displayedTicketsCount } = this.state;
+
         this.setState({
           isErrorWhileFetching: !this.ticketStorage.areTicketsExists,
           fetchStatus: fetchStatuses.fetchingFinished,
+          tickets: this.ticketStorage.getCachedDisplayedTickets(selectedStopOptions, selectedSortingOptions, displayedTicketsCount),
         })
       }
     }
