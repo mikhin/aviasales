@@ -1,0 +1,21 @@
+@import "./src/app/components/colors/colors.vars";
+@import "./src/app/components/gaps/gaps.vars";
+
+.button_theme_standard {
+  border: 0;
+  border-radius: $border_radius;
+  background: $color_brand;
+  color: $background-color_body;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 20px;
+
+  &:hover,
+  &:focus {
+    background: $background-color_body;
+    color: $color_brand;
+    outline: none;
+  }
+}

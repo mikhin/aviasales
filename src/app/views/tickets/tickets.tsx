@@ -11,6 +11,7 @@ import { TicketList, TicketList__Item } from 'app/components/ticket-list';
 import { TicketCardContainer } from 'app/components/ticket-card-container';
 import { StopOptions } from "app/components/tickets-filter-form";
 import { SortingOptions } from "app/components/sorting-form";
+import { Button } from 'app/components/button';
 
 import { Ticket } from 'app/types/ticket';
 import { retry } from "app/helpers/retry";
@@ -21,6 +22,7 @@ import {
 import { pluralize } from 'app/helpers/pluralize';
 import { fetchSearchId, fetchTickets } from 'app/api';
 import { TicketStorage } from 'app/services/ticket-storage';
+
 
 const SORTING_OPTIONS = [
   {
@@ -38,6 +40,7 @@ const SORTING_OPTIONS = [
 ];
 
 type State = {
+  displayedTicketsCount: number;
   searchId: string;
   tickets: Array<Ticket>;
   fetchStatus: string;
@@ -52,9 +55,11 @@ const fetchStatuses = {
   fetchingFinished: 'fetchingFinished',
 }
 
+const DISPLAYED_TICKETS_LIST_CHUNK_SIZE = 5;
+
 class Tickets extends React.Component<RouteComponentProps, State> {
   state = {
-    displayedTicketsCount: 5,
+    displayedTicketsCount: DISPLAYED_TICKETS_LIST_CHUNK_SIZE,
     searchId: '',
     tickets: [],
     fetchStatus: fetchStatuses.initial,
@@ -118,7 +123,6 @@ class Tickets extends React.Component<RouteComponentProps, State> {
   onSortingChange = (sorting: SortingOptions): void => {
     const {
       selectedStopOptions,
-      displayedTicketsCount
     } = this.state
 
     this.setState({
@@ -127,7 +131,8 @@ class Tickets extends React.Component<RouteComponentProps, State> {
 
     if (sorting) {
       this.setState({
-        tickets: this.ticketStorage.getCachedDisplayedTickets(selectedStopOptions, sorting, displayedTicketsCount),
+        displayedTicketsCount: DISPLAYED_TICKETS_LIST_CHUNK_SIZE,
+        tickets: this.ticketStorage.getCachedDisplayedTickets(selectedStopOptions, sorting, DISPLAYED_TICKETS_LIST_CHUNK_SIZE),
       })
     }
   };
@@ -224,6 +229,19 @@ class Tickets extends React.Component<RouteComponentProps, State> {
     }
   }
 
+  increaseCountOfDisplayedTickets = (): void => {
+    const { selectedStopOptions, selectedSortingOptions } = this.state;
+
+    this.setState((prevState) => {
+      const displayedTicketsCountNewValue = prevState.displayedTicketsCount + DISPLAYED_TICKETS_LIST_CHUNK_SIZE;
+
+      return {
+        displayedTicketsCount: displayedTicketsCountNewValue,
+        tickets: this.ticketStorage.getCachedDisplayedTickets(selectedStopOptions, selectedSortingOptions, displayedTicketsCountNewValue),
+      };
+    });
+  }
+
   reloadPage = (): void => {
     window.location.reload();
   }
@@ -291,6 +309,21 @@ class Tickets extends React.Component<RouteComponentProps, State> {
                   </TicketList__Item>
                 ))}
               </TicketList>
+            </Page__Section>
+          )}
+
+          {tickets.length > 0 && (
+            <Page__Section>
+              <Button
+                mods={{
+                  theme: 'standard',
+                  size: 'l',
+                  wide: true,
+                }}
+                onClick={this.increaseCountOfDisplayedTickets}
+              >
+                Показать ещё 5 билетов!
+              </Button>
             </Page__Section>
           )}
         </Page__Main>
