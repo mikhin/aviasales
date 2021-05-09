@@ -31,6 +31,10 @@ const SORTING_OPTIONS = [
     id: 'fastest',
     label: 'Самый быстрый',
   },
+  {
+    id: 'optimal',
+    label: 'Оптимальный',
+  },
 ];
 
 type State = {
@@ -84,7 +88,7 @@ class Tickets extends React.Component<RouteComponentProps, State> {
         await retry(this.getTickets, 3, 1000);
       } catch (error) {
         this.setState({
-          isErrorWhileFetching: this.ticketStorage.rawTickets.length === 0,
+          isErrorWhileFetching: !this.ticketStorage.areTicketsExists,
           fetchStatus: fetchStatuses.fetchingFinished,
         })
       }
@@ -103,7 +107,7 @@ class Tickets extends React.Component<RouteComponentProps, State> {
 
     if (filter) {
       this.setState({
-        tickets: this.ticketStorage.getCachedDisplayedTickets(this.ticketStorage.rawTickets, filter, selectedSortingOptions, displayedTicketsCount),
+        tickets: this.ticketStorage.getCachedDisplayedTickets(filter, selectedSortingOptions, displayedTicketsCount),
       })
     }
   };
@@ -120,7 +124,7 @@ class Tickets extends React.Component<RouteComponentProps, State> {
 
     if (sorting) {
       this.setState({
-        tickets: this.ticketStorage.getCachedDisplayedTickets(this.ticketStorage.rawTickets, selectedStopOptions, sorting, displayedTicketsCount),
+        tickets: this.ticketStorage.getCachedDisplayedTickets(selectedStopOptions, sorting, displayedTicketsCount),
       })
     }
   };
@@ -196,19 +200,21 @@ class Tickets extends React.Component<RouteComponentProps, State> {
 
     const { selectedStopOptions } = this.state;
 
-    if (this.ticketStorage.rawTickets.length === 0) {
+    if (!this.ticketStorage.areTicketsExists) {
+      this.ticketStorage.updateStorageWithNewTickets(tickets);
+
       this.setState({
         fetchStatus: fetchStatuses.fetching,
-        tickets: this.ticketStorage.getCachedDisplayedTickets(tickets, selectedStopOptions, selectedSortingOptions, displayedTicketsCount),
+        tickets: this.ticketStorage.getCachedDisplayedTickets(selectedStopOptions, selectedSortingOptions, displayedTicketsCount),
       });
+    } else {
+      this.ticketStorage.updateStorageWithNewTickets(tickets);
     }
-
-    this.ticketStorage.rawTickets = [...this.ticketStorage.rawTickets, ...tickets];
 
     if (isRequestFinished) {
       this.setState({
         fetchStatus: fetchStatuses.fetchingFinished,
-        tickets: this.ticketStorage.getCachedDisplayedTickets(this.ticketStorage.rawTickets, selectedStopOptions, selectedSortingOptions, displayedTicketsCount),
+        tickets: this.ticketStorage.getCachedDisplayedTickets(selectedStopOptions, selectedSortingOptions, displayedTicketsCount),
       });
     } else {
       await this.getTickets();
@@ -255,7 +261,7 @@ class Tickets extends React.Component<RouteComponentProps, State> {
 
           {!isErrorWhileFetching
           && tickets.length === 0
-          && this.ticketStorage.rawTickets.length > 0
+          && this.ticketStorage.areTicketsExists
           && (
             <Page__Section>
               <EmptySearchResultsMessage/>

@@ -12,49 +12,98 @@ type CachedDisplayedTicketsStorage = Array<CachedDisplayedTicketsStorageEntry>;
 
 export class TicketStorage {
   cachedDisplayedTickets: CachedDisplayedTicketsStorage = [];
-  rawTickets: Array<Ticket> = [];
 
-  getSortingFunction = (sorting: SortingOptions): (a: Ticket, b: Ticket) => number => {
-    const cheapestOption = sorting.find((option) => option.id === 'cheapest');
+  ticketsSortedByPrice: Array<Array<Ticket>> = [];
+  ticketsSortedByDuration: Array<Array<Ticket>> = [];
+  ticketsSortedByOptimality: Array<Array<Ticket>> = [];
 
-    if (cheapestOption && cheapestOption.isChecked) {
-      return this.sortTicketsByPrice;
+  areTicketsExists = false;
+
+  ticketsStoragesBySortingType: {[key: string]: Array<Array<Ticket>>} = {
+    cheapest: this.ticketsSortedByPrice,
+    fastest: this.ticketsSortedByDuration,
+    optimal: this.ticketsSortedByOptimality
+  };
+
+  updateStorageWithNewTickets = (tickets: Array<Ticket>): void => {
+    tickets.forEach((ticket) => {
+      this.updateTicketsSortedByPrice(ticket);
+      this.updateTicketsSortedByDuration(ticket);
+    });
+
+    this.updateTicketsSortedByOptimality();
+
+    this.areTicketsExists = true;
+  }
+
+  updateTicketsSortedByPrice = (ticket: Ticket): void => {
+    const priceAsIndex = ticket.price
+
+    if (this.ticketsSortedByPrice[priceAsIndex]) {
+      this.ticketsSortedByPrice[priceAsIndex].push(ticket);
+    } else {
+      this.ticketsSortedByPrice[priceAsIndex] = [ticket];
+    }
+  }
+
+  updateTicketsSortedByDuration = (ticket: Ticket): void => {
+    const [
+      { duration: forwardDuration },
+      { duration: oppositeDuration },
+    ] = ticket.segments;
+
+    const durationAsIndex = forwardDuration + oppositeDuration;
+
+    if (this.ticketsSortedByDuration[durationAsIndex]) {
+      this.ticketsSortedByDuration[durationAsIndex].push(ticket);
+    } else {
+      this.ticketsSortedByDuration[durationAsIndex] = [ticket];
+    }
+  }
+
+  updateTicketsSortedByOptimality = (): void => {
+    this.ticketsSortedByOptimality.length = 0;
+
+    const ticketsSortedByPriceFlatted = this.ticketsSortedByPrice.flat();
+    const ticketsSortedByDurationFlatted = this.ticketsSortedByDuration.flat();
+
+    ticketsSortedByPriceFlatted.forEach((ticket, priceIndex) => {
+      const durationIndex = ticketsSortedByDurationFlatted.findIndex((t) => t === ticket);
+      const sumIndex = priceIndex + durationIndex;
+
+      if (this.ticketsSortedByOptimality[sumIndex]) {
+        this.ticketsSortedByOptimality[sumIndex].push(ticket);
+      } else {
+        this.ticketsSortedByOptimality[sumIndex] = [ticket];
+      }
+    });
+  }
+
+  getCachedDisplayedTickets = (filter: StopOptions, sorting: SortingOptions, displayedTicketsCount: number): Array<Ticket> => {
+    const selectedSortingOption = sorting.find((option) => option.isChecked);
+
+    let selectedTicketsStorage: Array<Ticket>;
+
+    if (selectedSortingOption) {
+      selectedTicketsStorage = this.ticketsStoragesBySortingType[selectedSortingOption.id].flat();
+    } else {
+      selectedTicketsStorage = this.ticketsStoragesBySortingType.cheapest.flat();
     }
 
-    return this.sortTicketsByDuration;
-  }
-
-  sortTicketsByPrice = (a: Ticket, b: Ticket): number => a.price - b.price;
-
-  sortTicketsByDuration = (a: Ticket, b: Ticket): number => {
-    const [
-      { duration: forwardDuration1 },
-      { duration: oppositeDuration1 },
-    ] = a.segments;
-
-    const [
-      { duration: forwardDuration2 },
-      { duration: oppositeDuration2 },
-    ] = b.segments;
-
-    return (forwardDuration1 + oppositeDuration1) - (forwardDuration2 + oppositeDuration2);
-  }
-
-  getCachedDisplayedTickets = (tickets: Array<Ticket>, filter: StopOptions, sorting: SortingOptions, displayedTicketsCount: number): Array<Ticket> => {
     const filterKeyPart = filter.filter((option) => option.isChecked).map((option) => option.id).join('');
     const sortingKeyPart = sorting.filter((option) => option.isChecked).map((option) => option.id).join('');
-    const cacheKey = `${filterKeyPart}/${sortingKeyPart}`;
+    const cacheKey = `filter:${filterKeyPart}/sorting:${sortingKeyPart}/ticketsCount:${selectedTicketsStorage.length}`;
 
-    const cachedEntry = this.cachedDisplayedTickets.find((entry) => entry.key === cacheKey && entry.source === tickets);
+    const cachedEntry = this.cachedDisplayedTickets.find((entry) => entry.key === cacheKey && entry.source === selectedTicketsStorage);
 
     if (cachedEntry) {
       return cachedEntry.result;
     } else {
-      const displayedTickets = this.getDisplayedTickets(tickets, filter, sorting, displayedTicketsCount);
+      const displayedTickets = this.getDisplayedTickets(selectedTicketsStorage.flat(), filter, sorting, displayedTicketsCount);
 
       this.cachedDisplayedTickets = [...this.cachedDisplayedTickets, {
         key: cacheKey,
-        source: tickets,
+        source: selectedTicketsStorage,
         result: displayedTickets,
       }]
 
@@ -63,13 +112,11 @@ export class TicketStorage {
   }
 
   getDisplayedTickets = (tickets: Array<Ticket>, filter: StopOptions, sorting: SortingOptions, displayedTicketsCount: number): Array<Ticket> => {
-    const sortingFunction = this.getSortingFunction(sorting);
     const stopCountsList = filter
       .filter((option) => option.isChecked)
       .map((option) => option.count)
 
     return [...tickets]
-      .sort(sortingFunction)
       .filter((ticket: Ticket) => {
         return this.filterTicketsByStops(ticket, stopCountsList);
       })

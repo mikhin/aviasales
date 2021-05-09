@@ -17,7 +17,7 @@ export const SortingForm: React.FC<Props> = React.memo(({sortingOptions, onSorti
   return (
     <form className="sorting-form">
       {sortingOptions.map((option: SortingOption) => (
-        <React.Fragment key={option.id}>
+        <div key={option.id} className="sorting-form__option">
           <input
             className="sorting-form__input"
             type="radio"
@@ -31,7 +31,7 @@ export const SortingForm: React.FC<Props> = React.memo(({sortingOptions, onSorti
           >
             {option.label}
           </label>
-        </React.Fragment>
+        </div>
       ))}
     </form>
   );

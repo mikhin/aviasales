@@ -1,0 +1,20 @@
+@import "./src/app/components/colors/colors.vars";
+@import "./src/app/components/gaps/gaps.vars";
+
+.sorting-form__option {
+  width: 100%;
+
+  &:first-child {
+    .sorting-form__label {
+      border-top-left-radius: $border_radius;
+      border-bottom-left-radius: $border_radius;
+    }
+  }
+
+  &:last-child {
+    .sorting-form__label {
+      border-top-right-radius: $border_radius;
+      border-bottom-right-radius: $border_radius;
+    }
+  }
+}

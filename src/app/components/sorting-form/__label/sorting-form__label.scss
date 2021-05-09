@@ -3,6 +3,8 @@
 
 .sorting-form__label {
   width: 100%;
+  display: block;
+  box-sizing: border-box;
   padding: 14px 0;
   text-align: center;
   text-transform: uppercase;
@@ -16,15 +18,5 @@
   &:hover {
     border: 1px solid $color_brand;
     color: $color_brand;
-  }
-
-  &:first-of-type {
-    border-top-left-radius: $border_radius;
-    border-bottom-left-radius: $border_radius;
-  }
-
-  &:last-of-type {
-    border-top-right-radius: $border_radius;
-    border-bottom-right-radius: $border_radius;
   }
 }
