@@ -1,5 +1,5 @@
 export { AirRouteSegment } from './air-route-segment';
-export * from "./air-route-segment";
+export * from './air-route-segment';
 
 require('./__details/air-route-segment__details.scss');
 require('./__detail-definition/air-route-segment__detail-definition.scss');

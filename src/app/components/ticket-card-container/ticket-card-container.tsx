@@ -1,22 +1,22 @@
 import React from 'react';
 
-import { TicketCard } from "app/components/ticket-card";
+import { TicketCard } from 'app/components/ticket-card';
 import { StopOptions } from 'app/components/tickets-filter-form';
 
-import { Ticket } from "app/types/ticket";
+import { Ticket } from 'app/types/ticket';
 
 type Props = Ticket & {
   stopOptions: StopOptions;
 }
 
-export const TicketCardContainer: React.FC<Props> = React.memo(({price, carrier, segments, stopOptions}) => {
+export const TicketCardContainer: React.FC<Props> = React.memo(({ price, carrier, segments, stopOptions }) => {
   const [
     forwardWaySegment,
     oppositeWaySegment,
   ] = segments;
 
-  const getHoursFormatted = (date: Date): string => ("0" + date.getHours()).slice(-2);
-  const getMinutesFormatted = (date: Date): string => ("0" + date.getMinutes()).slice(-2);
+  const getHoursFormatted = (date: Date): string => (`0${date.getHours()}`).slice(-2);
+  const getMinutesFormatted = (date: Date): string => (`0${date.getMinutes()}`).slice(-2);
 
   function getOriginTime(datetime: string): string {
     const date = new Date(datetime);
@@ -40,9 +40,8 @@ export const TicketCardContainer: React.FC<Props> = React.memo(({price, carrier,
 
     if (option) {
       return option.label;
-    } else {
-      return 'Без пересадок';
     }
+    return 'Без пересадок';
   }
 
   function getStops(segmentStops: Array<string>): string {
@@ -71,7 +70,7 @@ export const TicketCardContainer: React.FC<Props> = React.memo(({price, carrier,
           duration: getDuration(oppositeWaySegment.duration),
           stopsCount: getStopsCount(oppositeWaySegment.stops),
           stops: getStops(oppositeWaySegment.stops),
-        }
+        },
       ]}
     />
   );

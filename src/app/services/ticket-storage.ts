@@ -14,7 +14,9 @@ export class TicketStorage {
   cachedDisplayedTickets: CachedDisplayedTicketsStorage = [];
 
   ticketsSortedByPrice: Array<Array<Ticket>> = [];
+
   ticketsSortedByDuration: Array<Array<Ticket>> = [];
+
   ticketsSortedByOptimality: Array<Array<Ticket>> = [];
 
   areTicketsExists = false;
@@ -22,7 +24,7 @@ export class TicketStorage {
   ticketsStoragesBySortingType: {[key: string]: Array<Array<Ticket>>} = {
     cheapest: this.ticketsSortedByPrice,
     fastest: this.ticketsSortedByDuration,
-    optimal: this.ticketsSortedByOptimality
+    optimal: this.ticketsSortedByOptimality,
   };
 
   updateStorageWithNewTickets = (tickets: Array<Ticket>): void => {
@@ -37,7 +39,7 @@ export class TicketStorage {
   }
 
   updateTicketsSortedByPrice = (ticket: Ticket): void => {
-    const priceAsIndex = ticket.price
+    const priceAsIndex = ticket.price;
 
     if (this.ticketsSortedByPrice[priceAsIndex]) {
       this.ticketsSortedByPrice[priceAsIndex].push(ticket);
@@ -98,28 +100,25 @@ export class TicketStorage {
 
     if (cachedEntry) {
       return cachedEntry.result;
-    } else {
-      const displayedTickets = this.getDisplayedTickets(selectedTicketsStorage.flat(), filter, sorting, displayedTicketsCount);
-
-      this.cachedDisplayedTickets = [...this.cachedDisplayedTickets, {
-        key: cacheKey,
-        source: selectedTicketsStorage,
-        result: displayedTickets,
-      }]
-
-      return displayedTickets;
     }
+    const displayedTickets = this.getDisplayedTickets(selectedTicketsStorage.flat(), filter, sorting, displayedTicketsCount);
+
+    this.cachedDisplayedTickets = [...this.cachedDisplayedTickets, {
+      key: cacheKey,
+      source: selectedTicketsStorage,
+      result: displayedTickets,
+    }];
+
+    return displayedTickets;
   }
 
   getDisplayedTickets = (tickets: Array<Ticket>, filter: StopOptions, sorting: SortingOptions, displayedTicketsCount: number): Array<Ticket> => {
     const stopCountsList = filter
       .filter((option) => option.isChecked)
-      .map((option) => option.count)
+      .map((option) => option.count);
 
     return [...tickets]
-      .filter((ticket: Ticket) => {
-        return this.filterTicketsByStops(ticket, stopCountsList);
-      })
+      .filter((ticket: Ticket) => this.filterTicketsByStops(ticket, stopCountsList))
       .slice(0, displayedTicketsCount);
   }
 

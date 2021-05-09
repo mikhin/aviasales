@@ -17,24 +17,24 @@ describe('Страница поиска билетов', () => {
       }
     });
 
-    await page.goto('http://localhost:3001')
+    await page.goto('http://localhost:3001');
   });
 
   describe('На странице отображаются необходимые элементы раскладки', () => {
     it('На странице отображается логотип', async () => {
-      await expect(page).toMatchElement('.logo')
+      await expect(page).toMatchElement('.logo');
     });
 
     it('На странице отображается фильтр', async () => {
-      await expect(page).toMatchElement('.tickets-filter-form')
+      await expect(page).toMatchElement('.tickets-filter-form');
     });
 
     it('На странице отображается управление сортировкой', async () => {
-      await expect(page).toMatchElement('.sorting-form')
+      await expect(page).toMatchElement('.sorting-form');
     });
 
     it('На странице отображается список билетов', async () => {
-      await expect(page).toMatchElement('.ticket-list')
+      await expect(page).toMatchElement('.ticket-list');
     });
   });
 
@@ -42,11 +42,11 @@ describe('Страница поиска билетов', () => {
     it('В списке отображается не более 5-ти билетов', async () => {
       const ticketCardSelector = '.ticket-card';
 
-      await expect(page).toMatchElement(ticketCardSelector)
+      await expect(page).toMatchElement(ticketCardSelector);
       const ticketsCount = await page.$$eval(ticketCardSelector, tickets => tickets.length);
 
       expect(ticketsCount).toBe(5);
-    })
+    });
 
     it('Информация в карточке билета доступна для просмотра', async () => {
       await expect(page).toMatchElement('.ticket-card__price', { text: '15 109' });
@@ -70,18 +70,17 @@ describe('Страница поиска билетов', () => {
     const fastestOptionId = 'fastest';
 
     it('По умолчанию отображается вариант «Самый дешевый»', async () => {
-      await expect(page).toMatchElement(`#${cheapestOptionId}.sorting-form__input:checked`)
+      await expect(page).toMatchElement(`#${cheapestOptionId}.sorting-form__input:checked`);
     });
 
     it('Выбор опции «Самый быстрый» меняет состояние сортировки', async () => {
-      await page.click(`.sorting-form__label[for=${fastestOptionId}]`)
+      await page.click(`.sorting-form__label[for=${fastestOptionId}]`);
 
-      await expect(page).toMatchElement(`#${fastestOptionId}.sorting-form__input:checked`)
+      await expect(page).toMatchElement(`#${fastestOptionId}.sorting-form__input:checked`);
     });
 
     it('Выбор опции «Самый быстрый» меняет поисковую выдачу', async () => {
-      const fastestOptionId = 'fastest';
-      await page.click(`.sorting-form__label[for=${fastestOptionId}]`)
+      await page.click(`.sorting-form__label[for=${fastestOptionId}]`);
 
       await expect(page).toMatchElement('.ticket-card__price', { text: '92 922' });
       await expect(page).toMatchElement('.ticket-card__company-logo');
@@ -102,19 +101,19 @@ describe('Страница поиска билетов', () => {
 
   describe('Фильтрация', () => {
     it('В форме «Количество пересадок» отображаются все опции', async () => {
-      await expect(page).toMatchElement(`.checkbox-field__input#all`)
-      await expect(page).toMatchElement(`.checkbox-field__input#stops-0`)
-      await expect(page).toMatchElement(`.checkbox-field__input#stops-1`)
-      await expect(page).toMatchElement(`.checkbox-field__input#stops-2`)
-      await expect(page).toMatchElement(`.checkbox-field__input#stops-3`)
+      await expect(page).toMatchElement('.checkbox-field__input#all');
+      await expect(page).toMatchElement('.checkbox-field__input#stops-0');
+      await expect(page).toMatchElement('.checkbox-field__input#stops-1');
+      await expect(page).toMatchElement('.checkbox-field__input#stops-2');
+      await expect(page).toMatchElement('.checkbox-field__input#stops-3');
     });
 
     it('По умолчанию все опции активированы', async () => {
-      await expect(page).toMatchElement(`.checkbox-field__input#all:checked`)
-      await expect(page).toMatchElement(`.checkbox-field__input#stops-0:checked`);
-      await expect(page).toMatchElement(`.checkbox-field__input#stops-1:checked`);
-      await expect(page).toMatchElement(`.checkbox-field__input#stops-2:checked`);
-      await expect(page).toMatchElement(`.checkbox-field__input#stops-3:checked`);
+      await expect(page).toMatchElement('.checkbox-field__input#all:checked');
+      await expect(page).toMatchElement('.checkbox-field__input#stops-0:checked');
+      await expect(page).toMatchElement('.checkbox-field__input#stops-1:checked');
+      await expect(page).toMatchElement('.checkbox-field__input#stops-2:checked');
+      await expect(page).toMatchElement('.checkbox-field__input#stops-3:checked');
     });
 
     it('Деактивация опции «Все» производит деактивацию всех опций', async () => {
@@ -135,13 +134,13 @@ describe('Страница поиска билетов', () => {
 
     it('Деактивация любой опции кроме «Все» производит деактивацию опции «Все»', async () => {
       await page.waitForTimeout(1000);
-      await page.click('.checkbox-field__label[for="stops-3"]')
+      await page.click('.checkbox-field__label[for="stops-3"]');
       await expect(page).toMatchElement('.checkbox-field__input#all:not(:checked)');
     });
 
     it('Деактивация опции меняет поисковую выдачу', async () => {
       await page.waitForTimeout(1000);
-      await page.click('.checkbox-field__label[for="stops-1"]')
+      await page.click('.checkbox-field__label[for="stops-1"]');
 
       await expect(page).toMatchElement('.ticket-card__price', { text: '15 600' });
       await expect(page).toMatchElement('.ticket-card__company-logo');

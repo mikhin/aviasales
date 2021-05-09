@@ -1,15 +1,15 @@
 import React from 'react';
 
-import { AirRouteSegment, Props as SegmentType} from 'app/components/air-route-segment';
+import { AirRouteSegment, Props as SegmentType } from 'app/components/air-route-segment';
 
-import { Override } from "app/types/override";
-import { Ticket } from "app/types/ticket";
+import { Override } from 'app/types/override';
+import { Ticket } from 'app/types/ticket';
 
 type Props = Override<Ticket, {
   segments: Array<SegmentType>;
 }>;
 
-export const TicketCard: React.FC<Props> = React.memo(({price, carrier, segments}) => {
+export const TicketCard: React.FC<Props> = React.memo(({ price, carrier, segments }) => {
   const [
     forwardWaySegment,
     oppositeWaySegment,

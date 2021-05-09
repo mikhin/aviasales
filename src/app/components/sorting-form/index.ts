@@ -1,4 +1,4 @@
-export * from "./sorting-form";
+export * from './sorting-form';
 
 require('./__label/sorting-form__label.scss');
 require('./__input/sorting-form__input.scss');

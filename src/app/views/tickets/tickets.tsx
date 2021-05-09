@@ -9,15 +9,15 @@ import { ServerErrorNotice } from 'app/components/server-error-notice';
 import { EmptySearchResultsMessage } from 'app/components/empty-search-results-message';
 import { TicketList, TicketList__Item } from 'app/components/ticket-list';
 import { TicketCardContainer } from 'app/components/ticket-card-container';
-import { StopOptions } from "app/components/tickets-filter-form";
-import { SortingOptions } from "app/components/sorting-form";
+import { StopOptions } from 'app/components/tickets-filter-form';
+import { SortingOptions } from 'app/components/sorting-form';
 import { Button } from 'app/components/button';
 
 import { Ticket } from 'app/types/ticket';
-import { retry } from "app/helpers/retry";
+import { retry } from 'app/helpers/retry';
 import {
   transfersFilterUnifyingOption,
-  transfersFilterUnifyingOptionId
+  transfersFilterUnifyingOptionId,
 } from 'app/constants/transfers-filter-unifying-option';
 import { pluralize } from 'app/helpers/pluralize';
 import { fetchSearchId, fetchTickets } from 'app/api';
@@ -53,7 +53,7 @@ const fetchStatuses = {
   initial: '',
   fetching: 'fetching',
   fetchingFinished: 'fetchingFinished',
-}
+};
 
 const DISPLAYED_TICKETS_LIST_CHUNK_SIZE = 5;
 
@@ -82,12 +82,12 @@ class Tickets extends React.Component<RouteComponentProps, State> {
       this.setState({
         isErrorWhileFetching: true,
         fetchStatus: fetchStatuses.fetchingFinished,
-      })
+      });
     }
   }
 
   initializeTicketsFetching = async (): Promise<void> => {
-    const { searchId, isErrorWhileFetching } = this.state
+    const { searchId, isErrorWhileFetching } = this.state;
     if (searchId && !isErrorWhileFetching) {
       try {
         await retry(this.getTickets, 3, 1000);
@@ -98,7 +98,7 @@ class Tickets extends React.Component<RouteComponentProps, State> {
           isErrorWhileFetching: !this.ticketStorage.areTicketsExists,
           fetchStatus: fetchStatuses.fetchingFinished,
           tickets: this.ticketStorage.getCachedDisplayedTickets(selectedStopOptions, selectedSortingOptions, displayedTicketsCount),
-        })
+        });
       }
     }
   }
@@ -106,34 +106,34 @@ class Tickets extends React.Component<RouteComponentProps, State> {
   onFilterChange = (filter: StopOptions): void => {
     const {
       selectedSortingOptions,
-      displayedTicketsCount
-    } = this.state
+      displayedTicketsCount,
+    } = this.state;
 
     this.setState({
       selectedStopOptions: filter,
-    })
+    });
 
     if (filter) {
       this.setState({
         tickets: this.ticketStorage.getCachedDisplayedTickets(filter, selectedSortingOptions, displayedTicketsCount),
-      })
+      });
     }
   };
 
   onSortingChange = (sorting: SortingOptions): void => {
     const {
       selectedStopOptions,
-    } = this.state
+    } = this.state;
 
     this.setState({
       selectedSortingOptions: sorting,
-    })
+    });
 
     if (sorting) {
       this.setState({
         displayedTicketsCount: DISPLAYED_TICKETS_LIST_CHUNK_SIZE,
         tickets: this.ticketStorage.getCachedDisplayedTickets(selectedStopOptions, sorting, DISPLAYED_TICKETS_LIST_CHUNK_SIZE),
-      })
+      });
     }
   };
 
@@ -160,8 +160,8 @@ class Tickets extends React.Component<RouteComponentProps, State> {
       };
 
       const unifyingOption = prevState
-          .selectedStopOptions
-          .find((option) => option.id === transfersFilterUnifyingOptionId)
+        .selectedStopOptions
+        .find((option) => option.id === transfersFilterUnifyingOptionId)
         || defaultUnifyingOption;
 
       const newStopVariants = stopVariantsList.map((count) => {
@@ -181,20 +181,20 @@ class Tickets extends React.Component<RouteComponentProps, State> {
 
       return {
         selectedStopOptions: [unifyingOption, ...newStopVariants],
-      }
+      };
     });
   }
 
   getSearchId = async (): Promise<void> => {
     this.setState({
-      fetchStatus: fetchStatuses.fetching
+      fetchStatus: fetchStatuses.fetching,
     });
 
     const searchId = await fetchSearchId();
 
     this.setState({
       searchId,
-    })
+    });
   }
 
   getTickets = async (): Promise<void> => {

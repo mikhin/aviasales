@@ -1,4 +1,4 @@
-import { Segment } from "app/types/segment";
+import { Segment } from 'app/types/segment';
 
 export type Ticket = {
   price: number;

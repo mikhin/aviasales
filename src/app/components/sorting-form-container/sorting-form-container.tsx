@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { SortingForm, SortingOptions, SortingOption} from "app/components/sorting-form";
+import { SortingForm, SortingOptions, SortingOption } from 'app/components/sorting-form';
 
 type Props = {
   onChange: (sortingOptions: SortingOptions) => void;
@@ -11,7 +11,7 @@ export class SortingFormContainer extends React.Component<Props> {
   onSortingOptionChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const {
       selectedSortingOptions,
-      onChange
+      onChange,
     } = this.props;
 
     const { id, checked } = event.currentTarget;
@@ -22,13 +22,13 @@ export class SortingFormContainer extends React.Component<Props> {
     }));
 
     if (onChange) {
-      onChange(sortingOptions)
+      onChange(sortingOptions);
     }
   }
 
   render(): React.ReactNode {
     const {
-      selectedSortingOptions
+      selectedSortingOptions,
     } = this.props;
 
     return (

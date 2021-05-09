@@ -12,14 +12,12 @@ type Props = {
   children: React.ReactNode;
 }
 
-export const Button: React.FC<Props> = ({ mods, onClick, children, mix }) => {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={b('button', { mods, mix })}
-    >
-      {children}
-    </button>
-  );
-};
+export const Button: React.FC<Props> = ({ mods, onClick, children, mix }) => (
+  <button
+    type="button"
+    onClick={onClick}
+    className={b('button', { mods, mix })}
+  >
+    {children}
+  </button>
+);

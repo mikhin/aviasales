@@ -5,10 +5,8 @@ type Props = {
   mix: string;
 }
 
-export const Form: React.FC<Props> = ({children, mix}) => {
-  return (
-    <form className={`form ${mix}`}>
-      {children}
-    </form>
-  );
-}
+export const Form: React.FC<Props> = ({ children, mix }) => (
+  <form className={`form ${mix}`}>
+    {children}
+  </form>
+);

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { TicketsFilterForm, StopOptions, StopOption } from "app/components/tickets-filter-form";
+import { TicketsFilterForm, StopOptions, StopOption } from 'app/components/tickets-filter-form';
 import { transfersFilterUnifyingOptionId } from 'app/constants/transfers-filter-unifying-option';
 
 type Props = {
@@ -16,7 +16,7 @@ export class TicketsFilterFormContainer extends React.Component<Props> {
   toggleOption = (id: string, isChecked: boolean): StopOptions => {
     const {
       selectedStopOptions,
-      onChange
+      onChange,
     } = this.props;
 
     let stopOptions: StopOptions;
@@ -43,16 +43,16 @@ export class TicketsFilterFormContainer extends React.Component<Props> {
   toggleAllOptions = (isChecked: boolean): void => {
     const {
       selectedStopOptions,
-      onChange
+      onChange,
     } = this.props;
 
     const stopOptions = selectedStopOptions.map((option: StopOption) => ({
       ...option,
-      isChecked: isChecked
+      isChecked,
     }));
 
     if (onChange) {
-      onChange(stopOptions)
+      onChange(stopOptions);
     }
   }
 
@@ -68,7 +68,7 @@ export class TicketsFilterFormContainer extends React.Component<Props> {
 
   render(): React.ReactNode {
     const {
-      selectedStopOptions
+      selectedStopOptions,
     } = this.props;
 
     return (
@@ -76,6 +76,6 @@ export class TicketsFilterFormContainer extends React.Component<Props> {
         stopOptions={selectedStopOptions}
         onStopOptionChange={this.onStopOptionChange}
       />
-    )
+    );
   }
 }
