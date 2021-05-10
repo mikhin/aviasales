@@ -1,5 +1,5 @@
-@import "./src/app/components/visually-hidden/visually-hidden";
-@import "./src/app/components/colors/colors.vars";
+@import "../../visually-hidden/visually-hidden";
+@import "../../colors/colors.vars";
 
 .sorting-form__input {
   @include visually-hidden;

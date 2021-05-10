@@ -3,14 +3,14 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 
 import { Page, Page__Main, Page__Section, Page__Sidebar } from 'app/components/page';
 import { TicketsFilterFormContainer } from 'app/components/tickets-filter-form-container';
-import { SortingFormContainer } from 'app/components/sorting-form-container';
+import { SortingForm, SortingOptions } from 'app/components/sorting-form';
 import { LineThrobber } from 'app/components/line-throbber';
 import { ServerErrorNotice } from 'app/components/server-error-notice';
 import { EmptySearchResultsMessage } from 'app/components/empty-search-results-message';
 import { TicketList, TicketList__Item } from 'app/components/ticket-list';
 import { TicketCardContainer } from 'app/components/ticket-card-container';
 import { StopOptions } from 'app/components/tickets-filter-form';
-import { SortingOptions } from 'app/components/sorting-form';
+
 import { Button } from 'app/components/button';
 
 import { Ticket } from 'app/types/ticket';
@@ -20,9 +20,8 @@ import {
   transfersFilterUnifyingOptionId,
 } from 'app/constants/transfers-filter-unifying-option';
 import { pluralize } from 'app/helpers/pluralize';
-import { fetchSearchId, fetchTickets } from 'app/api';
+import { fetchSearchId, fetchTickets } from 'app/services/api';
 import { TicketStorage } from 'app/services/ticket-storage';
-
 
 const SORTING_OPTIONS = [
   {
@@ -202,11 +201,9 @@ class Tickets extends React.Component<RouteComponentProps, State> {
 
     const [tickets, isRequestFinished] = await fetchTickets(searchId);
 
-    const { selectedSortingOptions } = this.state;
-
     this.setStopVariants(tickets);
 
-    const { selectedStopOptions } = this.state;
+    const { selectedSortingOptions, selectedStopOptions } = this.state;
 
     if (!this.ticketStorage.areTicketsExists) {
       this.ticketStorage.updateStorageWithNewTickets(tickets);
@@ -266,7 +263,7 @@ class Tickets extends React.Component<RouteComponentProps, State> {
 
         <Page__Main>
           <Page__Section>
-            <SortingFormContainer
+            <SortingForm
               selectedSortingOptions={selectedSortingOptions}
               onChange={this.onSortingChange}
             />
