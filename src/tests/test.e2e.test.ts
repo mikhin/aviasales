@@ -20,6 +20,11 @@ describe('Страница поиска билетов', () => {
     await page.goto('http://localhost:3001');
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+    jest.resetAllMocks();
+  });
+
   describe('На странице отображаются необходимые элементы раскладки', () => {
     it('На странице отображается логотип', async () => {
       await expect(page).toMatchElement('.logo');
