@@ -1,5 +1,6 @@
 @import "../../colors/colors.vars";
 @import "../../gaps/gaps.vars";
+@import "./src/app/components/breakpoints/breakpoints.vars";
 
 .sorting-form__option {
   width: 100%;
@@ -7,16 +8,20 @@
   flex-direction: column;
 
   &:first-child {
-    .sorting-form__label {
-      border-top-left-radius: $border_radius;
-      border-bottom-left-radius: $border_radius;
+    @media (min-width: $tablet-portrait) {
+      .sorting-form__label {
+        border-top-left-radius: $border_radius;
+        border-bottom-left-radius: $border_radius;
+      }
     }
   }
 
   &:last-child {
-    .sorting-form__label {
-      border-top-right-radius: $border_radius;
-      border-bottom-right-radius: $border_radius;
+    @media (min-width: $tablet-portrait) {
+      .sorting-form__label {
+        border-top-right-radius: $border_radius;
+        border-bottom-right-radius: $border_radius;
+      }
     }
   }
 }

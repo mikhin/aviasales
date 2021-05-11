@@ -1,5 +1,11 @@
 @import "../colors/colors.vars";
+@import "./src/app/components/breakpoints/breakpoints.vars";
 
 .sorting-form {
   display: flex;
+  flex-direction: column;
+
+  @media (min-width: $tablet-portrait) {
+    flex-direction: row;
+  }
 }
