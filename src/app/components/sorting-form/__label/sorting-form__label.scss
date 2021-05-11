@@ -3,7 +3,10 @@
 
 .sorting-form__label {
   width: 100%;
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
   box-sizing: border-box;
   padding: 14px 0;
   text-align: center;

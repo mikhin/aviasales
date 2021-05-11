@@ -3,6 +3,8 @@
 
 .sorting-form__option {
   width: 100%;
+  display: flex;
+  flex-direction: column;
 
   &:first-child {
     .sorting-form__label {
