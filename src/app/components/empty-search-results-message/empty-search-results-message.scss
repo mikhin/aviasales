@@ -1,9 +1,15 @@
 @import "./src/app/components/colors/colors.vars";
 @import "./src/app/components/gaps/gaps.vars";
+@import "./src/app/components/breakpoints/breakpoints.vars";
 
 .empty-search-results-message {
   padding: $gap_default;
   border-radius: $border_radius;
   box-shadow: 0 2px 8px rgba(0, 0, 0, .1);
   background-color: $background-color_body;
+  max-width: 300px;
+
+  @media (min-width: $tablet-portrait) {
+    max-width: none;
+  }
 }
