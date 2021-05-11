@@ -119,7 +119,8 @@ describe('Страница поиска билетов', () => {
     });
 
     it('Деактивация опции «Все» производит деактивацию всех опций', async () => {
-      await page.waitForTimeout(1000);
+      await page.waitForResponse(response => response.url().includes('api/tickets') && response.status() === 200);
+
       await page.click('.checkbox-field__label[for="all"]');
 
       await expect(page).toMatchElement('.checkbox-field__input#stops-0:not(:checked)');
@@ -129,19 +130,22 @@ describe('Страница поиска билетов', () => {
     });
 
     it('Деактивация опции «Все» производит отображение предупреждения о пустой поисковой выдаче', async () => {
-      await page.waitForTimeout(1000);
+      await page.waitForResponse(response => response.url().includes('api/tickets') && response.status() === 200);
+
       await page.click('.checkbox-field__label[for="all"]');
       await expect(page).toMatchElement('.empty-search-results-message');
     });
 
     it('Деактивация любой опции кроме «Все» производит деактивацию опции «Все»', async () => {
-      await page.waitForTimeout(1000);
+      await page.waitForResponse(response => response.url().includes('api/tickets') && response.status() === 200);
+
       await page.click('.checkbox-field__label[for="stops-3"]');
       await expect(page).toMatchElement('.checkbox-field__input#all:not(:checked)');
     });
 
     it('Деактивация опции меняет поисковую выдачу', async () => {
-      await page.waitForTimeout(1000);
+      await page.waitForResponse(response => response.url().includes('api/tickets') && response.status() === 200);
+
       await page.click('.checkbox-field__label[for="stops-1"]');
 
       await expect(page).toMatchElement('.ticket-card__price', { text: '15 600' });
