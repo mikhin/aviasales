@@ -48,7 +48,7 @@ type State = {
   isErrorWhileFetching: boolean;
 }
 
-const fetchStatuses = {
+const FETCH_STATUSES = {
   initial: '',
   fetching: 'fetching',
   fetchingFinished: 'fetchingFinished',
@@ -61,7 +61,7 @@ class Tickets extends React.Component<RouteComponentProps, State> {
     displayedTicketsCount: DISPLAYED_TICKETS_LIST_CHUNK_SIZE,
     searchId: '',
     tickets: [],
-    fetchStatus: fetchStatuses.initial,
+    fetchStatus: FETCH_STATUSES.initial,
     selectedStopOptions: [],
     selectedSortingOptions: SORTING_OPTIONS.map((option, index) => ({ ...option, isChecked: index === 0 })),
     isErrorWhileFetching: false,
@@ -80,7 +80,7 @@ class Tickets extends React.Component<RouteComponentProps, State> {
     } catch (error) {
       this.setState({
         isErrorWhileFetching: true,
-        fetchStatus: fetchStatuses.fetchingFinished,
+        fetchStatus: FETCH_STATUSES.fetchingFinished,
       });
     }
   }
@@ -95,7 +95,7 @@ class Tickets extends React.Component<RouteComponentProps, State> {
 
         this.setState({
           isErrorWhileFetching: !this.ticketStorage.areTicketsExists,
-          fetchStatus: fetchStatuses.fetchingFinished,
+          fetchStatus: FETCH_STATUSES.fetchingFinished,
           tickets: this.ticketStorage.getCachedDisplayedTickets(selectedStopOptions, selectedSortingOptions, displayedTicketsCount),
         });
       }
@@ -186,7 +186,7 @@ class Tickets extends React.Component<RouteComponentProps, State> {
 
   getSearchId = async (): Promise<void> => {
     this.setState({
-      fetchStatus: fetchStatuses.fetching,
+      fetchStatus: FETCH_STATUSES.fetching,
     });
 
     const searchId = await fetchSearchId();
@@ -209,7 +209,7 @@ class Tickets extends React.Component<RouteComponentProps, State> {
       this.ticketStorage.updateStorageWithNewTickets(tickets);
 
       this.setState({
-        fetchStatus: fetchStatuses.fetching,
+        fetchStatus: FETCH_STATUSES.fetching,
         tickets: this.ticketStorage.getCachedDisplayedTickets(selectedStopOptions, selectedSortingOptions, displayedTicketsCount),
       });
     } else {
@@ -218,7 +218,7 @@ class Tickets extends React.Component<RouteComponentProps, State> {
 
     if (isRequestFinished) {
       this.setState({
-        fetchStatus: fetchStatuses.fetchingFinished,
+        fetchStatus: FETCH_STATUSES.fetchingFinished,
         tickets: this.ticketStorage.getCachedDisplayedTickets(selectedStopOptions, selectedSortingOptions, displayedTicketsCount),
       });
     } else {
@@ -286,7 +286,7 @@ class Tickets extends React.Component<RouteComponentProps, State> {
             </Page__Section>
           )}
 
-          {tickets.length > 0 && fetchStatus === fetchStatuses.fetching && !isErrorWhileFetching && (
+          {tickets.length > 0 && fetchStatus === FETCH_STATUSES.fetching && !isErrorWhileFetching && (
             <Page__Section>
               <LineThrobber caption="Загрузка билетов"/>
             </Page__Section>
