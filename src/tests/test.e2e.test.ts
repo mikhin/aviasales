@@ -36,15 +36,17 @@ describe('Страница поиска билетов', () => {
     it('На странице отображается список билетов', async () => {
       await expect(page).toMatchElement('.ticket-list');
     });
+
+    it('На странице отображается кнопка «Показать ещё 5 билетов!»', async () => {
+      await expect(page).toMatchElement('.page__section .button_theme_standard', { text: 'Показать ещё 5 билетов!' });
+    });
   });
 
   describe('Список билетов', () => {
     it('В списке отображается не более 5-ти билетов', async () => {
       const ticketCardSelector = '.ticket-card';
-
       await expect(page).toMatchElement(ticketCardSelector);
       const ticketsCount = await page.$$eval(ticketCardSelector, tickets => tickets.length);
-
       expect(ticketsCount).toBe(5);
     });
 
@@ -156,5 +158,13 @@ describe('Страница поиска билетов', () => {
       await expect(page).toMatchElement('.ticket-card__route-segment:nth-child(2) .air-route-segment__detail_type_duration .air-route-segment__detail-definition', { text: '18ч 43м' });
       await expect(page).toMatchElement('.ticket-card__route-segment:nth-child(2) .air-route-segment__detail_type_stops-count .air-route-segment__detail-term', { text: 'Без пересадок' });
     });
+  });
+
+  it('Клик по кнопке «Показать ещё 5 билетов!» добавляет еще 5 билетов в выдачу', async () => {
+    await expect(page).toClick('.page__section .button_theme_standard', { text: 'Показать ещё 5 билетов!' });
+
+    const ticketCardSelector = '.ticket-card';
+    const ticketsCount = await page.$$eval(ticketCardSelector, tickets => tickets.length);
+    expect(ticketsCount).toBe(10);
   });
 });
