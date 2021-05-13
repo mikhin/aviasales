@@ -1,4 +1,6 @@
 import React from 'react';
+import utcToZonedTime from 'date-fns-tz/utcToZonedTime';
+import format from 'date-fns/format';
 
 import { TicketCard } from 'app/components/ticket-card';
 import { StopOptions } from 'app/components/tickets-filter-form';
@@ -9,24 +11,25 @@ type Props = Ticket & {
   stopOptions: StopOptions;
 }
 
+const TIME_ZONE = 'Europe/Moscow';
+
 export const TicketCardContainer: React.FC<Props> = React.memo(({ price, carrier, segments, stopOptions }) => {
   const [
     forwardWaySegment,
     oppositeWaySegment,
   ] = segments;
 
-  const getHoursFormatted = (date: Date): string => (`0${date.getHours()}`).slice(-2);
-  const getMinutesFormatted = (date: Date): string => (`0${date.getMinutes()}`).slice(-2);
-
   function getOriginTime(datetime: string): string {
-    const date = new Date(datetime);
-    return `${getHoursFormatted(date)}:${getMinutesFormatted(date)}`;
+    const date = utcToZonedTime(datetime, TIME_ZONE);
+    format(date, 'HH:mm');
+    return format(date, 'HH:mm');
   }
 
   function getDestinationTime(datetime: string, duration: number): string {
-    const originDate = new Date(datetime);
+    const originDate = utcToZonedTime(datetime, TIME_ZONE);
+
     const destinationDate = new Date(originDate.getTime() + duration * 60000);
-    return `${getHoursFormatted(destinationDate)}:${getMinutesFormatted(destinationDate)}`;
+    return format(destinationDate, 'HH:mm');
   }
 
   function getDuration(duration: number): string {
