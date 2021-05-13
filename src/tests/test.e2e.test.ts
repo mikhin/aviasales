@@ -138,7 +138,7 @@ describe('Страница поиска билетов', () => {
       await page.waitForResponse(response => response.url().includes('api/tickets') && response.status() === 200);
 
       await page.click('.checkbox-field__label[for="all"]');
-      await expect(page).toMatchElement('.empty-search-results-message');
+      await expect(page).toMatchElement('.empty-search-results-message', { text: 'Мы нашли рейсы, но ни один не соответствует заданным фильтрам.' });
     });
 
     it('Деактивация любой опции кроме «Все» производит деактивацию опции «Все»', async () => {
