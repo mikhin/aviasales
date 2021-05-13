@@ -1,16 +1,21 @@
+import { Page } from 'puppeteer';
 import { setStub } from './stubs/set-stub';
 import { ticketsStub } from './stubs/data/tickets';
 import { searchIdStub } from './stubs/data/search-id';
 
+jest.setTimeout(30000);
+
 describe('Страница поиска билетов', () => {
+  let page: Page;
+
   beforeEach(async () => {
-    await jestPuppeteer.resetPage();
+    page = await context.newPage();
     await page.setRequestInterception(true);
 
     page.on('request', (interceptedRequest): void => {
-      if (interceptedRequest.url().includes('/search')) {
+      if (interceptedRequest.url().includes('/api/search')) {
         setStub(interceptedRequest, searchIdStub);
-      } else if (interceptedRequest.url().includes('/tickets')) {
+      } else if (interceptedRequest.url().includes('/api/tickets')) {
         setStub(interceptedRequest, ticketsStub);
       } else {
         interceptedRequest.continue();
@@ -18,11 +23,6 @@ describe('Страница поиска билетов', () => {
     });
 
     await page.goto('http://localhost:3001');
-  });
-
-  afterEach(() => {
-    jest.clearAllMocks();
-    jest.resetAllMocks();
   });
 
   describe('На странице отображаются необходимые элементы раскладки', () => {
