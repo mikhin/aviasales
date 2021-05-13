@@ -17,4 +17,6 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
       - run: npm ci
+      - run: npm run lint:ts
+      - run: npm run lint:scss
       - run: npm run test
