@@ -105,7 +105,6 @@ class Tickets extends React.Component<RouteComponentProps, State> {
   onFilterChange = (filter: StopOptions): void => {
     const {
       selectedSortingOptions,
-      displayedTicketsCount,
     } = this.state;
 
     this.setState({
@@ -114,7 +113,8 @@ class Tickets extends React.Component<RouteComponentProps, State> {
 
     if (filter) {
       this.setState({
-        tickets: this.ticketStorage.getCachedDisplayedTickets(filter, selectedSortingOptions, displayedTicketsCount),
+        displayedTicketsCount: DISPLAYED_TICKETS_LIST_CHUNK_SIZE,
+        tickets: this.ticketStorage.getCachedDisplayedTickets(filter, selectedSortingOptions, DISPLAYED_TICKETS_LIST_CHUNK_SIZE),
       });
     }
   };
