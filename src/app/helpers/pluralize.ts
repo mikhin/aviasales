@@ -1,10 +1,13 @@
 export function pluralize(n: number, one: string, few: string, many: string): string {
-  if (n % 10 === 1 && n % 100 !== 11) {
-    return one;
-  }
+  const selectedRule = new Intl.PluralRules('ru-RU').select(n);
 
-  if (n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20)) {
-    return few;
+  switch (selectedRule) {
+    case 'one': {
+      return one;
+    }
+    case 'few': {
+      return few;
+    }
   }
 
   return many;
