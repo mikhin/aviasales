@@ -2,22 +2,22 @@ import React from 'react';
 import { Button } from 'app/components/button';
 
 type Props = {
-  onReloadPage: () => void;
+  onRetry: () => void;
 }
 
-export const ServerErrorNotice: React.FC<Props> = ({ onReloadPage }) => (
+export const ServerErrorNotice: React.FC<Props> = ({ onRetry }) => (
   <div className="server-error-notice">
     <p className="server-error-notice__explanation">
-      Произошла ошибка, приносим извинения. Попробуйте обновить страницу
+      Произошла ошибка, приносим извинения. Попробуйте повторить запрос.
     </p>
     <Button
-      onClick={onReloadPage}
+      onClick={onRetry}
       mods={{
         theme: 'ghost',
         size: 'm',
       }}
     >
-      Обновить страницу
+      Повторить запрос
     </Button>
   </div>
 );

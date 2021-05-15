@@ -239,8 +239,9 @@ class Tickets extends React.Component<RouteComponentProps, State> {
     });
   }
 
-  reloadPage = (): void => {
-    window.location.reload();
+  initializeFetching = async (): Promise<void> => {
+    await this.initializeSearchIdFetching();
+    await this.initializeTicketsFetching();
   }
 
   render(): React.ReactNode {
@@ -272,7 +273,7 @@ class Tickets extends React.Component<RouteComponentProps, State> {
           {isErrorWhileFetching && tickets.length === 0 && (
             <Page__Section>
               <ServerErrorNotice
-                onReloadPage={this.reloadPage}
+                onRetry={this.initializeFetching}
               />
             </Page__Section>
           )}
