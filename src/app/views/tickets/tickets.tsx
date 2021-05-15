@@ -256,7 +256,7 @@ class Tickets extends React.Component<RouteComponentProps, State> {
     return (
       <Page>
         <Page__Sidebar>
-          {tickets.length === 0 && fetchStatus === FETCH_STATUSES.fetching ? (
+          {!this.ticketStorage.areTicketsExists && fetchStatus === FETCH_STATUSES.fetching ? (
             <div>
               <CircleThrobber caption="Загрузка вариантов фильтра пересадок"/>
             </div>
