@@ -10,7 +10,7 @@ import { EmptySearchResultsMessage } from 'app/components/empty-search-results-m
 import { TicketList, TicketList__Item } from 'app/components/ticket-list';
 import { TicketCardContainer } from 'app/components/ticket-card-container';
 import { StopOptions } from 'app/components/tickets-filter-form';
-
+import { CircleThrobber } from 'app/components/circle-throbber';
 import { Button } from 'app/components/button';
 
 import { Ticket } from 'app/types/ticket';
@@ -256,10 +256,16 @@ class Tickets extends React.Component<RouteComponentProps, State> {
     return (
       <Page>
         <Page__Sidebar>
-          <TicketsFilterFormContainer
-            selectedStopOptions={selectedStopOptions}
-            onChange={this.onFilterChange}
-          />
+          {tickets.length === 0 && fetchStatus === FETCH_STATUSES.fetching ? (
+            <div>
+              <CircleThrobber caption="Загрузка вариантов фильтра пересадок"/>
+            </div>
+          ) : (
+            <TicketsFilterFormContainer
+              selectedStopOptions={selectedStopOptions}
+              onChange={this.onFilterChange}
+            />
+          )}
         </Page__Sidebar>
 
         <Page__Main>

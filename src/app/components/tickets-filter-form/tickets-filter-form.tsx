@@ -1,7 +1,6 @@
 import React from 'react';
 import { Form, Form__Field, Form__FieldSet, Form__Legend } from 'app/components/form';
 import { CheckboxField } from 'app/components/checkbox-field';
-import { CircleThrobber } from 'app/components/circle-throbber';
 
 import { AirTransfer } from 'app/types/air-transfer';
 
@@ -23,11 +22,7 @@ export const TicketsFilterForm: React.FC<Props> = React.memo(({ stopOptions, onS
         Количество пересадок
       </Form__Legend>
 
-      {stopOptions.length === 0 ? (
-        <div className="tickets-filter-form__circle-throbber">
-          <CircleThrobber caption="Загрузка вариантов фильтра пересадок"/>
-        </div>
-      ) : stopOptions.map((option) => (
+      {stopOptions.map((option) => (
         <Form__Field key={option.id}>
           <CheckboxField
             id={option.id}
