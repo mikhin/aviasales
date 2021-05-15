@@ -51,7 +51,7 @@ describe('Страница поиска билетов', () => {
     it('В списке отображается не более 5-ти билетов', async () => {
       const ticketCardSelector = '.ticket-card';
       await expect(page).toMatchElement(ticketCardSelector);
-      const ticketsCount = await page.$$eval(ticketCardSelector, tickets => tickets.length);
+      const ticketsCount = (await page.$$(ticketCardSelector)).length;
       expect(ticketsCount).toBe(5);
     });
 
@@ -173,7 +173,7 @@ describe('Страница поиска билетов', () => {
     await expect(page).toClick('.page__section .button_theme_standard', { text: 'Показать ещё 5 билетов!' });
 
     const ticketCardSelector = '.ticket-card';
-    const ticketsCount = await page.$$eval(ticketCardSelector, tickets => tickets.length);
+    const ticketsCount = (await page.$$(ticketCardSelector)).length;
     expect(ticketsCount).toBe(10);
   });
 });
