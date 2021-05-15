@@ -253,10 +253,21 @@ class Tickets extends React.Component<RouteComponentProps, State> {
       selectedSortingOptions,
     } = this.state;
 
+    const areTicketsCanBeDisplayed = tickets.length > 0;
+    const areStopOptionsUnavailable = !this.ticketStorage.areTicketsExists
+      && fetchStatus === FETCH_STATUSES.fetching;
+    const isServerError = isErrorWhileFetching && !areTicketsCanBeDisplayed;
+    const areSearchResultsEmpty = !isErrorWhileFetching
+      && tickets.length === 0
+      && this.ticketStorage.areTicketsExists;
+    const areTicketsLoading = areTicketsCanBeDisplayed
+      && fetchStatus === FETCH_STATUSES.fetching
+      && !isErrorWhileFetching;
+
     return (
       <Page>
         <Page__Sidebar>
-          {!this.ticketStorage.areTicketsExists && fetchStatus === FETCH_STATUSES.fetching ? (
+          {areStopOptionsUnavailable ? (
             <div>
               <CircleThrobber caption="Загрузка вариантов фильтра пересадок"/>
             </div>
@@ -276,7 +287,7 @@ class Tickets extends React.Component<RouteComponentProps, State> {
             />
           </Page__Section>
 
-          {isErrorWhileFetching && tickets.length === 0 && (
+          {isServerError && (
             <Page__Section>
               <ServerErrorNotice
                 onRetry={this.initializeFetching}
@@ -284,22 +295,19 @@ class Tickets extends React.Component<RouteComponentProps, State> {
             </Page__Section>
           )}
 
-          {!isErrorWhileFetching
-          && tickets.length === 0
-          && this.ticketStorage.areTicketsExists
-          && (
+          {areSearchResultsEmpty && (
             <Page__Section>
               <EmptySearchResultsMessage/>
             </Page__Section>
           )}
 
-          {tickets.length > 0 && fetchStatus === FETCH_STATUSES.fetching && !isErrorWhileFetching && (
+          {areTicketsLoading && (
             <Page__Section>
               <LineThrobber caption="Загрузка билетов"/>
             </Page__Section>
           )}
 
-          {tickets.length > 0 && (
+          {areTicketsCanBeDisplayed && (
             <Page__Section>
               <TicketList>
                 {tickets.map((ticket: Ticket) => (
@@ -316,7 +324,7 @@ class Tickets extends React.Component<RouteComponentProps, State> {
             </Page__Section>
           )}
 
-          {tickets.length > 0 && (
+          {areTicketsCanBeDisplayed && (
             <Page__Section>
               <Button
                 mods={{
