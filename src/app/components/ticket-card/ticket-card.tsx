@@ -1,19 +1,54 @@
 import React from 'react';
+import utcToZonedTime from 'date-fns-tz/utcToZonedTime';
+import format from 'date-fns/format';
 
-import { AirRouteSegment, Props as SegmentType } from 'app/components/air-route-segment';
+import { StopOptions } from 'app/components/tickets-filter-form';
+import { AirRouteSegment } from 'app/components/air-route-segment';
 
-import { Override } from 'app/types/override';
 import { Ticket } from 'app/types/ticket';
+import { timeZone } from 'app/constants/time-zone';
 
-type Props = Override<Ticket, {
-  segments: Array<SegmentType>;
-}>;
+type Props = Ticket & {
+  stopOptions: StopOptions;
+};
 
-export const TicketCard: React.FC<Props> = React.memo(({ price, carrier, segments }) => {
+export const TicketCard: React.FC<Props> = React.memo(({ price, carrier, segments, stopOptions }) => {
   const [
     forwardWaySegment,
     oppositeWaySegment,
   ] = segments;
+
+  function getOriginTime(datetime: string): string {
+    const date = utcToZonedTime(datetime, timeZone);
+    format(date, 'HH:mm');
+    return format(date, 'HH:mm');
+  }
+
+  function getDestinationTime(datetime: string, duration: number): string {
+    const originDate = utcToZonedTime(datetime, timeZone);
+
+    const destinationDate = new Date(originDate.getTime() + duration * 60000);
+    return format(destinationDate, 'HH:mm');
+  }
+
+  function getDuration(duration: number): string {
+    const hours = Math.floor(duration / 60);
+    const minutes = duration - (hours * 60);
+    return `${hours}ч ${minutes}м`;
+  }
+
+  function getStopsCount(segmentStops: Array<string>): string {
+    const option = stopOptions.find((stop) => stop.count === segmentStops.length);
+
+    if (option) {
+      return option.label;
+    }
+    return 'Без пересадок';
+  }
+
+  function getStops(segmentStops: Array<string>): string {
+    return segmentStops.join(', ');
+  }
 
   const formattedPrice = price.toLocaleString().split(',').join(' ');
 
@@ -33,23 +68,23 @@ export const TicketCard: React.FC<Props> = React.memo(({ price, carrier, segment
         <div className="ticket-card__route-segment">
           <AirRouteSegment
             origin={forwardWaySegment.origin}
-            originTime={forwardWaySegment.originTime}
+            originTime={getOriginTime(forwardWaySegment.date)}
             destination={forwardWaySegment.destination}
-            destinationTime={forwardWaySegment.destinationTime}
-            duration={forwardWaySegment.duration}
-            stopsCount={forwardWaySegment.stopsCount}
-            stops={forwardWaySegment.stops}
+            destinationTime={getDestinationTime(forwardWaySegment.date, forwardWaySegment.duration)}
+            duration={getDuration(forwardWaySegment.duration)}
+            stopsCount={getStopsCount(forwardWaySegment.stops)}
+            stops={getStops(forwardWaySegment.stops)}
           />
         </div>
         <div className="ticket-card__route-segment">
           <AirRouteSegment
             origin={oppositeWaySegment.origin}
-            originTime={oppositeWaySegment.originTime}
+            originTime={getOriginTime(oppositeWaySegment.date)}
             destination={oppositeWaySegment.destination}
-            destinationTime={oppositeWaySegment.destinationTime}
-            duration={oppositeWaySegment.duration}
-            stopsCount={oppositeWaySegment.stopsCount}
-            stops={oppositeWaySegment.stops}
+            destinationTime={getDestinationTime(oppositeWaySegment.date, oppositeWaySegment.duration)}
+            duration={getDuration(oppositeWaySegment.duration)}
+            stopsCount={getStopsCount(oppositeWaySegment.stops)}
+            stops={getStops(oppositeWaySegment.stops)}
             isOpposite
           />
         </div>

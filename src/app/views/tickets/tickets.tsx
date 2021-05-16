@@ -8,7 +8,7 @@ import { LineThrobber } from 'app/components/line-throbber';
 import { ServerErrorNotice } from 'app/components/server-error-notice';
 import { EmptySearchResultsMessage } from 'app/components/empty-search-results-message';
 import { TicketList, TicketList__Item } from 'app/components/ticket-list';
-import { TicketCardContainer } from 'app/components/ticket-card-container';
+import { TicketCard } from 'app/components/ticket-card';
 import { StopOptions } from 'app/components/tickets-filter-form';
 import { CircleThrobber } from 'app/components/circle-throbber';
 import { Button } from 'app/components/button';
@@ -312,7 +312,7 @@ class Tickets extends React.Component<RouteComponentProps, State> {
               <TicketList>
                 {tickets.map((ticket: Ticket) => (
                   <TicketList__Item key={`${ticket.carrier}/${ticket.price}`}>
-                    <TicketCardContainer
+                    <TicketCard
                       price={ticket.price}
                       carrier={ticket.carrier}
                       segments={ticket.segments}
