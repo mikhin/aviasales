@@ -38,7 +38,7 @@ export const TicketCard: React.FC<Props> = React.memo(({ price, carrier, segment
     return `${hours}ч ${minutes}м`;
   };
 
-  const getStopsCount = (segmentStops: Array<string>): string => {
+  const getStopsCount = (segmentStops: string[]): string => {
     const option = stopOptions.find((stop) => stop.count === segmentStops.length);
 
     if (option) {
@@ -47,7 +47,7 @@ export const TicketCard: React.FC<Props> = React.memo(({ price, carrier, segment
     return 'Без пересадок';
   };
 
-  const getStops = (segmentStops: Array<string>): string => segmentStops.join(', ');
+  const getStops = (segmentStops: string[]): string => segmentStops.join(', ');
 
   const formattedPrice = price.toLocaleString().split(',').join(' ');
 

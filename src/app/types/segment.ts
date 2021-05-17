@@ -2,6 +2,6 @@ export type Segment = {
   origin: string;
   destination: string;
   date: string;
-  stops: Array<string>;
+  stops: string[];
   duration: number;
 }

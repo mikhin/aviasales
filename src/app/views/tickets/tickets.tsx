@@ -41,7 +41,7 @@ const SORTING_OPTIONS = [
 type State = {
   displayedTicketsCount: number;
   searchId: string;
-  tickets: Array<Ticket>;
+  tickets: Ticket[];
   fetchStatus: string;
   selectedStopOptions: StopOptions;
   selectedSortingOptions: SortingOptions;
@@ -136,9 +136,9 @@ class Tickets extends React.Component<RouteComponentProps, State> {
     }
   };
 
-  setStopVariants = (tickets: Array<Ticket>): void => {
+  setStopVariants = (tickets: Ticket[]): void => {
     const stopVariantsCounts = tickets
-      .map((ticket): Array<number> => {
+      .map((ticket): number[] => {
         const [
           { stops: forwardStops },
           { stops: oppositeStops },

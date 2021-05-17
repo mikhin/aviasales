@@ -12,7 +12,7 @@ export const fetchSearchId = async (): Promise<string> => {
   }
 };
 
-export const fetchTickets = async (searchId: string): Promise<[Array<Ticket>, boolean]> => {
+export const fetchTickets = async (searchId: string): Promise<[Ticket[], boolean]> => {
   try {
     const response = await fetch(`/api/tickets?searchId=${searchId}`);
 

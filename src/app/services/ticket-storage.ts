@@ -4,30 +4,30 @@ import { StopOptions } from 'app/components/tickets-filter-form';
 
 type CachedDisplayedTicketsStorageEntry = {
   key: string;
-  source: Array<Ticket>;
-  result: Array<Ticket>;
+  source: Ticket[];
+  result: Ticket[];
 };
 
-type CachedDisplayedTicketsStorage = Array<CachedDisplayedTicketsStorageEntry>;
+type CachedDisplayedTicketsStorage = CachedDisplayedTicketsStorageEntry[];
 
 export class TicketStorage {
   cachedDisplayedTickets: CachedDisplayedTicketsStorage = [];
 
-  ticketsSortedByPrice: Array<Array<Ticket>> = [];
+  ticketsSortedByPrice: Array<Ticket>[] = [];
 
-  ticketsSortedByDuration: Array<Array<Ticket>> = [];
+  ticketsSortedByDuration: Array<Ticket>[] = [];
 
-  ticketsSortedByOptimality: Array<Array<Ticket>> = [];
+  ticketsSortedByOptimality: Array<Ticket>[] = [];
 
   areTicketsExists = false;
 
-  ticketsStoragesBySortingType: {[key: string]: Array<Array<Ticket>>} = {
+  ticketsStoragesBySortingType: {[key: string]: Array<Ticket>[]} = {
     cheapest: this.ticketsSortedByPrice,
     fastest: this.ticketsSortedByDuration,
     optimal: this.ticketsSortedByOptimality,
   };
 
-  updateStorageWithNewTickets = (tickets: Array<Ticket>): void => {
+  updateStorageWithNewTickets = (tickets: Ticket[]): void => {
     tickets.forEach((ticket) => {
       this.updateTicketsSortedByPrice(ticket);
       this.updateTicketsSortedByDuration(ticket);
@@ -81,10 +81,10 @@ export class TicketStorage {
     });
   }
 
-  getCachedDisplayedTickets = (filter: StopOptions, sorting: SortingOptions, displayedTicketsCount: number): Array<Ticket> => {
+  getCachedDisplayedTickets = (filter: StopOptions, sorting: SortingOptions, displayedTicketsCount: number): Ticket[] => {
     const selectedSortingOption = sorting.find((option) => option.isChecked);
 
-    let selectedTicketsStorage: Array<Ticket>;
+    let selectedTicketsStorage: Ticket[];
 
     if (selectedSortingOption) {
       selectedTicketsStorage = this.ticketsStoragesBySortingType[selectedSortingOption.id].flat();
@@ -112,7 +112,7 @@ export class TicketStorage {
     return displayedTickets;
   }
 
-  getDisplayedTickets = (tickets: Array<Ticket>, filter: StopOptions, sorting: SortingOptions, displayedTicketsCount: number): Array<Ticket> => {
+  getDisplayedTickets = (tickets: Ticket[], filter: StopOptions, sorting: SortingOptions, displayedTicketsCount: number): Ticket[] => {
     const stopCountsList = filter
       .filter((option) => option.isChecked)
       .map((option) => option.count);
@@ -122,7 +122,7 @@ export class TicketStorage {
       .slice(0, displayedTicketsCount);
   }
 
-  filterTicketsByStops = (ticket: Ticket, filter: Array<(number | undefined)>): boolean => {
+  filterTicketsByStops = (ticket: Ticket, filter: (number | undefined)[]): boolean => {
     if (filter.length > 0) {
       const [
         { stops: forwardStops },

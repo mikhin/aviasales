@@ -8,7 +8,7 @@ export type StopOption = AirTransfer & {
   isChecked: boolean;
 }
 
-export type StopOptions = Array<StopOption>;
+export type StopOptions = StopOption[];
 
 type Props = {
   stopOptions: StopOptions;

@@ -6,7 +6,7 @@ export type SortingOption = {
   isChecked: boolean;
 }
 
-export type SortingOptions = Array<SortingOption>;
+export type SortingOptions = SortingOption[];
 
 type Props = {
   onChange: (sortingOptions: SortingOptions) => void;
