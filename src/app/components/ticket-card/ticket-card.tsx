@@ -20,7 +20,6 @@ export const TicketCard: React.FC<Props> = React.memo(({ price, carrier, segment
 
   function getOriginTime(datetime: string): string {
     const date = utcToZonedTime(datetime, timeZone);
-    format(date, 'HH:mm');
     return format(date, 'HH:mm');
   }
 
