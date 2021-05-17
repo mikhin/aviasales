@@ -12,6 +12,8 @@ type Props = Ticket & {
   stopOptions: StopOptions;
 };
 
+const ONE_MINUTE_MILLISECONDS = 60000;
+
 export const TicketCard: React.FC<Props> = React.memo(({ price, carrier, segments, stopOptions }) => {
   const [
     forwardWaySegment,
@@ -26,7 +28,7 @@ export const TicketCard: React.FC<Props> = React.memo(({ price, carrier, segment
   const getDestinationTime = (datetime: string, duration: number): string => {
     const originDate = utcToZonedTime(datetime, timeZone);
 
-    const destinationDate = new Date(originDate.getTime() + duration * 60000);
+    const destinationDate = new Date(originDate.getTime() + duration * ONE_MINUTE_MILLISECONDS);
     return format(destinationDate, 'HH:mm');
   };
 
