@@ -1,6 +1,6 @@
 import { Ticket } from 'app/types/ticket';
 
-export async function fetchSearchId(): Promise<string> {
+export const fetchSearchId = async (): Promise<string> => {
   try {
     const response = await fetch('/api/search');
 
@@ -10,9 +10,9 @@ export async function fetchSearchId(): Promise<string> {
   } catch (error) {
     throw error;
   }
-}
+};
 
-export async function fetchTickets(searchId: string): Promise<[Array<Ticket>, boolean]> {
+export const fetchTickets = async (searchId: string): Promise<[Array<Ticket>, boolean]> => {
   try {
     const response = await fetch(`/api/tickets?searchId=${searchId}`);
 
@@ -22,4 +22,4 @@ export async function fetchTickets(searchId: string): Promise<[Array<Ticket>, bo
   } catch (error) {
     throw error;
   }
-}
+};

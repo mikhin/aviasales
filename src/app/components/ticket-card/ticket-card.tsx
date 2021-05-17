@@ -18,36 +18,34 @@ export const TicketCard: React.FC<Props> = React.memo(({ price, carrier, segment
     oppositeWaySegment,
   ] = segments;
 
-  function getOriginTime(datetime: string): string {
+  const getOriginTime = (datetime: string): string => {
     const date = utcToZonedTime(datetime, timeZone);
     return format(date, 'HH:mm');
-  }
+  };
 
-  function getDestinationTime(datetime: string, duration: number): string {
+  const getDestinationTime = (datetime: string, duration: number): string => {
     const originDate = utcToZonedTime(datetime, timeZone);
 
     const destinationDate = new Date(originDate.getTime() + duration * 60000);
     return format(destinationDate, 'HH:mm');
-  }
+  };
 
-  function getDuration(duration: number): string {
+  const getDuration = (duration: number): string => {
     const hours = Math.floor(duration / 60);
     const minutes = duration - (hours * 60);
     return `${hours}ч ${minutes}м`;
-  }
+  };
 
-  function getStopsCount(segmentStops: Array<string>): string {
+  const getStopsCount = (segmentStops: Array<string>): string => {
     const option = stopOptions.find((stop) => stop.count === segmentStops.length);
 
     if (option) {
       return option.label;
     }
     return 'Без пересадок';
-  }
+  };
 
-  function getStops(segmentStops: Array<string>): string {
-    return segmentStops.join(', ');
-  }
+  const getStops = (segmentStops: Array<string>): string => segmentStops.join(', ');
 
   const formattedPrice = price.toLocaleString().split(',').join(' ');
 

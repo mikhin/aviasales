@@ -1,4 +1,4 @@
-export function pluralize(n: number, one: string, few: string, many: string): string {
+export const pluralize = (n: number, one: string, few: string, many: string): string => {
   const selectedRule = new Intl.PluralRules('ru-RU').select(n);
 
   switch (selectedRule) {
@@ -11,4 +11,4 @@ export function pluralize(n: number, one: string, few: string, many: string): st
   }
 
   return many;
-}
+};

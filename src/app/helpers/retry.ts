@@ -1,4 +1,4 @@
-export async function retry(fn: () => Promise<void>, retriesLeft = 5, interval = 500): Promise<void> {
+export const retry = async (fn: () => Promise<void>, retriesLeft = 5, interval = 500): Promise<void> => {
   try {
     return await fn();
   } catch (error) {
@@ -9,4 +9,4 @@ export async function retry(fn: () => Promise<void>, retriesLeft = 5, interval =
     }
     throw error;
   }
-}
+};
