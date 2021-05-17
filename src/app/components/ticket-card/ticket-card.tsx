@@ -2,14 +2,14 @@ import React from 'react';
 import utcToZonedTime from 'date-fns-tz/utcToZonedTime';
 import format from 'date-fns/format';
 
-import { StopOptions } from 'app/components/tickets-filter-form';
+import { StopOption } from 'app/components/tickets-filter-form';
 import { AirRouteSegment } from 'app/components/air-route-segment';
 
 import { Ticket } from 'app/types/ticket';
 import { timeZone } from 'app/constants/time-zone';
 
 type Props = Ticket & {
-  stopOptions: StopOptions;
+  stopOptions: StopOption[];
 };
 
 const ONE_MINUTE_MILLISECONDS = 60000;

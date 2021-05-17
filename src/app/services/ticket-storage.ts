@@ -1,6 +1,6 @@
 import { Ticket } from 'app/types/ticket';
 import { SortingOptions } from 'app/components/sorting-form';
-import { StopOptions } from 'app/components/tickets-filter-form';
+import { StopOption } from 'app/components/tickets-filter-form';
 
 type CachedDisplayedTicketsStorageEntry = {
   key: string;
@@ -81,7 +81,7 @@ export class TicketStorage {
     });
   }
 
-  getCachedDisplayedTickets = (filter: StopOptions, sorting: SortingOptions, displayedTicketsCount: number): Ticket[] => {
+  getCachedDisplayedTickets = (filter: StopOption[], sorting: SortingOptions, displayedTicketsCount: number): Ticket[] => {
     const selectedSortingOption = sorting.find((option) => option.isChecked);
 
     let selectedTicketsStorage: Ticket[];
@@ -112,7 +112,7 @@ export class TicketStorage {
     return displayedTickets;
   }
 
-  getDisplayedTickets = (tickets: Ticket[], filter: StopOptions, sorting: SortingOptions, displayedTicketsCount: number): Ticket[] => {
+  getDisplayedTickets = (tickets: Ticket[], filter: StopOption[], sorting: SortingOptions, displayedTicketsCount: number): Ticket[] => {
     const stopCountsList = filter
       .filter((option) => option.isChecked)
       .map((option) => option.count);

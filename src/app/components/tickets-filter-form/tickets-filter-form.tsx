@@ -8,10 +8,8 @@ export type StopOption = AirTransfer & {
   isChecked: boolean;
 }
 
-export type StopOptions = StopOption[];
-
 type Props = {
-  stopOptions: StopOptions;
+  stopOptions: StopOption[];
   onStopOptionChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 

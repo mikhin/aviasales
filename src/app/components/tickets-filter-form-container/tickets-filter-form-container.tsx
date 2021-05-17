@@ -1,25 +1,25 @@
 import React from 'react';
 
-import { TicketsFilterForm, StopOptions, StopOption } from 'app/components/tickets-filter-form';
+import { TicketsFilterForm, StopOption } from 'app/components/tickets-filter-form';
 import { transfersFilterUnifyingOptionId } from 'app/constants/transfers-filter-unifying-option';
 
 type Props = {
-  onChange: (stopOptions: StopOptions) => void;
-  selectedStopOptions: StopOptions;
+  onChange: (stopOptions: StopOption[]) => void;
+  selectedStopOptions: StopOption[];
 }
 
 export class TicketsFilterFormContainer extends React.Component<Props> {
-  areOptionsEqual = (selectedOptions: StopOptions, isChecked: boolean): boolean => selectedOptions
+  areOptionsEqual = (selectedOptions: StopOption[], isChecked: boolean): boolean => selectedOptions
     .filter((option: StopOption) => option.id !== transfersFilterUnifyingOptionId)
     .every((option: StopOption) => option.isChecked === isChecked)
 
-  toggleOption = (id: string, isChecked: boolean): StopOptions => {
+  toggleOption = (id: string, isChecked: boolean): StopOption[] => {
     const {
       selectedStopOptions,
       onChange,
     } = this.props;
 
-    let stopOptions: StopOptions;
+    let stopOptions: StopOption[];
 
     stopOptions = selectedStopOptions.map((option: StopOption) => ({
       ...option,

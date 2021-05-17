@@ -9,7 +9,7 @@ import { ServerErrorNotice } from 'app/components/server-error-notice';
 import { EmptySearchResultsMessage } from 'app/components/empty-search-results-message';
 import { TicketList, TicketList__Item } from 'app/components/ticket-list';
 import { TicketCard } from 'app/components/ticket-card';
-import { StopOptions } from 'app/components/tickets-filter-form';
+import { StopOption } from 'app/components/tickets-filter-form';
 import { CircleThrobber } from 'app/components/circle-throbber';
 import { Button } from 'app/components/button';
 
@@ -43,7 +43,7 @@ type State = {
   searchId: string;
   tickets: Ticket[];
   fetchStatus: string;
-  selectedStopOptions: StopOptions;
+  selectedStopOptions: StopOption[];
   selectedSortingOptions: SortingOptions;
   isErrorWhileFetching: boolean;
 }
@@ -102,7 +102,7 @@ class Tickets extends React.Component<RouteComponentProps, State> {
     }
   }
 
-  onFilterChange = (filter: StopOptions): void => {
+  onFilterChange = (filter: StopOption[]): void => {
     const {
       selectedSortingOptions,
     } = this.state;
