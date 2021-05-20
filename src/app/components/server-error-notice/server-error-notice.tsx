@@ -12,10 +12,8 @@ export const ServerErrorNotice: React.FC<Props> = ({ onRetry }) => (
     </p>
     <Button
       onClick={onRetry}
-      mods={{
-        theme: 'ghost',
-        size: 'm',
-      }}
+      theme="ghost"
+      size="m"
     >
       Повторить запрос
     </Button>

@@ -327,12 +327,10 @@ class Tickets extends React.Component<RouteComponentProps, State> {
           {areTicketsCanBeDisplayed && (
             <Page__Section>
               <Button
-                mods={{
-                  theme: 'standard',
-                  size: 'l',
-                  wide: true,
-                }}
                 onClick={this.increaseCountOfDisplayedTickets}
+                theme="standard"
+                size="l"
+                wide
               >
                 Показать ещё 5 билетов!
               </Button>
