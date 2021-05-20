@@ -7,6 +7,7 @@ import { AirRouteSegment } from 'app/components/air-route-segment';
 
 import { Ticket } from 'app/types/ticket';
 import { timeZone } from 'app/constants/time-zone';
+import { withoutTransfersOptionLabel } from 'app/constants/transfers-filter-options';
 
 type Props = Ticket & {
   stopOptions: StopOption[];
@@ -44,7 +45,7 @@ export const TicketCard: React.FC<Props> = React.memo(({ price, carrier, segment
     if (option) {
       return option.label;
     }
-    return 'Без пересадок';
+    return withoutTransfersOptionLabel;
   };
 
   const getStops = (segmentStops: string[]): string => segmentStops.join(', ');

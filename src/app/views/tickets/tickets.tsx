@@ -18,7 +18,8 @@ import { retry } from 'app/helpers/retry';
 import {
   transfersFilterUnifyingOption,
   transfersFilterUnifyingOptionId,
-} from 'app/constants/transfers-filter-unifying-option';
+  withoutTransfersOptionLabel,
+} from 'app/constants/transfers-filter-options';
 import { pluralize } from 'app/helpers/pluralize';
 import { fetchSearchId, fetchTickets } from 'app/services/api';
 import { TicketStorage } from 'app/services/ticket-storage';
@@ -165,7 +166,7 @@ class Tickets extends React.Component<RouteComponentProps, State> {
 
       const newStopVariants = stopVariantsList.map((count) => {
         const id = `stops-${count}`;
-        const label = count === 0 ? 'Без пересадок' : `${count} ${pluralize(count, 'пересадка', 'пересадки', 'пересадок')}`;
+        const label = count === 0 ? withoutTransfersOptionLabel : `${count} ${pluralize(count, 'пересадка', 'пересадки', 'пересадок')}`;
 
         const existingOption = prevState.selectedStopOptions.find((option) => option.id === id);
         const newOption = {
