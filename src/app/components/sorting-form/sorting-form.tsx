@@ -6,11 +6,9 @@ export type SortingOption = {
   isChecked: boolean;
 }
 
-export type SortingOptions = SortingOption[];
-
 type Props = {
-  onChange: (sortingOptions: SortingOptions) => void;
-  selectedSortingOptions: SortingOptions;
+  onChange: (sortingOptions: SortingOption[]) => void;
+  selectedSortingOptions: SortingOption[];
 }
 
 export class SortingForm extends React.Component<Props> {

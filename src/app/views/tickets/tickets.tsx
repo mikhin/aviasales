@@ -3,7 +3,7 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 
 import { Page, Page__Main, Page__Section, Page__Sidebar } from 'app/components/page';
 import { TicketsFilterFormContainer } from 'app/components/tickets-filter-form-container';
-import { SortingForm, SortingOptions } from 'app/components/sorting-form';
+import { SortingForm, SortingOption } from 'app/components/sorting-form';
 import { LineThrobber } from 'app/components/line-throbber';
 import { ServerErrorNotice } from 'app/components/server-error-notice';
 import { EmptySearchResultsMessage } from 'app/components/empty-search-results-message';
@@ -45,7 +45,7 @@ type State = {
   tickets: Ticket[];
   fetchStatus: string;
   selectedStopOptions: StopOption[];
-  selectedSortingOptions: SortingOptions;
+  selectedSortingOptions: SortingOption[];
   isErrorWhileFetching: boolean;
 }
 
@@ -120,7 +120,7 @@ class Tickets extends React.Component<RouteComponentProps, State> {
     }
   };
 
-  onSortingChange = (sorting: SortingOptions): void => {
+  onSortingChange = (sorting: SortingOption[]): void => {
     const {
       selectedStopOptions,
     } = this.state;
