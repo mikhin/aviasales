@@ -1,5 +1,4 @@
 import React from 'react';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
 
 import { Page, Page__Main, Page__Section, Page__Sidebar } from 'app/components/page';
 import { TicketsFilterFormContainer } from 'app/components/tickets-filter-form-container';
@@ -57,7 +56,7 @@ const FETCH_STATUSES = {
 
 const DISPLAYED_TICKETS_LIST_CHUNK_SIZE = 5;
 
-class Tickets extends React.Component<RouteComponentProps, State> {
+class Tickets extends React.Component<{}, State> {
   state = {
     displayedTicketsCount: DISPLAYED_TICKETS_LIST_CHUNK_SIZE,
     searchId: '',
@@ -343,4 +342,4 @@ class Tickets extends React.Component<RouteComponentProps, State> {
   }
 }
 
-export default withRouter(Tickets);
+export default Tickets;
