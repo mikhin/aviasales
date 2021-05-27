@@ -4,7 +4,7 @@ import { SortingOption } from 'app/types/sorting-option';
 
 type CachedDisplayedTicketsStorageEntry = {
   key: string;
-  source: Ticket[];
+  source: Ticket[][];
   result: Ticket[];
 };
 
@@ -13,11 +13,11 @@ type CachedDisplayedTicketsStorage = CachedDisplayedTicketsStorageEntry[];
 export class TicketStorage {
   cachedDisplayedTickets: CachedDisplayedTicketsStorage = [];
 
-  ticketsSortedByPrice: Array<Ticket>[] = [];
+  ticketsSortedByPrice: Ticket[][] = [];
 
-  ticketsSortedByDuration: Array<Ticket>[] = [];
+  ticketsSortedByDuration: Ticket[][] = [];
 
-  ticketsSortedByOptimality: Array<Ticket>[] = [];
+  ticketsSortedByOptimality: Ticket[][] = [];
 
   areTicketsExists = false;
 
@@ -90,12 +90,12 @@ export class TicketStorage {
   getCachedDisplayedTickets = (filter: StopOption[], sorting: SortingOption[], displayedTicketsCount: number): Ticket[] => {
     const selectedSortingOption = sorting.find((option) => option.isChecked);
 
-    let selectedTicketsStorage: Ticket[];
+    let selectedTicketsStorage: Ticket[][];
 
     if (selectedSortingOption) {
-      selectedTicketsStorage = this.ticketsStoragesBySortingType[selectedSortingOption.id].flat();
+      selectedTicketsStorage = this.ticketsStoragesBySortingType[selectedSortingOption.id];
     } else {
-      selectedTicketsStorage = this.ticketsStoragesBySortingType.cheapest.flat();
+      selectedTicketsStorage = this.ticketsStoragesBySortingType.cheapest;
     }
 
     const filterKeyPart = filter.filter((option) => option.isChecked).map((option) => option.id).join('');
