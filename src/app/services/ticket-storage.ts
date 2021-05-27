@@ -1,6 +1,6 @@
 import { Ticket } from 'app/types/ticket';
-import { SortingOption } from 'app/components/sorting-form';
-import { StopOption } from 'app/components/tickets-filter-form';
+import { StopOption } from 'app/types/stop-option';
+import { SortingOption } from 'app/types/sorting-option';
 
 type CachedDisplayedTicketsStorageEntry = {
   key: string;

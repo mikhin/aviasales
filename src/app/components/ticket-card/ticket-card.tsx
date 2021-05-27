@@ -2,7 +2,7 @@ import React from 'react';
 import utcToZonedTime from 'date-fns-tz/utcToZonedTime';
 import format from 'date-fns/format';
 
-import { StopOption } from 'app/components/tickets-filter-form';
+import { StopOption } from 'app/types/stop-option';
 import { AirRouteSegment } from 'app/components/air-route-segment';
 
 import { Ticket } from 'app/types/ticket';

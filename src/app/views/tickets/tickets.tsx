@@ -2,13 +2,12 @@ import React from 'react';
 
 import { Page, Page__Main, Page__Section, Page__Sidebar } from 'app/components/page';
 import { TicketsFilterFormContainer } from 'app/components/tickets-filter-form-container';
-import { SortingForm, SortingOption } from 'app/components/sorting-form';
+import { SortingForm } from 'app/components/sorting-form';
 import { LineThrobber } from 'app/components/line-throbber';
 import { ServerErrorNotice } from 'app/components/server-error-notice';
 import { EmptySearchResultsMessage } from 'app/components/empty-search-results-message';
 import { TicketList, TicketList__Item } from 'app/components/ticket-list';
 import { TicketCard } from 'app/components/ticket-card';
-import { StopOption } from 'app/components/tickets-filter-form';
 import { CircleThrobber } from 'app/components/circle-throbber';
 import { Button } from 'app/components/button';
 
@@ -22,6 +21,8 @@ import {
 import { pluralize } from 'app/helpers/pluralize';
 import { fetchSearchId, fetchTickets } from 'app/services/api';
 import { TicketStorage } from 'app/services/ticket-storage';
+import { StopOption } from 'app/types/stop-option';
+import { SortingOption } from 'app/types/sorting-option';
 
 const SORTING_OPTIONS = [
   {

@@ -1,10 +1,5 @@
 import React from 'react';
-
-export type SortingOption = {
-  id: string;
-  label: string;
-  isChecked: boolean;
-}
+import { SortingOption } from 'app/types/sorting-option';
 
 type Props = {
   onChange: (sortingOptions: SortingOption[]) => void;

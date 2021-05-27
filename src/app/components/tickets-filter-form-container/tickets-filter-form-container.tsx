@@ -1,7 +1,8 @@
 import React from 'react';
 
-import { TicketsFilterForm, StopOption } from 'app/components/tickets-filter-form';
+import { TicketsFilterForm } from 'app/components/tickets-filter-form';
 import { transfersFilterUnifyingOptionId } from 'app/constants/transfers-filter-options';
+import { StopOption } from 'app/types/stop-option';
 
 type Props = {
   onChange: (stopOptions: StopOption[]) => void;

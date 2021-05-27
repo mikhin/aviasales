@@ -1,12 +1,7 @@
 import React from 'react';
 import { Form, Form__Field, Form__FieldSet, Form__Legend } from 'app/components/form';
 import { CheckboxField } from 'app/components/checkbox-field';
-
-import { AirTransfer } from 'app/types/air-transfer';
-
-export type StopOption = AirTransfer & {
-  isChecked: boolean;
-}
+import { StopOption } from 'app/types/stop-option';
 
 type Props = {
   stopOptions: StopOption[];
