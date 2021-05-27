@@ -29,6 +29,12 @@ export class TicketStorage {
 
   updateStorageWithNewTickets = (tickets: Ticket[]): void => {
     tickets.forEach((ticket) => {
+      // Сознательно мутируем объект вместо создания нового,
+      // чтобы положить в оба хранилища именно один и тот же объект,
+      // т.к. в дальнейшем, при сортировке по оптимальности,
+      // будет происходить сравнение объектов по ссылке
+      ticket.id = `${ticket.carrier}/${ticket.price}/${ticket.segments[0].duration}/${ticket.segments[1].duration}`;
+
       this.updateTicketsSortedByPrice(ticket);
       this.updateTicketsSortedByDuration(ticket);
     });

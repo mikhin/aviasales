@@ -311,8 +311,9 @@ class Tickets extends React.Component<{}, State> {
             <Page__Section>
               <TicketList>
                 {tickets.map((ticket: Ticket) => (
-                  <TicketList__Item key={`${ticket.carrier}/${ticket.price}`}>
+                  <TicketList__Item key={`${ticket.id}`}>
                     <TicketCard
+                      id={ticket.id}
                       price={ticket.price}
                       carrier={ticket.carrier}
                       segments={ticket.segments}
