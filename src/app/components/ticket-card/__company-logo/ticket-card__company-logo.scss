@@ -2,6 +2,7 @@
 
 .ticket-card__company-logo {
   max-width: 85px;
+  height: 36px;
 
   @media (min-width: $tablet-portrait) {
     max-width: 110px;
