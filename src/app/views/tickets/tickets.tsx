@@ -47,6 +47,7 @@ type State = {
   selectedStopOptions: StopOption[];
   selectedSortingOptions: SortingOption[];
   isErrorWhileFetching: boolean;
+  hiddenTicketsCount: number;
 }
 
 const FETCH_STATUSES = {
@@ -66,6 +67,7 @@ class Tickets extends React.Component<{}, State> {
     selectedStopOptions: [],
     selectedSortingOptions: SORTING_OPTIONS.map((option, index) => ({ ...option, isChecked: index === 0 })),
     isErrorWhileFetching: false,
+    hiddenTicketsCount: 0,
   }
 
   ticketStorage = new TicketStorage();
@@ -94,10 +96,13 @@ class Tickets extends React.Component<{}, State> {
       } catch (error) {
         const { selectedStopOptions, selectedSortingOptions, displayedTicketsCount } = this.state;
 
+        const { displayedTickets, hiddenTicketsCount } = this.ticketStorage.getCachedDisplayedTickets(selectedStopOptions, selectedSortingOptions, displayedTicketsCount);
+
         this.setState({
           isErrorWhileFetching: !this.ticketStorage.areTicketsExists,
           fetchStatus: FETCH_STATUSES.fetchingFinished,
-          tickets: this.ticketStorage.getCachedDisplayedTickets(selectedStopOptions, selectedSortingOptions, displayedTicketsCount),
+          tickets: displayedTickets,
+          hiddenTicketsCount,
         });
       }
     }
@@ -113,9 +118,12 @@ class Tickets extends React.Component<{}, State> {
     });
 
     if (filter) {
+      const { displayedTickets, hiddenTicketsCount } = this.ticketStorage.getCachedDisplayedTickets(filter, selectedSortingOptions, DISPLAYED_TICKETS_LIST_CHUNK_SIZE);
+
       this.setState({
         displayedTicketsCount: DISPLAYED_TICKETS_LIST_CHUNK_SIZE,
-        tickets: this.ticketStorage.getCachedDisplayedTickets(filter, selectedSortingOptions, DISPLAYED_TICKETS_LIST_CHUNK_SIZE),
+        tickets: displayedTickets,
+        hiddenTicketsCount,
       });
     }
   };
@@ -130,9 +138,12 @@ class Tickets extends React.Component<{}, State> {
     });
 
     if (sorting) {
+      const { displayedTickets, hiddenTicketsCount } = this.ticketStorage.getCachedDisplayedTickets(selectedStopOptions, sorting, DISPLAYED_TICKETS_LIST_CHUNK_SIZE);
+
       this.setState({
         displayedTicketsCount: DISPLAYED_TICKETS_LIST_CHUNK_SIZE,
-        tickets: this.ticketStorage.getCachedDisplayedTickets(selectedStopOptions, sorting, DISPLAYED_TICKETS_LIST_CHUNK_SIZE),
+        tickets: displayedTickets,
+        hiddenTicketsCount,
       });
     }
   };
@@ -209,18 +220,24 @@ class Tickets extends React.Component<{}, State> {
     if (!this.ticketStorage.areTicketsExists) {
       this.ticketStorage.updateStorageWithNewTickets(tickets);
 
+      const { displayedTickets, hiddenTicketsCount } = this.ticketStorage.getCachedDisplayedTickets(selectedStopOptions, selectedSortingOptions, displayedTicketsCount);
+
       this.setState({
         fetchStatus: FETCH_STATUSES.fetching,
-        tickets: this.ticketStorage.getCachedDisplayedTickets(selectedStopOptions, selectedSortingOptions, displayedTicketsCount),
+        tickets: displayedTickets,
+        hiddenTicketsCount,
       });
     } else {
       this.ticketStorage.updateStorageWithNewTickets(tickets);
     }
 
     if (isRequestFinished) {
+      const { displayedTickets, hiddenTicketsCount } = this.ticketStorage.getCachedDisplayedTickets(selectedStopOptions, selectedSortingOptions, displayedTicketsCount);
+
       this.setState({
         fetchStatus: FETCH_STATUSES.fetchingFinished,
-        tickets: this.ticketStorage.getCachedDisplayedTickets(selectedStopOptions, selectedSortingOptions, displayedTicketsCount),
+        tickets: displayedTickets,
+        hiddenTicketsCount,
       });
     } else {
       await this.getTickets();
@@ -233,9 +250,12 @@ class Tickets extends React.Component<{}, State> {
     this.setState((prevState) => {
       const displayedTicketsCountNewValue = prevState.displayedTicketsCount + DISPLAYED_TICKETS_LIST_CHUNK_SIZE;
 
+      const { displayedTickets, hiddenTicketsCount } = this.ticketStorage.getCachedDisplayedTickets(selectedStopOptions, selectedSortingOptions, displayedTicketsCountNewValue);
+
       return {
         displayedTicketsCount: displayedTicketsCountNewValue,
-        tickets: this.ticketStorage.getCachedDisplayedTickets(selectedStopOptions, selectedSortingOptions, displayedTicketsCountNewValue),
+        tickets: displayedTickets,
+        hiddenTicketsCount,
       };
     });
   }
@@ -252,15 +272,27 @@ class Tickets extends React.Component<{}, State> {
       isErrorWhileFetching,
       selectedStopOptions,
       selectedSortingOptions,
+      hiddenTicketsCount,
     } = this.state;
 
     const areTicketsCanBeDisplayed = tickets.length > 0;
+
+    const isHiddenTicketsAvailable = hiddenTicketsCount > 0;
+
+    const showMoreButtonCount = ((hiddenTicketsCount > 0
+      && hiddenTicketsCount < DISPLAYED_TICKETS_LIST_CHUNK_SIZE)
+      && hiddenTicketsCount)
+      || DISPLAYED_TICKETS_LIST_CHUNK_SIZE;
+
     const areStopOptionsUnavailable = !this.ticketStorage.areTicketsExists
       && fetchStatus === FETCH_STATUSES.fetching;
+
     const isServerError = isErrorWhileFetching && !areTicketsCanBeDisplayed;
+
     const areSearchResultsEmpty = !isErrorWhileFetching
       && tickets.length === 0
       && this.ticketStorage.areTicketsExists;
+
     const areTicketsLoading = areTicketsCanBeDisplayed
       && fetchStatus === FETCH_STATUSES.fetching
       && !isErrorWhileFetching;
@@ -326,7 +358,7 @@ class Tickets extends React.Component<{}, State> {
             </Page__Section>
           )}
 
-          {areTicketsCanBeDisplayed && (
+          {areTicketsCanBeDisplayed && isHiddenTicketsAvailable && (
             <Page__Section>
               <Button
                 onClick={this.increaseCountOfDisplayedTickets}
@@ -334,7 +366,7 @@ class Tickets extends React.Component<{}, State> {
                 size="l"
                 wide
               >
-                Показать ещё 5 билетов!
+                Показать ещё {showMoreButtonCount} {pluralize(showMoreButtonCount, 'билет', 'билета', 'билетов')}!
               </Button>
             </Page__Section>
           )}

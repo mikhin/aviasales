@@ -6,6 +6,7 @@ type CachedDisplayedTicketsStorageEntry = {
   key: string;
   source: Ticket[][];
   result: Ticket[];
+  hiddenTicketsCount: number;
 };
 
 type CachedDisplayedTicketsStorage = CachedDisplayedTicketsStorageEntry[];
@@ -87,7 +88,7 @@ export class TicketStorage {
     });
   }
 
-  getCachedDisplayedTickets = (filter: StopOption[], sorting: SortingOption[], displayedTicketsCount: number): Ticket[] => {
+  getCachedDisplayedTickets = (filter: StopOption[], sorting: SortingOption[], displayedTicketsCount: number): { displayedTickets: Ticket[]; hiddenTicketsCount: number } => {
     const selectedSortingOption = sorting.find((option) => option.isChecked);
 
     let selectedTicketsStorage: Ticket[][];
@@ -100,33 +101,42 @@ export class TicketStorage {
 
     const filterKeyPart = filter.filter((option) => option.isChecked).map((option) => option.id).join('');
     const sortingKeyPart = sorting.filter((option) => option.isChecked).map((option) => option.id).join('');
-    const cacheKey = `filter:${filterKeyPart}/sorting:${sortingKeyPart}/ticketsCount:${selectedTicketsStorage.length}/displayedTicketsCount:${displayedTicketsCount}`;
+    const cacheKey = `filter:${filterKeyPart}
+    /sorting:${sortingKeyPart}
+    /ticketsCount:${selectedTicketsStorage.length}
+    /displayedTicketsCount:${displayedTicketsCount}`;
 
     const cachedEntry = this.cachedDisplayedTickets.find((entry) => entry.key === cacheKey && entry.source === selectedTicketsStorage);
 
     if (cachedEntry) {
-      return cachedEntry.result;
+      return { displayedTickets: cachedEntry.result, hiddenTicketsCount: cachedEntry.hiddenTicketsCount };
     }
 
-    const displayedTickets = this.getDisplayedTickets(selectedTicketsStorage.flat(), filter, displayedTicketsCount);
+    const { displayedTickets, hiddenTicketsCount } = this.getDisplayedTickets(selectedTicketsStorage.flat(), filter, displayedTicketsCount);
 
     this.cachedDisplayedTickets = [...this.cachedDisplayedTickets, {
       key: cacheKey,
       source: selectedTicketsStorage,
       result: displayedTickets,
+      hiddenTicketsCount,
     }];
 
-    return displayedTickets;
+    return { displayedTickets, hiddenTicketsCount };
   }
 
-  getDisplayedTickets = (tickets: Ticket[], filter: StopOption[], displayedTicketsCount: number): Ticket[] => {
+  getDisplayedTickets = (tickets: Ticket[], filter: StopOption[], displayedTicketsCount: number): { displayedTickets: Ticket[]; hiddenTicketsCount: number } => {
     const stopCountsList = filter
       .filter((option) => option.isChecked)
       .map((option) => option.count);
 
-    return [...tickets]
+    const displayedTickets = [...tickets]
       .filter((ticket: Ticket) => this.filterTicketsByStops(ticket, stopCountsList))
       .slice(0, displayedTicketsCount);
+
+    return {
+      displayedTickets,
+      hiddenTicketsCount: tickets.length - displayedTickets.length,
+    };
   }
 
   filterTicketsByStops = (ticket: Ticket, filter: (number | undefined)[]): boolean => {
