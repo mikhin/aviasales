@@ -100,14 +100,15 @@ export class TicketStorage {
 
     const filterKeyPart = filter.filter((option) => option.isChecked).map((option) => option.id).join('');
     const sortingKeyPart = sorting.filter((option) => option.isChecked).map((option) => option.id).join('');
-    const cacheKey = `filter:${filterKeyPart}/sorting:${sortingKeyPart}/ticketsCount:${selectedTicketsStorage.length}`;
+    const cacheKey = `filter:${filterKeyPart}/sorting:${sortingKeyPart}/ticketsCount:${selectedTicketsStorage.length}/displayedTicketsCount:${displayedTicketsCount}`;
 
     const cachedEntry = this.cachedDisplayedTickets.find((entry) => entry.key === cacheKey && entry.source === selectedTicketsStorage);
 
     if (cachedEntry) {
       return cachedEntry.result;
     }
-    const displayedTickets = this.getDisplayedTickets(selectedTicketsStorage.flat(), filter, sorting, displayedTicketsCount);
+
+    const displayedTickets = this.getDisplayedTickets(selectedTicketsStorage.flat(), filter, displayedTicketsCount);
 
     this.cachedDisplayedTickets = [...this.cachedDisplayedTickets, {
       key: cacheKey,
@@ -118,7 +119,7 @@ export class TicketStorage {
     return displayedTickets;
   }
 
-  getDisplayedTickets = (tickets: Ticket[], filter: StopOption[], sorting: SortingOption[], displayedTicketsCount: number): Ticket[] => {
+  getDisplayedTickets = (tickets: Ticket[], filter: StopOption[], displayedTicketsCount: number): Ticket[] => {
     const stopCountsList = filter
       .filter((option) => option.isChecked)
       .map((option) => option.count);
