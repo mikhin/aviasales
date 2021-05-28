@@ -18,26 +18,12 @@ import {
   transfersFilterUnifyingOptionId,
   withoutTransfersOptionLabel,
 } from 'app/constants/transfers-filter-options';
+import { sortingOptions } from 'app/constants/sorting-options';
 import { pluralize } from 'app/helpers/pluralize';
 import { fetchSearchId, fetchTickets } from 'app/services/api';
 import { TicketStorage } from 'app/services/ticket-storage';
 import { StopOption } from 'app/types/stop-option';
 import { SortingOption } from 'app/types/sorting-option';
-
-const SORTING_OPTIONS = [
-  {
-    id: 'cheapest',
-    label: 'Самый дешёвый',
-  },
-  {
-    id: 'fastest',
-    label: 'Самый быстрый',
-  },
-  {
-    id: 'optimal',
-    label: 'Оптимальный',
-  },
-];
 
 type State = {
   displayedTicketsCount: number;
@@ -65,7 +51,7 @@ class Tickets extends React.Component<{}, State> {
     tickets: [],
     fetchStatus: FETCH_STATUSES.initial,
     selectedStopOptions: [],
-    selectedSortingOptions: SORTING_OPTIONS.map((option, index) => ({ ...option, isChecked: index === 0 })),
+    selectedSortingOptions: sortingOptions.map((option, index) => ({ ...option, isChecked: index === 0 })),
     isErrorWhileFetching: false,
     hiddenTicketsCount: 0,
   }
