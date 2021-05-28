@@ -11,6 +11,7 @@ import { getFormattedFlyDuration } from 'app/helpers/formatters/get-formatted-fl
 import { getFormattedTicketPrice } from 'app/helpers/formatters/get-formatted-ticket-price';
 import { getFormattedAirTransfers } from 'app/helpers/formatters/get-formatted-air-transfers';
 import { getFormattedAirTransfersCount } from 'app/helpers/formatters/get-formatted-air-transfers-count';
+import { getCarrierLogoUrl, getCarrierLogo2xUrl } from 'app/helpers/get-carrier-logo-url';
 
 type Props = Ticket & {
   stopOptions: StopOption[];
@@ -32,7 +33,12 @@ export const TicketCard: React.FC<Props> = React.memo(({ price, carrier, segment
           </span>
           {getFormattedTicketPrice(price)}&nbsp;₽
         </span>
-        <img className="ticket-card__company-logo" alt="" src={`http://pics.avs.io/99/36/${carrier}.png`}/>
+        <img
+          className="ticket-card__company-logo"
+          alt=""
+          src={getCarrierLogoUrl(carrier)}
+          srcSet={`${getCarrierLogo2xUrl(carrier)} 2x`}
+        />
       </div>
       <div className="ticket-card__details">
         <div className="ticket-card__route-segment">
