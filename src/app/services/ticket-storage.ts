@@ -1,6 +1,12 @@
 import { Ticket } from 'app/types/ticket';
 import { StopOption } from 'app/types/stop-option';
 import { SortingOption } from 'app/types/sorting-option';
+import {
+  transfersFilterUnifyingOption,
+  transfersFilterUnifyingOptionId,
+  withoutTransfersOptionLabel,
+} from 'app/constants/transfers-filter-options';
+import { pluralize } from 'app/helpers/pluralize';
 
 type CachedDisplayedTicketsStorageEntry = {
   key: string;
@@ -19,6 +25,8 @@ export class TicketStorage {
   ticketsSortedByDuration: Ticket[][] = [];
 
   ticketsSortedByOptimality: Ticket[][] = [];
+
+  selectedStopOptions: StopOption[] = [];
 
   areTicketsExists = false;
 
@@ -112,7 +120,10 @@ export class TicketStorage {
       return { displayedTickets: cachedEntry.result, hiddenTicketsCount: cachedEntry.hiddenTicketsCount };
     }
 
-    const { displayedTickets, hiddenTicketsCount } = this.getDisplayedTickets(selectedTicketsStorage.flat(), filter, displayedTicketsCount);
+    const {
+      displayedTickets,
+      hiddenTicketsCount,
+    } = this.getDisplayedTickets(selectedTicketsStorage.flat(), filter, displayedTicketsCount);
 
     this.cachedDisplayedTickets = [...this.cachedDisplayedTickets, {
       key: cacheKey,
@@ -122,6 +133,51 @@ export class TicketStorage {
     }];
 
     return { displayedTickets, hiddenTicketsCount };
+  }
+
+  getStopOptions = (prevState: StopOption[], tickets: Ticket[]): StopOption[] => {
+    const stopVariantsCounts = tickets
+      .map((ticket): number[] => {
+        const [
+          { stops: forwardStops },
+          { stops: oppositeStops },
+        ] = ticket.segments;
+
+        return [forwardStops.length, oppositeStops.length];
+      })
+      .flat();
+
+    const stopVariantsList = Array
+      .from(new Set(stopVariantsCounts))
+      .sort();
+
+    const defaultUnifyingOption = {
+      ...transfersFilterUnifyingOption,
+      isChecked: true,
+    };
+
+    const unifyingOption = prevState
+      .find((option) => option.id === transfersFilterUnifyingOptionId)
+      || defaultUnifyingOption;
+
+    const newStopVariants = stopVariantsList.map((count) => {
+      const id = `stops-${count}`;
+      const label = count === 0 ? withoutTransfersOptionLabel : `${count} ${pluralize(count, 'пересадка', 'пересадки', 'пересадок')}`;
+
+      const existingOption = prevState.find((option) => option.id === id);
+      const newOption = {
+        id,
+        label,
+        count,
+        isChecked: true,
+      };
+
+      return existingOption || newOption;
+    });
+
+    this.selectedStopOptions = [unifyingOption, ...newStopVariants];
+
+    return this.selectedStopOptions;
   }
 
   getDisplayedTickets = (tickets: Ticket[], filter: StopOption[], displayedTicketsCount: number): { displayedTickets: Ticket[]; hiddenTicketsCount: number } => {

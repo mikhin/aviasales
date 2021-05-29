@@ -13,11 +13,6 @@ import { Button } from 'app/components/button';
 
 import { Ticket } from 'app/types/ticket';
 import { retry } from 'app/helpers/retry';
-import {
-  transfersFilterUnifyingOption,
-  transfersFilterUnifyingOptionId,
-  withoutTransfersOptionLabel,
-} from 'app/constants/transfers-filter-options';
 import { sortingOptions } from 'app/constants/sorting-options';
 import { pluralize } from 'app/helpers/pluralize';
 import { fetchSearchId, fetchTickets } from 'app/services/api';
@@ -134,54 +129,6 @@ class Tickets extends React.Component<{}, State> {
     }
   };
 
-  setStopVariants = (tickets: Ticket[]): void => {
-    const stopVariantsCounts = tickets
-      .map((ticket): number[] => {
-        const [
-          { stops: forwardStops },
-          { stops: oppositeStops },
-        ] = ticket.segments;
-
-        return [forwardStops.length, oppositeStops.length];
-      })
-      .flat();
-
-    const stopVariantsList = Array
-      .from(new Set(stopVariantsCounts))
-      .sort();
-
-    this.setState((prevState) => {
-      const defaultUnifyingOption = {
-        ...transfersFilterUnifyingOption,
-        isChecked: true,
-      };
-
-      const unifyingOption = prevState
-        .selectedStopOptions
-        .find((option) => option.id === transfersFilterUnifyingOptionId)
-        || defaultUnifyingOption;
-
-      const newStopVariants = stopVariantsList.map((count) => {
-        const id = `stops-${count}`;
-        const label = count === 0 ? withoutTransfersOptionLabel : `${count} ${pluralize(count, 'пересадка', 'пересадки', 'пересадок')}`;
-
-        const existingOption = prevState.selectedStopOptions.find((option) => option.id === id);
-        const newOption = {
-          id,
-          label,
-          count,
-          isChecked: true,
-        };
-
-        return existingOption || newOption;
-      });
-
-      return {
-        selectedStopOptions: [unifyingOption, ...newStopVariants],
-      };
-    });
-  }
-
   getSearchId = async (): Promise<void> => {
     this.setState({
       fetchStatus: FETCH_STATUSES.fetching,
@@ -195,11 +142,16 @@ class Tickets extends React.Component<{}, State> {
   }
 
   getTickets = async (): Promise<void> => {
-    const { searchId, displayedTicketsCount } = this.state;
+    const {
+      searchId,
+      displayedTicketsCount,
+    } = this.state;
 
     const [tickets, isRequestFinished] = await fetchTickets(searchId);
 
-    this.setStopVariants(tickets);
+    this.setState((prevState) => ({
+      selectedStopOptions: this.ticketStorage.getStopOptions(prevState.selectedStopOptions, tickets),
+    }));
 
     const { selectedSortingOptions, selectedStopOptions } = this.state;
 
