@@ -15,7 +15,7 @@ export type Props = {
 export const AirRouteSegment: React.FC<Props> = React.memo(({ origin, originTime, destination, destinationTime, duration, stopsCount, stops, isOpposite }) => (
   <div className="air-route-segment">
     <div className="air-route-segment__header">
-      <h3 className="air-route-segment__title">{!isOpposite ? 'Туда' : 'Обратно'}: {origin} – {destination}</h3>
+      <h3 className="air-route-segment__title">{isOpposite ? 'Обратно' : 'Туда'}: {origin} – {destination}</h3>
     </div>
     <dl className="air-route-segment__details">
       <AirRouteSegment__Detail
