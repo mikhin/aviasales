@@ -6,7 +6,7 @@ type Props = {
   selectedSortingOptions: SortingOption[];
 }
 
-export class SortingForm extends React.Component<Props> {
+export class SortingForm extends React.PureComponent<Props> {
   onSortingOptionChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const {
       selectedSortingOptions,

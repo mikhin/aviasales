@@ -6,8 +6,8 @@ type Props = {
   mix: string;
 }
 
-export const Form: React.FC<Props> = ({ children, mix }) => (
+export const Form: React.FC<Props> = React.memo(({ children, mix }) => (
   <form className={b('form', { mix })}>
     {children}
   </form>
-);
+));

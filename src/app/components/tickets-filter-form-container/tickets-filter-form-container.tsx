@@ -9,7 +9,7 @@ type Props = {
   selectedStopOptions: StopOption[];
 }
 
-export class TicketsFilterFormContainer extends React.Component<Props> {
+export class TicketsFilterFormContainer extends React.PureComponent<Props> {
   areOptionsEqual = (selectedOptions: StopOption[], isChecked: boolean): boolean => selectedOptions
     .filter((option: StopOption) => option.id !== transfersFilterUnifyingOptionId)
     .every((option: StopOption) => option.isChecked === isChecked)
