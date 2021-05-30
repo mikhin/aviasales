@@ -2,11 +2,12 @@
 
 .app-layout__trim {
   box-sizing: border-box;
-  max-width: 754px;
   margin: 0 auto;
   padding: 10px;
+  min-width: 320px;
 
   @media (min-width: $tablet-portrait) {
+    max-width: 754px;
     padding: 0;
   }
 }
