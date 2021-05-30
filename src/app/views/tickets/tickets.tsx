@@ -183,12 +183,12 @@ class Tickets extends React.Component<{}, State> {
   }
 
   increaseCountOfDisplayedTickets = (): void => {
-    const { selectedStopOptions, selectedSortingOptions } = this.state;
+    const { selectedStopOptions } = this.state;
 
     this.setState((prevState) => {
       const displayedTicketsCountNewValue = prevState.displayedTicketsCount + DISPLAYED_TICKETS_LIST_CHUNK_SIZE;
 
-      const { displayedTickets, hiddenTicketsCount } = this.ticketStorage.getCachedDisplayedTickets(selectedStopOptions, selectedSortingOptions, displayedTicketsCountNewValue);
+      const { displayedTickets, hiddenTicketsCount } = this.ticketStorage.getIncreasedSizeTicketList(selectedStopOptions, displayedTicketsCountNewValue);
 
       return {
         displayedTicketsCount: displayedTicketsCountNewValue,

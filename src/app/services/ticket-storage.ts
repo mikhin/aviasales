@@ -109,10 +109,7 @@ export class TicketStorage {
 
     const filterKeyPart = filter.filter((option) => option.isChecked).map((option) => option.id).join('');
     const sortingKeyPart = sorting.filter((option) => option.isChecked).map((option) => option.id).join('');
-    const cacheKey = `filter:${filterKeyPart}
-    /sorting:${sortingKeyPart}
-    /ticketsCount:${selectedTicketsStorage.length}
-    /displayedTicketsCount:${displayedTicketsCount}`;
+    const cacheKey = `filter:${filterKeyPart}/sorting:${sortingKeyPart}/ticketsCount:${selectedTicketsStorage.length}/displayedTicketsCount:${displayedTicketsCount}`;
 
     const cachedEntry = this.cachedDisplayedTickets.find((entry) => entry.key === cacheKey && entry.source === selectedTicketsStorage);
 
@@ -127,7 +124,7 @@ export class TicketStorage {
 
     this.cachedDisplayedTickets = [...this.cachedDisplayedTickets, {
       key: cacheKey,
-      source: selectedTicketsStorage,
+      source: selectedTicketsStorage.slice(),
       result: displayedTickets,
       hiddenTicketsCount,
     }];
@@ -185,7 +182,7 @@ export class TicketStorage {
       .filter((option) => option.isChecked)
       .map((option) => option.count);
 
-    const displayedTickets = [...tickets]
+    const displayedTickets = tickets
       .filter((ticket: Ticket) => this.filterTicketsByStops(ticket, stopCountsList))
       .slice(0, displayedTicketsCount);
 
@@ -193,6 +190,18 @@ export class TicketStorage {
       displayedTickets,
       hiddenTicketsCount: tickets.length - displayedTickets.length,
     };
+  }
+
+  getIncreasedSizeTicketList = (filter: StopOption[], displayedTicketsCount: number): { displayedTickets: Ticket[]; hiddenTicketsCount: number } => {
+    const lastCachedEntry = this.cachedDisplayedTickets.slice(-1)[0];
+    const { source } = lastCachedEntry;
+
+    const {
+      displayedTickets,
+      hiddenTicketsCount,
+    } = this.getDisplayedTickets(source.flat(), filter, displayedTicketsCount);
+
+    return { displayedTickets, hiddenTicketsCount };
   }
 
   filterTicketsByStops = (ticket: Ticket, filter: (number | undefined)[]): boolean => {
